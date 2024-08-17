@@ -14,6 +14,20 @@ const PIECES = {
   QUEEN: 'queen',
   KING: 'king'
 }
+const DEFAULT_BOARD = [
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1],
+  [1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1],
+  [1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
 
 // GENERAL FUNCTIONS
 // Create the board
@@ -35,7 +49,7 @@ function drawBoard() {
       ctx.fillRect(squareSize * j, squareSize * i, squareSize, squareSize);
       squareColor *= -1;
     }
-    squareColor *= -1;
+    if (row.length % 2 === 0) squareColor *= -1;
   }
 }
 // Mouse operations
