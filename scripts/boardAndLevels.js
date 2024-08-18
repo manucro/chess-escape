@@ -17,6 +17,7 @@ const LEVELS = {
     'pieces': [
       [PIECES.ROOK, { x: 1, y: 5 }]
     ],
+    'objects': [],
     'finishPosition': { x: 6, y: 1 }
   },
   'TWO': {
@@ -35,6 +36,7 @@ const LEVELS = {
     'pieces': [
       [PIECES.BISHOP, { x: 7, y: 5 }]
     ],
+    'objects': [],
     'finishPosition': { x: 7, y: 3 }
   },
   'THREE': {
@@ -52,6 +54,7 @@ const LEVELS = {
       [PIECES.ROOK, { x: 1, y: 1 }],
       [PIECES.BISHOP, { x: 3, y: 1 }]
     ],
+    'objects': [],
     'finishPosition': { x: 1, y: 4 }
   },
   'FOUR': {
@@ -72,6 +75,7 @@ const LEVELS = {
       [PIECES.BISHOP, { x: 1, y: 8 }],
       [PIECES.ROOK, { x: 1, y: 5 }]
     ],
+    'objects': [],
     'finishPosition': { x: 2, y: 2 }
   },
   'FIVE': {
@@ -90,6 +94,9 @@ const LEVELS = {
     'pieces': [
       [PIECES.ROOK, { x: 1, y: 4 }],
       [PIECES.ROOK, { x: 1, y: 7 }]
+    ],
+    'objects': [
+      [OBJECTS.KEY, { x: 6, y: 7 }]
     ],
     'finishPosition': { x: 1, y: 1 }
   },
@@ -111,17 +118,21 @@ const LEVELS = {
       [PIECES.ROOK, { x: 7, y: 4 }],
       [PIECES.BISHOP, { x: 4, y: 4 }]
     ],
+    'objects': [
+      [OBJECTS.KEY, { x: 3, y: 2 }]
+    ],
     'finishPosition': { x: 7, y: 7 }
   },
 }
 
 function createLevel(level) {
   board = level.board;
-  drawBoard();
-  level.pieces.forEach((piece) => {
+  level.pieces.forEach(piece => {
     inBoardPieces.add(piece[0], piece[1]);
   });
-  const ctx = BOARD_CANVAS.getContext('2d');
-  ctx.fillStyle = 'red';
-  ctx.fillRect(level.finishPosition.x * squareSize, level.finishPosition.y * squareSize, squareSize, squareSize);
+  level.objects.forEach(object => {
+    inBoardObjects.add(object[0], object[1]);
+  });
+  finishPosition = { x: level.finishPosition.x, y: level.finishPosition.y };
+  drawBoard();
 }

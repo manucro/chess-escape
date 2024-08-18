@@ -14,6 +14,11 @@ const PIECES = {
   QUEEN: 'queen',
   KING: 'king'
 }
+const OBJECTS = {
+  KEY: 'key',
+  BUTTON: 'button',
+  SPIKES: 'spikes'
+}
 const DEFAULT_BOARD = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -28,6 +33,23 @@ const DEFAULT_BOARD = [
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
+// Control Objects
+const inBoardPieces = {
+  list: [],
+  add: function (type, position) {
+    const newPiece = new Piece(type, position);
+    this.list.push(newPiece);
+  } 
+}
+const inBoardObjects = {
+  list: [],
+  add: function (type, position) {
+    const newObject = new BoardObject(type, position);
+    this.list.push(newObject);
+  }
+}
+// Control Variables
+let finishPosition = { x: 0, y: 0 }
 
 // GENERAL FUNCTIONS
 // Create the board
@@ -41,16 +63,25 @@ function drawBoard() {
   BOARD_CANVAS.height = boardHeight;
   // Draw the squares
   let squareColor = 1;
+  const mid = squareSize / 2;
+  const quarter = squareSize / 4;
   const ctx = BOARD_CANVAS.getContext('2d');
   for (let i in board) {
     const row = board[i];
     for (let j in row) {
       ctx.fillStyle = (row[j] === 0) ? (squareColor === 1) ? '#f0d9b5' : '#b58863' : 'black';
       ctx.fillRect(squareSize * j, squareSize * i, squareSize, squareSize);
+      if (row[j] === 5) {
+        ctx.fillStyle = 'yellow';
+        ctx.fillRect(squareSize * j + quarter, squareSize * i + quarter, squareSize - mid, squareSize - mid);
+      }
       squareColor *= -1;
     }
     if (row.length % 2 === 0) squareColor *= -1;
   }
+  // Draws the ending
+  ctx.fillStyle = 'red';
+  ctx.fillRect(finishPosition.x * squareSize, finishPosition.y * squareSize, squareSize, squareSize);
 }
 // Mouse operations
 let mousePosition = { x: 0, y: 0 };

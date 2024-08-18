@@ -1,13 +1,6 @@
 "use strict";
 
 // Objects for the funcitonalities
-const inBoardPieces = {
-  list: [],
-  add: function (type, position) {
-    const newPiece = new Piece(type, position);
-    this.list.push(newPiece);
-  } 
-}
 const validPositions = {
   array: [],
   add: (pos) => { this.array.push(pos) },
@@ -35,17 +28,21 @@ class Piece {
     this.setPosition((defaultPos) ? defaultPos : { x: 0, y: 0 });
 
     // Appends the element to the board
-    BOARD_ELEMENT.appendChild(element)
+    BOARD_ELEMENT.appendChild(element);
   }
 
   setPosition(newPosition, movementType = 'normal') {
     const prevPosition = this.position;
     this.position = newPosition;
-    this.element.style.transform = `translate(${newPosition.x * squareSize}px, ${newPosition.y * squareSize}px)`
+    this.element.style.transform = `translate(${newPosition.x * squareSize}px, ${newPosition.y * squareSize}px)`;
     // Push
     if (prevPosition && movementType === 'normal') {
-      // todo improve this
       const [trace, direction] = this.getPieceTraceAndDirection(prevPosition, newPosition);
+      // Update objects
+      inBoardObjects.list.forEach(object => {
+        trace.forEach(pos => object.checkCollision(pos));
+      });
+      // todo improve this
       let piecesPushed = 0;
       inBoardPieces.list.forEach((piece) => {
         if (piece === this) return;
@@ -69,11 +66,11 @@ class Piece {
     PIECES_MOVEMENTS[this.type](this.position);
 
     const handleClick = (ev) => {
-      const clickedPosition = { x: Math.floor(ev.layerX / squareSize), y: Math.floor(ev.layerY / squareSize)}
+      const clickedPosition = { x: Math.floor(ev.layerX / squareSize), y: Math.floor(ev.layerY / squareSize) }
       if (clickedPosition.x == this.position.x && clickedPosition.y == this.position.y) return;
       if (!validPositions.contains(clickedPosition)) return;
       this.setPosition(clickedPosition);
-      ctx.clearRect(0, 0, CANVAS_MASK.width, CANVAS_MASK.height)
+      ctx.clearRect(0, 0, CANVAS_MASK.width, CANVAS_MASK.height);
       BOARD_ELEMENT.removeEventListener('click', handleClick);
     }
     BOARD_ELEMENT.addEventListener('click', handleClick);
