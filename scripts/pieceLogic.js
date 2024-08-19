@@ -20,7 +20,10 @@ class Piece {
     element.src = `pieces/${type}.svg`;
     element.style.width = `${squareSize}px`;
     element.style.height = `${squareSize}px`;
-    element.addEventListener('click', () => this.showMovements());
+    const handleClick = () => {
+      if (actualStatus === STATUS.IDLE) this.showMovements();
+    }
+    element.addEventListener('click', handleClick);
     this.element = element;
 
     // Sets the other attributes
@@ -35,6 +38,7 @@ class Piece {
     const prevPosition = this.position;
     this.position = newPosition;
     this.element.style.transform = `translate(${newPosition.x * squareSize}px, ${newPosition.y * squareSize}px)`;
+    actualStatus = STATUS.IDLE;
     // Push
     if (prevPosition && movementType === 'normal') {
       const [trace, direction] = this.getPieceTraceAndDirection(prevPosition, newPosition);
@@ -58,6 +62,7 @@ class Piece {
   }
 
   showMovements() {
+    actualStatus = STATUS.MOVING;
     const ctx = CANVAS_MASK.getContext('2d');
     CANVAS_MASK.width = BOARD_CANVAS.width;
     CANVAS_MASK.height = BOARD_CANVAS.height;

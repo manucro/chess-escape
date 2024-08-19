@@ -19,6 +19,10 @@ const OBJECTS = {
   BUTTON: 'button',
   SPIKES: 'spikes'
 }
+const STATUS = {
+  IDLE: 'idle',
+  MOVING: 'moving'
+}
 const DEFAULT_BOARD = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -49,6 +53,7 @@ const inBoardObjects = {
   }
 }
 // Control Variables
+let actualStatus = STATUS.IDLE;
 let finishPosition = { x: 0, y: 0 }
 
 // GENERAL FUNCTIONS
@@ -71,8 +76,8 @@ function drawBoard() {
     for (let j in row) {
       ctx.fillStyle = (row[j] === 0) ? (squareColor === 1) ? '#f0d9b5' : '#b58863' : 'black';
       ctx.fillRect(squareSize * j, squareSize * i, squareSize, squareSize);
-      if (row[j] === 5) {
-        ctx.fillStyle = 'yellow';
+      if (row[j] === 5 || row[j] === 6) {
+        ctx.fillStyle = (row[j] === 5) ? 'yellow' : '#f0d9b5';
         ctx.fillRect(squareSize * j + quarter, squareSize * i + quarter, squareSize - mid, squareSize - mid);
       }
       squareColor *= -1;
