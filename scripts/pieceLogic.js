@@ -158,6 +158,17 @@ const PIECES_MOVEMENTS = {
     discreteCheck((p) => {p.y--, p.x++}, pos.x, pos.y);
     discreteCheck((p) => {p.y++, p.x--}, pos.x, pos.y);
     discreteCheck((p) => {p.y--, p.x--}, pos.x, pos.y);
+  },
+  'king': (pos) => {
+    [-1, 0, 1].forEach(xPlus => {
+      [-1, 0, 1].forEach(yPlus => {
+        if (xPlus === 0 && yPlus === 0) return;
+        const newPosition = { x: pos.x + xPlus, y: pos.y + yPlus};
+        if (board[newPosition.y][newPosition.x] !== 0) return;
+        validPositions.add(newPosition);
+        drawRedCircle(newPosition);
+      });
+    });
   }
 }
 
@@ -169,19 +180,22 @@ function discreteCheck(change, x, y) {
     iterations++;
     if (iterations > 30) break; // To avoid infinite loops
     change(checkPos);
-    const ctx = CANVAS_MASK.getContext('2d');
-    ctx.fillStyle = 'red'
     if (board[checkPos.y][checkPos.x] === 0) {
-      const quarter = squareSize / 4;
-      const mid = squareSize / 2;
-      ctx.beginPath();
-      ctx.arc(
-        squareSize * checkPos.x + mid,
-        squareSize * checkPos.y + mid,
-        quarter / 2, 0, 2 * Math.PI);
-      ctx.fill();
+      drawRedCircle(checkPos);
       validPositions.add({...checkPos});
     }
     else break;
   }
+}
+function drawRedCircle(position) {
+  const ctx = CANVAS_MASK.getContext('2d');
+  ctx.fillStyle = 'red'
+  const quarter = squareSize / 4;
+  const mid = squareSize / 2;
+  ctx.beginPath();
+  ctx.arc(
+    squareSize * position.x + mid,
+    squareSize * position.y + mid,
+    quarter / 2, 0, 2 * Math.PI);
+  ctx.fill();
 }
