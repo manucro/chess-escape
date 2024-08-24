@@ -260,12 +260,8 @@ const LEVELS = {
 
 function createLevel(level) {
   board = level.board;
-  level.pieces.forEach(piece => {
-    inBoardPieces.add(piece[0], piece[1]);
-  });
-  level.objects.forEach(object => {
-    inBoardObjects.add(object[0], object[1]);
-  });
+  level.pieces.forEach(piece => inBoardPieces.add(piece[0], piece[1]) );
+  level.objects.forEach(object => inBoardObjects.add(object[0], object[1]) );
   finishPosition = { x: level.finishPosition.x, y: level.finishPosition.y };
   drawBoard();
 }

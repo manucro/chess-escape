@@ -18,10 +18,13 @@ class BoardObject {
     // Appends the element to the board
     BOARD_ELEMENT.appendChild(element)
   }
+
   checkCollision(position) {
     if (position.x === this.position.x && position.y === this.position.y) this.collectObject();
   }
+
   collectObject() {
+    // todo there's no other way to do this?
     const collectKey = () => {
       for (let i in board) {
         for (let j in board[i]) {

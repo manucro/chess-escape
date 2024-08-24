@@ -1,6 +1,6 @@
 "use strict";
 
-// Objects for the funcitonalities
+// Object for the funcitonalities
 const validPositions = {
   array: [],
   add: (pos) => { this.array.push(pos) },
@@ -56,8 +56,8 @@ class Piece {
             const pushedPieceNewPos = this.getMovementWithDirection(newPosition, direction, piecesPushed);
             piece.setPosition(pushedPieceNewPos, 'push');
           }
-        })
-      })
+        });
+      });
     }
   }
 
@@ -68,7 +68,7 @@ class Piece {
     CANVAS_MASK.height = BOARD_CANVAS.height;
     
     validPositions.clear();
-    PIECES_MOVEMENTS[this.type](this.position);
+    PIECES_MOVEMENTS[this.type](this.position); // Fills the validPositions list
 
     const handleClick = (ev) => {
       const clickedPosition = { x: Math.floor(ev.layerX / squareSize), y: Math.floor(ev.layerY / squareSize) }
@@ -160,6 +160,7 @@ const PIECES_MOVEMENTS = {
     discreteCheck((p) => {p.y--, p.x--}, pos.x, pos.y);
   }
 }
+
 // MOVEMENT CHECKING FOR EVERY PIECE
 function discreteCheck(change, x, y) {
   const checkPos = { x, y }

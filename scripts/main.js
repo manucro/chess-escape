@@ -37,7 +37,9 @@ const DEFAULT_BOARD = [
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
+
 // Control Objects
+// (it may seem more efficient to create these two objects with a class, but I did it this way to make the code easier to understand)
 const inBoardPieces = {
   list: [],
   add: function (type, position) {
@@ -52,6 +54,7 @@ const inBoardObjects = {
     this.list.push(newObject);
   }
 }
+
 // Control Variables
 let actualStatus = STATUS.IDLE;
 let finishPosition = { x: 0, y: 0 }
@@ -88,15 +91,18 @@ function drawBoard() {
   ctx.fillStyle = 'red';
   ctx.fillRect(finishPosition.x * squareSize, finishPosition.y * squareSize, squareSize, squareSize);
 }
+
 // Mouse operations
 let mousePosition = { x: 0, y: 0 };
 document.addEventListener('mousemove', (ev) => {
+  // Gets the mouse position in canvas
   const mouseCanvasPos = MOUSE_CANVAS.getBoundingClientRect();
   const excedentX = mouseCanvasPos.x % squareSize;
   const excedentY = mouseCanvasPos.y % squareSize;
   const xPos = ev.clientX - mouseCanvasPos.x - ((ev.clientX - excedentX) % squareSize);
   const yPos = ev.clientY - mouseCanvasPos.y - ((ev.clientY - excedentY) % squareSize);
   if (mousePosition.x == xPos && mousePosition.y == yPos) return; // Improves performance
+  // Draws the mouse square in canvas
   MOUSE_CANVAS.width = BOARD_CANVAS.width;
   MOUSE_CANVAS.height = BOARD_CANVAS.height;
   const ctx = MOUSE_CANVAS.getContext('2d');
