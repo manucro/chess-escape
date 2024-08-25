@@ -31,7 +31,7 @@ class Piece {
     this.setPosition((defaultPos) ? defaultPos : { x: 0, y: 0 });
 
     // Appends the element to the board
-    BOARD_ELEMENT.appendChild(element);
+    PIECES_BOX.appendChild(element);
   }
 
   setPosition(newPosition, movementType = 'normal') {
@@ -83,6 +83,7 @@ class Piece {
 
   getPieceTraceAndDirection(prevPosition, newPosition) {
     const trace = [];
+    trace.push(prevPosition);
     let direction;
     let checkX = prevPosition.x;
     let checkY = prevPosition.y;
@@ -164,7 +165,8 @@ const PIECES_MOVEMENTS = {
       [-1, 0, 1].forEach(yPlus => {
         if (xPlus === 0 && yPlus === 0) return;
         const newPosition = { x: pos.x + xPlus, y: pos.y + yPlus};
-        if (board[newPosition.y][newPosition.x] !== 0) return;
+        // todo create passable values
+        if (board[newPosition.y][newPosition.x] !== 0 && board[newPosition.y][newPosition.x] !== 3) return;
         validPositions.add(newPosition);
         drawRedCircle(newPosition);
       });
@@ -180,7 +182,8 @@ function discreteCheck(change, x, y) {
     iterations++;
     if (iterations > 30) break; // To avoid infinite loops
     change(checkPos);
-    if (board[checkPos.y][checkPos.x] === 0) {
+    // todo create passable values
+    if (board[checkPos.y][checkPos.x] === 0 || board[checkPos.y][checkPos.x] === 3) {
       drawRedCircle(checkPos);
       validPositions.add({...checkPos});
     }

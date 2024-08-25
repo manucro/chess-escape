@@ -5,6 +5,8 @@ const BOARD_ELEMENT = document.querySelector('.board');
 const BOARD_CANVAS = document.getElementById('board-canvas');
 const CANVAS_MASK = document.getElementById('canvas-mask');
 const MOUSE_CANVAS = document.getElementById('mouse-canvas');
+const OBJECTS_BOX = document.getElementById('objects-box');
+const PIECES_BOX = document.getElementById('pieces-box');
 const squareSize = 58;
 const PIECES = {
   PAWN: 'pawn',
@@ -16,8 +18,7 @@ const PIECES = {
 }
 const OBJECTS = {
   KEY: 'key',
-  BUTTON: 'button',
-  SPIKES: 'spikes'
+  BUTTON: 'button'
 }
 const STATUS = {
   IDLE: 'idle',
@@ -77,10 +78,11 @@ function drawBoard() {
   for (let i in board) {
     const row = board[i];
     for (let j in row) {
-      ctx.fillStyle = (row[j] === 0) ? (squareColor === 1) ? '#f0d9b5' : '#b58863' : 'black';
+      // todo improve value checking
+      ctx.fillStyle = (row[j] === 0 || row[j] === 3) ? (squareColor === 1) ? '#f0d9b5' : '#b58863' : 'black';
       ctx.fillRect(squareSize * j, squareSize * i, squareSize, squareSize);
-      if (row[j] === 5 || row[j] === 6) {
-        ctx.fillStyle = (row[j] === 5) ? 'yellow' : '#f0d9b5';
+      if (row[j] === 5 || row[j] === 6 || row[j] === 2) {
+        ctx.fillStyle = (row[j] === 5) ? 'yellow' : (row[j] === 2) ? 'red' : '#f0d9b5';
         ctx.fillRect(squareSize * j + quarter, squareSize * i + quarter, squareSize - mid, squareSize - mid);
       }
       squareColor *= -1;
