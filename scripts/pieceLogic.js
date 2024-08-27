@@ -171,6 +171,16 @@ const PIECES_MOVEMENTS = {
         drawRedCircle(newPosition);
       });
     });
+  },
+  'pawn': (pos) => {
+    const pawnPassableSquares = [0, 3, 6];
+    [1, 2].forEach((yPlus) => {
+      const newPosition = { x: pos.x, y: pos.y - yPlus };
+      if (!pawnPassableSquares.includes(board[newPosition.y][newPosition.x])) return;
+      if (yPlus === 2 && !validPositions.contains({ x: pos.x , y: pos.y - 1})) return;
+      validPositions.add(newPosition);
+      drawRedCircle(newPosition);
+    })
   }
 }
 
