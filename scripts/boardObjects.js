@@ -50,7 +50,6 @@ class BoardObject {
           if (!checkValues.includes(board[i][j])) continue;
           action({ x: j, y: i });
           drawBoard();
-          break;
         }
       }
     }
