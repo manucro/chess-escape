@@ -55,6 +55,7 @@ class Piece {
             piecesPushed++;
             const pushedPieceNewPos = this.getMovementWithDirection(newPosition, direction, piecesPushed);
             piece.setPosition(pushedPieceNewPos, 'push');
+            inBoardObjects.list.forEach(obj => obj.checkCollision(pushedPieceNewPos));
           }
         });
       });

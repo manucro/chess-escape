@@ -1,3 +1,3 @@
 "use strict";
 
-createLevel(LEVELS.TWENTY);
+createLevel(LEVELS.TWENTYFIVE);
