@@ -567,8 +567,15 @@ const LEVELS = {
   }
 }
 
-function createLevel(level) {
+function createLevel(level, index) {
   board = level.board;
+  squareSize = (board.length > 9) ? 46 : 58;
+  actualLevelData = {
+    levelNumber: index + 1,
+    movements: level.movements,
+    finishPosition: level.finishPositionSS
+  }
+  game.updateLevelUI();
   level.pieces.forEach(piece => inBoardPieces.add(piece[0], piece[1]) );
   level.objects.forEach(object => inBoardObjects.add(object[0], object[1]) );
   finishPosition = { x: level.finishPosition.x, y: level.finishPosition.y };

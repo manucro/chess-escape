@@ -76,6 +76,7 @@ class Piece {
       if (clickedPosition.x == this.position.x && clickedPosition.y == this.position.y) return;
       if (!validPositions.contains(clickedPosition)) return;
       this.setPosition(clickedPosition);
+      movements++; game.updateLevelUI();
       ctx.clearRect(0, 0, CANVAS_MASK.width, CANVAS_MASK.height);
       BOARD_ELEMENT.removeEventListener('click', handleClick);
     }

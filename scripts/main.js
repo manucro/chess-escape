@@ -2,7 +2,9 @@
 
 // Constants
 let BOARD_ELEMENT, BOARD_CANVAS, CANVAS_MASK, MOUSE_CANVAS, OBJECTS_BOX, PIECES_BOX;
-const squareSize = 58;
+let actualLevelData = {};
+let movements = 0;
+let squareSize = 58;
 const PIECES = {
   PAWN: 'pawn',
   ROOK: 'rook',
@@ -91,7 +93,7 @@ function drawBoard() {
 
 // Mouse operations
 let mousePosition = { x: 0, y: 0 };
-/* document.addEventListener('mousemove', (ev) => {
+const canvasMousePointer = (ev) => {
   // Gets the mouse position in canvas
   const mouseCanvasPos = MOUSE_CANVAS.getBoundingClientRect();
   const excedentX = mouseCanvasPos.x % squareSize;
@@ -109,4 +111,4 @@ let mousePosition = { x: 0, y: 0 };
   ctx.fillRect(xPos + midBorder, yPos + midBorder, squareSize - border, squareSize - border);
   ctx.clearRect(xPos + border, yPos + border, squareSize - border * 2, squareSize - border * 2);
   mousePosition = { x: xPos, y: yPos };
-}) */
+}

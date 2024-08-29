@@ -50,13 +50,22 @@ class Screen {
       levelElement.innerText = i + 1;
       levelElement.addEventListener('click', () => {
         this.changeScreen(SCREENS.LEVEL);
-        this.startLevel(LEVELS[levelName]);
+        this.startLevel(levelName);
       });
       levelSelectBox.appendChild(levelElement);
     });
     Object.defineProperty(this.screenElements, SCREENS.LEVEL_SELECT, { value: levelSelectBox });
 
     // Level
+    const levelElement = create('div', 'level-screen');
+    const levelInfo = create('div', 'level-info');
+    const levelNumberSpan = create('span', 'level-info-span', 'Level 0');
+    levelNumberSpan.id = 'level-number';
+    const movementsSpan = create('span', 'level-info-span', 'Movements: 0 / 0');
+    movementsSpan.id = 'movements';
+    levelInfo.appendChild(levelNumberSpan);
+    levelInfo.appendChild(movementsSpan);
+    const boardBox = create('div', 'board-box');
     const boardElement = create('div', 'board');
     const appendBoardElement = (type, id) => {
       const el = document.createElement(type);
@@ -68,7 +77,10 @@ class Screen {
     appendBoardElement('canvas', 'canvas-mask');
     appendBoardElement('canvas', 'mouse-canvas');
     appendBoardElement('div', 'pieces-box');
-    Object.defineProperty(this.screenElements, SCREENS.LEVEL, { value: boardElement });
+    boardBox.appendChild(boardElement);
+    levelElement.appendChild(levelInfo);
+    levelElement.appendChild(boardBox);
+    Object.defineProperty(this.screenElements, SCREENS.LEVEL, { value: levelElement });
 
     // Appends the screen type of the constructor
     APP.appendChild(this.screenElements[screenType]);
@@ -87,7 +99,15 @@ class Screen {
     MOUSE_CANVAS = document.getElementById('mouse-canvas');
     OBJECTS_BOX = document.getElementById('objects-box');
     PIECES_BOX = document.getElementById('pieces-box');
-    createLevel(level);
+    document.addEventListener('mousemove', canvasMousePointer);
+    createLevel(LEVELS[level], Object.keys(LEVELS).indexOf(level));
+  }
+
+  updateLevelUI() {
+    const levelNumberElement = document.getElementById('level-number');
+    levelNumberElement.innerText = `Level ${actualLevelData.levelNumber}`;
+    const movementsElement = document.getElementById('movements');
+    movementsElement.innerText = `Max movements: ${movements} / ${actualLevelData.movements}`;
   }
 }
 
