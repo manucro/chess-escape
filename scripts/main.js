@@ -1,12 +1,7 @@
 "use strict";
 
 // Constants
-const BOARD_ELEMENT = document.querySelector('.board');
-const BOARD_CANVAS = document.getElementById('board-canvas');
-const CANVAS_MASK = document.getElementById('canvas-mask');
-const MOUSE_CANVAS = document.getElementById('mouse-canvas');
-const OBJECTS_BOX = document.getElementById('objects-box');
-const PIECES_BOX = document.getElementById('pieces-box');
+let BOARD_ELEMENT, BOARD_CANVAS, CANVAS_MASK, MOUSE_CANVAS, OBJECTS_BOX, PIECES_BOX;
 const squareSize = 58;
 const PIECES = {
   PAWN: 'pawn',
@@ -96,7 +91,7 @@ function drawBoard() {
 
 // Mouse operations
 let mousePosition = { x: 0, y: 0 };
-document.addEventListener('mousemove', (ev) => {
+/* document.addEventListener('mousemove', (ev) => {
   // Gets the mouse position in canvas
   const mouseCanvasPos = MOUSE_CANVAS.getBoundingClientRect();
   const excedentX = mouseCanvasPos.x % squareSize;
@@ -114,4 +109,4 @@ document.addEventListener('mousemove', (ev) => {
   ctx.fillRect(xPos + midBorder, yPos + midBorder, squareSize - border, squareSize - border);
   ctx.clearRect(xPos + border, yPos + border, squareSize - border * 2, squareSize - border * 2);
   mousePosition = { x: xPos, y: yPos };
-})
+}) */
