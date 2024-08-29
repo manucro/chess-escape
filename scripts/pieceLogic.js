@@ -29,6 +29,7 @@ class Piece {
     // Sets the other attributes
     this.type = type;
     this.setPosition((defaultPos) ? defaultPos : { x: 0, y: 0 });
+    this.blocked = false;
 
     // Appends the element to the board
     PIECES_BOX.appendChild(element);
@@ -39,6 +40,13 @@ class Piece {
     this.position = newPosition;
     this.element.style.transform = `translate(${newPosition.x * squareSize}px, ${newPosition.y * squareSize}px)`;
     actualStatus = STATUS.IDLE;
+    // If it's void, it falls
+    if (movementType === 'push') {
+      if (board[newPosition.y][newPosition.x] !== 1) return;
+      this.element.style.opacity = '0';
+      this.blocked = true;
+      setTimeout(() => this.deletePiece(), 1000);
+    }
     // Push
     if (prevPosition && movementType === 'normal') {
       const [trace, direction] = this.getPieceTraceAndDirection(prevPosition, newPosition);
@@ -63,6 +71,7 @@ class Piece {
   }
 
   showMovements() {
+    if (this.blocked) return;
     actualStatus = STATUS.MOVING;
     const ctx = CANVAS_MASK.getContext('2d');
     CANVAS_MASK.width = BOARD_CANVAS.width;
@@ -136,6 +145,13 @@ class Piece {
       case 'bottom-left': return { x: position.x - val, y: position.y + val }
       case 'bottom-right': return { x: position.x + val, y: position.y + val }
     }
+  }
+  
+  deletePiece() {
+    this.element.remove();
+    const index = inBoardPieces.list.indexOf(this);
+    inBoardPieces.list.splice(index, 1);
+    console.log(inBoardPieces);
   }
 }
 

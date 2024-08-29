@@ -88,6 +88,7 @@ class Screen {
 
     // Appends the screen type of the constructor
     APP.appendChild(this.screenElements[screenType]);
+     setTimeout(() => this.startLevel('THREE'), 50)
   }
 
   changeScreen(newScreen) {
@@ -115,4 +116,4 @@ class Screen {
   }
 }
 
-const game = new Screen(SCREENS.TITLE);
+ const game = new Screen(SCREENS.LEVEL);
