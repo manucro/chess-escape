@@ -1,16 +1,25 @@
 /* ---- CHESS ESCAPE STYLESHEET - MANUEL CROCCO ---- */
+
+/* ---- VARIABLES ---- */
+:root {
+  --background: #000;
+  --interface: #333;
+  --accent: #555;
+  --text: #fff;
+}
+
 /* ---- GENERAL STYLES ---- */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: white;
+  color: var(--text);
   font-family: "Roboto Slab", serif;
   font-weight: 300;
 }
 img { user-select: none; }
 body {
-  background-color: black;
+  background-color: var(--background);
 }
 #app {
   display: flex;
@@ -18,6 +27,7 @@ body {
   align-items: center;
   position: relative;
   height: 100vh;
+  overflow: hidden;
 }
 .back-button {
   position: absolute;
@@ -37,14 +47,44 @@ body {
   flex-direction: column;
   padding: 0 30px;
 }
-.title {
+.title-box {
   width: 100%;
   height: 100%;
   flex: 1;
-  font-size: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+.title-animation {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 70%;
+  filter: grayscale(100%);
+  box-shadow: inset 0 0 100px var(--background);
+  opacity: .2;
+  background-image: url('sources/pattern.png');
+  background-size: 25%;
+  animation: 4s linear infinite titleAnimation;
+}
+
+@keyframes titleAnimation {
+  0% {
+    background-position-x: 0;
+    background-position-y: 0;
+  }
+  100% {  
+    background-position-x: 335px;
+    background-position-y: 275px;
+  }
+}
+.title {
+  position: relative;
+  font-size: 80px;
+  letter-spacing: 6px;
+  font-weight: bold;
+  z-index: 999;
 }
 .title-buttons {
   flex: 1;
@@ -57,39 +97,49 @@ body {
 .title-button {
   width: 100%;
   height: 100%;
-  border: 2px solid red;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border: none;
+  font-size: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: var(--interface);
 }
+.title-button:hover { background-color: var(--accent); }
 .credits {
   flex-basis: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
+  opacity: .4;
 }
 
 /* ---- LEVEL SELECT ---- */
 .level-select {
-  width: 60%;
-  height: 60%;
-  border: 2px solid white;
+  width: 70%;
+  height: 80%;
+  padding: 20px;
+  background-color: var(--interface);
+  border-radius: 20px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   flex-wrap: wrap;
 }
 .level {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 100px;
+  width: 100px; height: 100px;
   margin: 10px;
-  border: 2px solid white;
+  font-size: 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: var(--accent);
+  border-bottom: 6px solid var(--background);
 }
+.level:hover { border-bottom: none; }
 .blocked {
-  background-color: #666;
-  color: #333;
+  background-color: var(--accent);
+  color: var(--interface);
 }
 
 /* ---- LEVEL SCREEN / BOARD ---- */
@@ -105,7 +155,7 @@ body {
   font-size: 40px;
   font-weight: bold;
   flex: 1;
-  outline: 2px solid yellow;
+  border-bottom: 2px solid var(--accent);
 }
 .board-box {
   flex: 5;

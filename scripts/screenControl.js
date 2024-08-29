@@ -26,7 +26,11 @@ class Screen {
 
     // Main Title
     const titleScreen = create('div', 'title-screen');
+    const titleElementBox = create('div', 'title-box');
+    const titleAnimation = create('div', 'title-animation');
     const titleElement = create('h1', 'title', GAME_TITLE);
+    titleElementBox.appendChild(titleAnimation);
+    titleElementBox.appendChild(titleElement);
     const titleButtons = create('div', 'title-buttons');
     ['Play', 'Guide', 'Options'].forEach(buttonTitle => {
       const titleButton = create('button', 'title-button', buttonTitle);
@@ -38,7 +42,7 @@ class Screen {
     });
     const credits = create('footer', 'credits');
     credits.innerHTML = CREDITS;
-    titleScreen.appendChild(titleElement);
+    titleScreen.appendChild(titleElementBox);
     titleScreen.appendChild(titleButtons);
     titleScreen.appendChild(credits);
     Object.defineProperty(this.screenElements, SCREENS.TITLE, { value: titleScreen });
