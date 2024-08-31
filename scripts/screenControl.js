@@ -97,7 +97,7 @@ class Screen {
     APP.appendChild(this.screenElements[newScreen]);
   }
 
-  createModal(text, buttons, actions) {
+  createModal(text, buttons, actions, video = null) {
     function create(type, className, content = '') {
       const el = document.createElement(type);
       el.classList.add(className);
@@ -106,7 +106,7 @@ class Screen {
     }
     // Modal
     const modal = create('div', 'modal');
-    const modalBox = create('div', 'modal-box');
+    const modalBox = create('div', (video) ? 'modal-box-video' : 'modal-box');
     const modalText = create('div', 'modal-text', text);
     const modalButtons = create('div','modal-buttons');
     buttons.forEach((button, i) => {
@@ -114,8 +114,16 @@ class Screen {
       modalButton.type = 'button';
       modalButton.addEventListener('click', actions[i]);
       modalButtons.appendChild(modalButton);
-    })
+    });
     modalBox.appendChild(modalText);
+    if (video) {
+      const tutorial = create('video', 'modal-video');
+      tutorial.src = video;
+      tutorial.muted = 'true';
+      tutorial.autoplay = 'true';
+      tutorial.loop = 'true';
+      modalBox.appendChild(tutorial);
+    }
     modalBox.appendChild(modalButtons);
     modal.appendChild(modalBox);
 
@@ -131,6 +139,29 @@ class Screen {
     PIECES_BOX = document.getElementById('pieces-box');
     document.addEventListener('mousemove', canvasMousePointer);
     createLevel(LEVELS[level], Object.keys(LEVELS).indexOf(level));
+    // TUTORIAL VIDEOS todo improve this
+    if (level == 'THREE') {
+      this.createModal(
+        'You can push pieces by moving one towards another',
+        ['Continue'],
+        [() => document.querySelector('.modal').remove()],
+        'tutorials/1.mp4'
+      )
+    } else if (level == 'EIGHT') {
+      this.createModal(
+        "You can't move over platforms, but you can push pieces onto them",
+        ['Continue'],
+        [() => document.querySelector('.modal').remove()],
+        'tutorials/2.mp4'
+      )
+    } else if (level == 'ELEVEN') {
+      this.createModal(
+        "You can push two pieces at the same time",
+        ['Continue'],
+        [() => document.querySelector('.modal').remove()],
+        'tutorials/3.mp4'
+      )
+    }
   }
 
   updateLevelSelect() {

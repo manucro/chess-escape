@@ -219,7 +219,7 @@ body {
   align-items: center;
   z-index: 999999;
 }
-.modal-box {
+.modal-box, .modal-box-video {
   width: 70%;
   height: 60%;
   display: flex;
@@ -231,6 +231,7 @@ body {
   padding: 0 80px;
   animation: 1s ease modalAppear;
 }
+.modal-box-video { height: 90%; }
 .modal-text {
   font-size: 50px;
   text-align: center;
@@ -256,4 +257,10 @@ body {
 @keyframes modalAppear {
   from { transform: scale(0%); }
   to { transform: scale(100%); }
+}
+.modal-video {
+  width: 60%;
+  height: 200px;
+  border: 2px solid var(--text);
+  background-color: var(--background);
 }
