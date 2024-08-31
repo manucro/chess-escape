@@ -88,13 +88,38 @@ class Screen {
 
     // Appends the screen type of the constructor
     APP.appendChild(this.screenElements[screenType]);
-     setTimeout(() => this.startLevel('THREE'), 50)
   }
 
   changeScreen(newScreen) {
     this.screenElements[this.type].remove();
     this.type = newScreen;
+    if (newScreen === SCREENS.LEVEL_SELECT) this.updateLevelSelect();
     APP.appendChild(this.screenElements[newScreen]);
+  }
+
+  createModal(text, buttons, actions) {
+    function create(type, className, content = '') {
+      const el = document.createElement(type);
+      el.classList.add(className);
+      el.innerText = content;
+      return el;
+    }
+    // Modal
+    const modal = create('div', 'modal');
+    const modalBox = create('div', 'modal-box');
+    const modalText = create('div', 'modal-text', text);
+    const modalButtons = create('div','modal-buttons');
+    buttons.forEach((button, i) => {
+      const modalButton = create('button', 'modal-button', button);
+      modalButton.type = 'button';
+      modalButton.addEventListener('click', actions[i]);
+      modalButtons.appendChild(modalButton);
+    })
+    modalBox.appendChild(modalText);
+    modalBox.appendChild(modalButtons);
+    modal.appendChild(modalBox);
+
+    APP.appendChild(modal);
   }
 
   startLevel(level) {
@@ -108,12 +133,53 @@ class Screen {
     createLevel(LEVELS[level], Object.keys(LEVELS).indexOf(level));
   }
 
+  updateLevelSelect() {
+    const levels = this.screenElements[SCREENS.LEVEL_SELECT].children;
+    const levelsArray = Object.values(LEVELS)
+    for (let i in levels) {
+      if (typeof levels[i] !== 'object') return;
+      if (levelsArray[i].locked) levels[i].classList.add('blocked');
+      else levels[i].classList.remove('blocked');
+    }
+  }
+
   updateLevelUI() {
     const levelNumberElement = document.getElementById('level-number');
     levelNumberElement.innerText = `Level ${actualLevelData.levelNumber}`;
     const movementsElement = document.getElementById('movements');
     movementsElement.innerText = `Max movements: ${movements} / ${actualLevelData.movements}`;
   }
+
+  cleanLevelValues() {
+    const piecesBox = document.getElementById('pieces-box');
+    inBoardPieces.list.forEach(piece => piecesBox.removeChild(piece.element) );
+    const objectsBox = document.getElementById('objects-box');
+    inBoardObjects.list.forEach(object => objectsBox.removeChild(object.element) );
+    inBoardPieces.list = [];
+    inBoardObjects.list = [];
+    movements = 0;
+  }
+
+  winLevel() {
+    actualLevel++;
+    const levelKeys = Object.keys(LEVELS);
+    const key = levelKeys[actualLevel];
+    LEVELS[key].locked = false;
+    this.createModal(
+      'The level has been beaten!',
+      ['Go back', 'continue'],
+      [() => {
+        this.cleanLevelValues();
+        this.changeScreen(SCREENS.LEVEL_SELECT);
+        document.removeEventListener('click', canvasMousePointer);
+        document.querySelector('.modal').remove();
+      }, () => {
+        this.cleanLevelValues();
+        this.startLevel(key);
+        document.querySelector('.modal').remove();
+      }]
+    )
+  }
 }
 
- const game = new Screen(SCREENS.LEVEL);
+const game = new Screen(SCREENS.TITLE);

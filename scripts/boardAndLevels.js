@@ -18,7 +18,8 @@ const LEVELS = {
       [PIECES.ROOK, { x: 1, y: 5 }]
     ],
     'objects': [],
-    'finishPosition': { x: 6, y: 1 }
+    'finishPosition': { x: 6, y: 1 },
+    'locked': false
   },
   'TWO': {
     'movements': 4,
@@ -37,7 +38,8 @@ const LEVELS = {
       [PIECES.BISHOP, { x: 7, y: 5 }]
     ],
     'objects': [],
-    'finishPosition': { x: 7, y: 3 }
+    'finishPosition': { x: 7, y: 3 },
+    'locked': true
   },
   'THREE': {
     'movements': 3,
@@ -55,7 +57,8 @@ const LEVELS = {
       [PIECES.BISHOP, { x: 3, y: 1 }]
     ],
     'objects': [],
-    'finishPosition': { x: 1, y: 4 }
+    'finishPosition': { x: 1, y: 4 },
+    'locked': true
   },
   'FOUR': {
     'movements': 3,
@@ -76,7 +79,8 @@ const LEVELS = {
       [PIECES.ROOK, { x: 1, y: 5 }]
     ],
     'objects': [],
-    'finishPosition': { x: 2, y: 2 }
+    'finishPosition': { x: 2, y: 2 },
+    'locked': true
   },
   'FIVE': {
     'movements': 5,
@@ -98,7 +102,8 @@ const LEVELS = {
     'objects': [
       [OBJECTS.KEY, { x: 6, y: 7 }]
     ],
-    'finishPosition': { x: 1, y: 1 }
+    'finishPosition': { x: 1, y: 1 },
+    'locked': true
   },
   'SIX': {
     'movements': 6,
@@ -121,7 +126,8 @@ const LEVELS = {
     'objects': [
       [OBJECTS.KEY, { x: 3, y: 2 }]
     ],
-    'finishPosition': { x: 7, y: 7 }
+    'finishPosition': { x: 7, y: 7 },
+    'locked': true
   },
   'SEVEN': {
     'movements': 5,
@@ -142,7 +148,8 @@ const LEVELS = {
     'objects': [
       [OBJECTS.KEY, { x: 5, y: 3 }]
     ],
-    'finishPosition': { x: 7, y: 1 }
+    'finishPosition': { x: 7, y: 1 },
+    'locked': true
   },
   'EIGHT': {
     'movements': 4,
@@ -158,7 +165,8 @@ const LEVELS = {
       [PIECES.ROOK, { x: 1, y: 3 }]
     ],
     'objects': [],
-    'finishPosition': { x: 6, y: 1 }
+    'finishPosition': { x: 6, y: 1 },
+    'locked': true
   },
   'NINE': {
     'movements': 9,
@@ -181,7 +189,8 @@ const LEVELS = {
       [PIECES.QUEEN, { x: 8, y: 5 }]
     ],
     'objects': [],
-    'finishPosition': { x: 5, y: 9 }
+    'finishPosition': { x: 5, y: 9 },
+    'locked': true
   },
   'TEN': {
     'movements': 7,
@@ -207,7 +216,8 @@ const LEVELS = {
     'objects': [
       [OBJECTS.KEY, { x: 8, y: 4 }]
     ],
-    'finishPosition': { x: 1, y: 9 }
+    'finishPosition': { x: 1, y: 9 },
+    'locked': true
   },
   'ELEVEN': {
     'movements': 11,
@@ -231,7 +241,8 @@ const LEVELS = {
       [PIECES.QUEEN, { x: 2, y: 2 }]
     ],
     'objects': [],
-    'finishPosition': { x: 5, y: 5 }
+    'finishPosition': { x: 5, y: 5 },
+    'locked': true
   },
   'TWELVE': {
     'movements': 7,
@@ -248,7 +259,8 @@ const LEVELS = {
       [PIECES.KING, { x: 1, y: 2 }]
     ],
     'objects': [],
-    'finishPosition': { x: 5, y: 1 }
+    'finishPosition': { x: 5, y: 1 },
+    'locked': true
   },
   'THIRTEEN': {
     'movements': 8,
@@ -269,7 +281,8 @@ const LEVELS = {
       [PIECES.KING, { x: 2, y: 1 }]
     ],
     'objects': [],
-    'finishPosition': { x: 7, y: 7 }
+    'finishPosition': { x: 7, y: 7 },
+    'locked': true
   },
   'FOURTEEN': {
     'movements': 8,
@@ -292,7 +305,8 @@ const LEVELS = {
     'objects': [
       [OBJECTS.KEY, { x: 9, y: 1 }]
     ],
-    'finishPosition': { x: 2, y: 8 }
+    'finishPosition': { x: 2, y: 8 },
+    'locked': true
   },
   'FIFTEEN': {
     'movements': 7,
@@ -316,7 +330,8 @@ const LEVELS = {
       [PIECES.ROOK, { x: 9, y: 9 }]
     ],
     'objects': [],
-    'finishPosition': { x: 6, y: 2 }
+    'finishPosition': { x: 6, y: 2 },
+    'locked': true
   },
   'SIXTEEN': {
     'movements': 5,
@@ -338,7 +353,8 @@ const LEVELS = {
     'objects': [
       [OBJECTS.BUTTON, { x: 4, y: 2 }]
     ],
-    'finishPosition': { x: 7, y: 7 }
+    'finishPosition': { x: 7, y: 7 },
+    'locked': true
   },
   'SEVENTEEN': {
     'movements': 7,
@@ -361,7 +377,8 @@ const LEVELS = {
     'objects': [
       [OBJECTS.BUTTON, { x: 3, y: 3 }]
     ],
-    'finishPosition': { x: 7, y: 7 }
+    'finishPosition': { x: 7, y: 7 },
+    'locked': true
   },
   'EIGHTEEN': {
     'movements': 8,
@@ -385,7 +402,8 @@ const LEVELS = {
     'objects': [
       [OBJECTS.BUTTON, { x: 9, y: 5 }]
     ],
-    'finishPosition': { x: 1, y: 1 }
+    'finishPosition': { x: 1, y: 1 },
+    'locked': true
   },
   'NINETEEN': {
     'movements': 8,
@@ -411,7 +429,8 @@ const LEVELS = {
       [OBJECTS.BUTTON, { x: 2, y: 6 }],
       [OBJECTS.KEY, { x: 5, y: 8 }]
     ],
-    'finishPosition': { x: 8, y: 2 }
+    'finishPosition': { x: 8, y: 2 },
+    'locked': true
   },
   'TWENTY': {
     'movements': 6,
@@ -432,7 +451,8 @@ const LEVELS = {
       [PIECES.QUEEN, { x: 2, y: 4 }]
     ],
     'objects': [],
-    'finishPosition': { x: 1, y: 1 }
+    'finishPosition': { x: 1, y: 1 },
+    'locked': true
   },
   'TWENTYONE': {
     'movements': 10,
@@ -456,7 +476,8 @@ const LEVELS = {
     'objects': [
       [OBJECTS.KEY, { x: 3, y: 4}]
     ],
-    'finishPosition': { x: 1, y: 1 }
+    'finishPosition': { x: 1, y: 1 },
+    'locked': true
   },
   'TWENTYTWO': {
     'movements': 12,
@@ -482,7 +503,8 @@ const LEVELS = {
     'objects': [
       [OBJECTS.BUTTON, { x: 2, y: 1 }]
     ],
-    'finishPosition': { x: 9, y: 1 }
+    'finishPosition': { x: 9, y: 1 },
+    'locked': true
   },
   'TWENTYTHREE': {
     'movements': 14,
@@ -510,7 +532,8 @@ const LEVELS = {
       [OBJECTS.BUTTON, { x: 4, y: 5 }],
       [OBJECTS.KEY, { x: 3, y: 9 }]
     ],
-    'finishPosition': { x: 9, y: 1 }
+    'finishPosition': { x: 9, y: 1 },
+    'locked': true
   },
   'TWENTYFOUR': {
     'movements': 11,
@@ -538,7 +561,8 @@ const LEVELS = {
       [OBJECTS.BUTTON, { x: 5, y: 1 }],
       [OBJECTS.KEY, { x: 9, y: 4 }]
     ],
-    'finishPosition': { x: 8, y: 1 }
+    'finishPosition': { x: 8, y: 1 },
+    'locked': true
   },
   'TWENTYFIVE': {
     'movements': 10,
@@ -563,7 +587,8 @@ const LEVELS = {
       [PIECES.BISHOP, { x: 2, y: 1 }]
     ],
     'objects': [],
-    'finishPosition': { x: 9, y: 1 }
+    'finishPosition': { x: 9, y: 1 },
+    'locked': true
   }
 }
 
@@ -573,7 +598,7 @@ function createLevel(level, index) {
   actualLevelData = {
     levelNumber: index + 1,
     movements: level.movements,
-    finishPosition: level.finishPositionSS
+    finishPosition: level.finishPosition
   }
   game.updateLevelUI();
   level.pieces.forEach(piece => inBoardPieces.add(piece[0], piece[1]) );

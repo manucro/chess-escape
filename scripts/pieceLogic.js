@@ -40,6 +40,9 @@ class Piece {
     this.position = newPosition;
     this.element.style.transform = `translate(${newPosition.x * squareSize}px, ${newPosition.y * squareSize}px)`;
     actualStatus = STATUS.IDLE;
+    // Checks if the level has been beaten
+    const finishPos = actualLevelData.finishPosition;
+    if (newPosition.x == finishPos.x && newPosition.y == finishPos.y) game.winLevel();
     // If it's void, it falls
     if (movementType === 'push') {
       if (board[newPosition.y][newPosition.x] !== 1) return;
@@ -151,7 +154,6 @@ class Piece {
     this.element.remove();
     const index = inBoardPieces.list.indexOf(this);
     inBoardPieces.list.splice(index, 1);
-    console.log(inBoardPieces);
   }
 }
 
