@@ -93,18 +93,17 @@ body {
   opacity: .2;
   background-image: url('sources/pattern.png');
   background-size: 25%;
-  /* animation: 4s ease infinite titleAnimation; */
+  animation: 40s linear infinite titleAnimation;
 }
 
 @keyframes titleAnimation {
-  0% {
-    background-size: 25%;
+  from {
+    background-position-x: 0;
+    background-position-y: 0;
   }
-  50% {
-    background-size: 30%;
-  }
-  100% {  
-    background-size: 25%;
+  to {  
+    background-position-x: 1000px;
+    background-position-y: 500px;
   }
 }
 .title {

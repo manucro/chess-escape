@@ -536,7 +536,7 @@ const LEVELS = {
     'locked': true
   },
   'TWENTYFOUR': {
-    'movements': 11,
+    'movements': 8,
     'board': [
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       [1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1],
@@ -593,7 +593,8 @@ const LEVELS = {
 }
 
 function createLevel(level, index) {
-  board = level.board;
+  board = [];
+  level.board.forEach(row => board.push([...row]));
   squareSize = (board.length > 9) ? 46 : 58;
   actualLevelData = {
     levelNumber: index + 1,
