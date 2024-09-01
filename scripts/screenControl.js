@@ -62,6 +62,26 @@ class Screen {
 
     // Level
     const levelElement = create('div', 'level-screen');
+    // Back button
+    const backButton = create('button', 'back-button');
+    backButton.type = 'button';
+    backButton.addEventListener('click', () => {
+      this.cleanLevelValues();
+      this.changeScreen(SCREENS.LEVEL_SELECT);
+      document.removeEventListener('click', canvasMousePointer);
+    });
+    const backButtonSprite = create('div', 'back-button-sprite');
+    backButton.appendChild(backButtonSprite);
+    levelElement.appendChild(backButton);
+    // Restart button
+    const restartButton = create('button', 'restart-button', 'Restart');
+    restartButton.type = 'button';
+    restartButton.addEventListener('click', () => {
+      this.cleanLevelValues();
+      this.startLevel(actualLevelData.levelKey);
+    });
+    levelElement.appendChild(restartButton);
+    // Level info
     const levelInfo = create('div', 'level-info');
     const levelNumberSpan = create('span', 'level-info-span', 'Level 0');
     levelNumberSpan.id = 'level-number';
@@ -69,6 +89,7 @@ class Screen {
     movementsSpan.id = 'movements';
     levelInfo.appendChild(levelNumberSpan);
     levelInfo.appendChild(movementsSpan);
+    // Board
     const boardBox = create('div', 'board-box');
     const boardElement = create('div', 'board');
     const appendBoardElement = (type, id) => {
@@ -204,8 +225,8 @@ class Screen {
     const key = levelKeys[actualLevel];
     LEVELS[key].locked = false;
     this.createModal(
-      'The level has been beaten!',
-      ['Go back', 'continue'],
+      'Level completed!',
+      ['Go back', 'Continue'],
       [() => {
         this.cleanLevelValues();
         this.changeScreen(SCREENS.LEVEL_SELECT);

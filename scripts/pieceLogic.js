@@ -83,6 +83,7 @@ class Piece {
     validPositions.clear();
     PIECES_MOVEMENTS[this.type](this.position); // Fills the validPositions list
 
+    // Click to move the piece
     const handleClick = (ev) => {
       const clickedPosition = { x: Math.floor(ev.layerX / squareSize), y: Math.floor(ev.layerY / squareSize) }
       if (clickedPosition.x == this.position.x && clickedPosition.y == this.position.y) return;
@@ -91,8 +92,19 @@ class Piece {
       movements++; game.updateLevelUI();
       ctx.clearRect(0, 0, CANVAS_MASK.width, CANVAS_MASK.height);
       BOARD_ELEMENT.removeEventListener('click', handleClick);
+      this.element.removeEventListener('contextmenu', handleContextMenu);
     }
+    // Right click to deselect the piece
+    const handleContextMenu = (ev) => {
+      ev.preventDefault();
+      actualStatus = STATUS.IDLE;
+      ctx.clearRect(0, 0, CANVAS_MASK.width, CANVAS_MASK.height);
+      BOARD_ELEMENT.removeEventListener('click', handleClick);
+      this.element.removeEventListener('contextmenu', handleContextMenu);
+    }
+
     BOARD_ELEMENT.addEventListener('click', handleClick);
+    this.element.addEventListener('contextmenu', handleContextMenu);
   }
 
   getPieceTraceAndDirection(prevPosition, newPosition) {

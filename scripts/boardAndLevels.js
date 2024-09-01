@@ -597,6 +597,7 @@ function createLevel(level, index) {
   squareSize = (board.length > 9) ? 46 : 58;
   actualLevelData = {
     levelNumber: index + 1,
+    levelKey: Object.keys(LEVELS)[index],
     movements: level.movements,
     finishPosition: level.finishPosition
   }
