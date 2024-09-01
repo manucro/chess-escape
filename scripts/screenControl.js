@@ -161,6 +161,13 @@ class Screen {
         [() => document.querySelector('.modal').remove()],
         'tutorials/3.mp4'
       )
+    } else if (level == 'TWENTY') {
+      this.createModal(
+        "Pawns can pass through platforms",
+        ['Continue'],
+        [() => document.querySelector('.modal').remove()],
+        'tutorials/4.mp4'
+      )
     }
   }
 
