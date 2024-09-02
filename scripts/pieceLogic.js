@@ -45,7 +45,14 @@ class Piece {
     if (newPosition.x == finishPos.x && newPosition.y == finishPos.y) game.winLevel();
     // If it's void, it falls
     if (movementType === 'push') {
-      if (board[newPosition.y][newPosition.x] !== 1) return;
+      if (
+        newPosition.x >= 0 &&
+        newPosition.y >= 0 &&
+        newPosition.x <= (board[0].length - 1) &&
+        newPosition.y <= (board.length - 1)
+      ) {
+        if (board[newPosition.y][newPosition.x] !== 1) return;
+      }
       this.element.style.opacity = '0';
       this.blocked = true;
       setTimeout(() => this.deletePiece(), 1000);
@@ -53,23 +60,28 @@ class Piece {
     // Push
     if (prevPosition && movementType === 'normal') {
       const [trace, direction] = this.getPieceTraceAndDirection(prevPosition, newPosition);
-      // Update objects
-      inBoardObjects.list.forEach(object => {
-        trace.forEach(pos => object.checkCollision(pos));
-      });
-      // todo improve this
-      let piecesPushed = 0;
-      inBoardPieces.list.forEach((piece) => {
-        if (piece === this) return;
-        trace.forEach((tracePos) => {
-          if (tracePos.x === piece.position.x && tracePos.y === piece.position.y) {
-            piecesPushed++;
-            const pushedPieceNewPos = this.getMovementWithDirection(newPosition, direction, piecesPushed);
+      const pieceCache = [];
+      for (let i = 0; i < trace.length; i++) {
+        const pos = trace[i];
+        const lastPos = trace[trace.length - 1];
+        // Update objects
+        inBoardObjects.list.forEach(object => {
+          object.checkCollision(pos);
+        });
+        // Checks if a piece is pushed
+        inBoardPieces.list.forEach(piece => {
+          if (piece === this) return;
+          if (pos.x === piece.position.x && pos.y === piece.position.y) {
+            const pushedPieceNewPos = this.getMovementWithDirection(lastPos, direction);
+            if (!pieceCache.includes(piece)) {
+              trace.push(pushedPieceNewPos);
+              pieceCache.push(piece);
+            } else return;
             piece.setPosition(pushedPieceNewPos, 'push');
             inBoardObjects.list.forEach(obj => obj.checkCollision(pushedPieceNewPos));
           }
         });
-      });
+      };
     }
   }
 

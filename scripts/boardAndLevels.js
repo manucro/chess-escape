@@ -589,6 +589,35 @@ const LEVELS = {
     'objects': [],
     'finishPosition': { x: 9, y: 1 },
     'locked': true
+  },
+  'TWENTYSIX': {
+    'movements': 8,
+    'board': [
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    ],
+    'pieces': [
+      [PIECES.PAWN, { x: 2, y: 9 }],
+      [PIECES.PAWN, { x: 4, y: 9 }],
+      [PIECES.PAWN, { x: 5, y: 9 }],
+      [PIECES.ROOK, { x: 9, y: 9 }],
+      [PIECES.ROOK, { x: 2, y: 6 }],
+      [PIECES.QUEEN, { x: 2, y: 2 }],
+      [PIECES.QUEEN, { x: 5, y: 1 }],
+      [PIECES.QUEEN, { x: 7, y: 1 }]
+    ],
+    'objects': [],
+    'finishPosition': { x: 0, y: 0 },
+    'locked': true
   }
 }
 
