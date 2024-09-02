@@ -81,7 +81,7 @@ class Piece {
             inBoardObjects.list.forEach(obj => obj.checkCollision(pushedPieceNewPos));
           }
         });
-      };
+      }
     }
   }
 

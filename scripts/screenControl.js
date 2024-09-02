@@ -76,10 +76,7 @@ class Screen {
     // Restart button
     const restartButton = create('button', 'restart-button', 'Restart');
     restartButton.type = 'button';
-    restartButton.addEventListener('click', () => {
-      this.cleanLevelValues();
-      this.startLevel(actualLevelData.levelKey);
-    });
+    restartButton.addEventListener('click', () => this.restartLevel());
     levelElement.appendChild(restartButton);
     // Level info
     const levelInfo = create('div', 'level-info');
@@ -161,34 +158,64 @@ class Screen {
     PIECES_BOX = document.getElementById('pieces-box');
     document.addEventListener('mousemove', canvasMousePointer);
     createLevel(LEVELS[level], Object.keys(LEVELS).indexOf(level));
-    // TUTORIAL VIDEOS todo improve this
-    if (level == 'THREE') {
+    // Tutorial videos
+    this.createLevelTutorial(level);
+  }
+
+  restartLevel() {
+    // todo IMPROVE THIS HORRIBLE SYSTEM
+    const levelPieces = LEVELS[actualLevelData.levelKey].pieces;
+    const boardPieces = inBoardPieces.list;
+    // Creates non-existent pieces
+    const levelPiecesCopy = [...levelPieces];
+    let boardPiecesCopy = [...boardPieces];
+    for (let i = 0; i < levelPiecesCopy.length; i++) {
+      for (let j in boardPiecesCopy) {
+        const piece = boardPiecesCopy[j];
+        if (piece.type === levelPiecesCopy[i][0]) {
+          boardPiecesCopy.splice(j, 1);
+          levelPiecesCopy.splice(i, 1);
+          i--;
+          break;
+        }
+      }
+    }
+    levelPiecesCopy.forEach(piece => {
+      inBoardPieces.add(piece[0], piece[1]);
+    })
+    // Sets every piece position
+    boardPiecesCopy = [...boardPieces];
+    levelPieces.forEach(piece => {
+      for (let i = 0; i < boardPiecesCopy.length; i++) {
+        const boardPiece = boardPiecesCopy[i];
+        // If the piece exists
+        if (piece[0] === boardPiece.type) {
+          boardPiece.setPosition(piece[1], 'reset');
+          boardPiecesCopy.splice(i, 1);
+          break;
+        }
+      }
+    })
+    // this.cleanLevelValues();
+    movements = 0;
+    // this.startLevel(actualLevelData.levelKey);
+  }
+  
+  createLevelTutorial(level) {
+    let modalValues;
+    switch (level) {
+      default: modalValues = null; break;
+      case 'THREE': modalValues = ['You can push pieces by moving one towards another', '1']; break;
+      case 'EIGHT': modalValues = ["You can't move over platforms, but you can push pieces onto them", '2']; break;
+      case 'ELEVEN': modalValues = ['You can push two pieces at the same time', '3']; break;
+      case 'TWENTY': modalValues = ['Pawns can pass through platforms', '4']; break;
+    }
+    if (modalValues) {
       this.createModal(
-        'You can push pieces by moving one towards another',
+        modalValues[0],
         ['Continue'],
         [() => document.querySelector('.modal').remove()],
-        'tutorials/1.mp4'
-      )
-    } else if (level == 'EIGHT') {
-      this.createModal(
-        "You can't move over platforms, but you can push pieces onto them",
-        ['Continue'],
-        [() => document.querySelector('.modal').remove()],
-        'tutorials/2.mp4'
-      )
-    } else if (level == 'ELEVEN') {
-      this.createModal(
-        "You can push two pieces at the same time",
-        ['Continue'],
-        [() => document.querySelector('.modal').remove()],
-        'tutorials/3.mp4'
-      )
-    } else if (level == 'TWENTY') {
-      this.createModal(
-        "Pawns can pass through platforms",
-        ['Continue'],
-        [() => document.querySelector('.modal').remove()],
-        'tutorials/4.mp4'
+        `tutorials/${modalValues[1]}.mp4`
       )
     }
   }
@@ -210,15 +237,15 @@ class Screen {
     movementsElement.innerText = `Max movements: ${movements} / ${actualLevelData.movements}`;
   }
 
-  cleanLevelValues() {
-    const piecesBox = document.getElementById('pieces-box');
-    inBoardPieces.list.forEach(piece => piecesBox.removeChild(piece.element) );
-    const objectsBox = document.getElementById('objects-box');
-    inBoardObjects.list.forEach(object => objectsBox.removeChild(object.element) );
-    inBoardPieces.list = [];
-    inBoardObjects.list = [];
-    movements = 0;
-  }
+  // cleanLevelValues() {
+  //   // const piecesBox = document.getElementById('pieces-box');
+  //   // inBoardPieces.list.forEach(piece => piecesBox.removeChild(piece.element) );
+  //   // const objectsBox = document.getElementById('objects-box');
+  //   // inBoardObjects.list.forEach(object => objectsBox.removeChild(object.element) );
+  //   inBoardPieces.list = [];
+  //   inBoardObjects.list = [];
+  //   movements = 0;
+  // }
 
   winLevel() {
     actualLevel++;
