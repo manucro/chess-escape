@@ -18,14 +18,29 @@ class Screen {
     this.type = screenType;
     this.screenElements = {};
 
-    function create(type, className, content = '') {
+    const titleScreen = this.createTitleScreen();
+    Object.defineProperty(this.screenElements, SCREENS.TITLE, { value: titleScreen });
+    const optionsBox = this.createOptions();
+    Object.defineProperty(this.screenElements, SCREENS.OPTIONS, { value: optionsBox });
+    const levelSelect = this.createLevelSelect();
+    Object.defineProperty(this.screenElements, SCREENS.LEVEL_SELECT, { value: levelSelect });
+    const levelElement = this.createLevelScreen();
+    Object.defineProperty(this.screenElements, SCREENS.LEVEL, { value: levelElement });
+
+    APP.appendChild(this.screenElements[screenType]);
+  }
+
+  getCreateElementFunction() {
+    return (type, className, content = '') => {
       const el = document.createElement(type);
       el.classList.add(className);
       el.innerText = content;
       return el;
     }
+  }
 
-    // Main Title
+  createTitleScreen() {
+    const create = this.getCreateElementFunction();
     const titleScreen = create('div', 'title-screen');
     const titleElementBox = create('div', 'title-box');
     const titleAnimation = create('div', 'title-animation');
@@ -46,9 +61,11 @@ class Screen {
     titleScreen.appendChild(titleElementBox);
     titleScreen.appendChild(titleButtons);
     titleScreen.appendChild(credits);
-    Object.defineProperty(this.screenElements, SCREENS.TITLE, { value: titleScreen });
-
-    // Options menu
+    return titleScreen;
+  }
+  
+  createOptions() {
+    const create = this.getCreateElementFunction();
     const optionsData = [
       ['Piece Set', Object.values(PIECE_SETS)],
       ['Piece Animation Speed', [250, 500, 1000, 1500]],
@@ -70,9 +87,7 @@ class Screen {
       }
     }
     const optionsBox = create('div', 'options-box');
-    const optionsBackButton = create('button', 'back-button');
-    optionsBackButton.type = 'button';
-    optionsBackButton.addEventListener('click', () => this.changeScreen(SCREENS.TITLE));
+    const optionsBackButton = this.createBackButton(() => this.changeScreen(SCREENS.TITLE));
     optionsBox.appendChild(optionsBackButton);
     const optionsTitle = create('h4', 'options-title', 'Options');
     const optionsElement = create('div', 'options');
@@ -97,14 +112,14 @@ class Screen {
     });
     optionsBox.appendChild(optionsTitle);
     optionsBox.appendChild(optionsElement);
-    Object.defineProperty(this.screenElements, SCREENS.OPTIONS, { value: optionsBox });
+    return optionsBox;
+  }
 
-    // Level Select
+  createLevelSelect() {
+    const create = this.getCreateElementFunction();
     const levelSelect = create('div', 'level-select')
     const levelSelectBox = create('div', 'level-select-box');
-    const levelSelectBackButton = create('button', 'back-button');
-    levelSelectBackButton.type = 'button';
-    levelSelectBackButton.addEventListener('click', () => this.changeScreen(SCREENS.TITLE));
+    const levelSelectBackButton = this.createBackButton(() => this.changeScreen(SCREENS.TITLE));
     Object.keys(LEVELS).forEach((levelName, i) => {
       const levelElement = create('div', 'level');
       levelElement.innerText = i + 1;
@@ -116,21 +131,18 @@ class Screen {
     });
     levelSelect.appendChild(levelSelectBackButton);
     levelSelect.appendChild(levelSelectBox);
-    Object.defineProperty(this.screenElements, SCREENS.LEVEL_SELECT, { value: levelSelect });
-
-    // Level
+    return levelSelect;
+  }
+  
+  createLevelScreen() {
+    const create = this.getCreateElementFunction();
     const levelElement = create('div', 'level-screen');
-    // Back button
-    const backButton = create('button', 'back-button');
-    backButton.type = 'button';
-    backButton.addEventListener('click', () => {
+    const levelBackButton = this.createBackButton(() => {
       this.cleanLevelValues();
       this.changeScreen(SCREENS.LEVEL_SELECT);
       document.removeEventListener('click', canvasMousePointer);
     });
-    const backButtonSprite = create('div', 'back-button-sprite');
-    backButton.appendChild(backButtonSprite);
-    levelElement.appendChild(backButton);
+    levelElement.appendChild(levelBackButton);
     // Restart button
     const restartButton = create('button', 'restart-button', 'Restart');
     restartButton.type = 'button';
@@ -160,29 +172,11 @@ class Screen {
     boardBox.appendChild(boardElement);
     levelElement.appendChild(levelInfo);
     levelElement.appendChild(boardBox);
-    Object.defineProperty(this.screenElements, SCREENS.LEVEL, { value: levelElement });
-
-    // Appends the screen type of the constructor
-    APP.appendChild(this.screenElements[screenType]);
-  }
-
-  changeScreen(newScreen) {
-    this.screenElements[this.type].remove();
-    this.type = newScreen;
-    APP.appendChild(this.screenElements[newScreen]);
-    if (newScreen === SCREENS.LEVEL_SELECT) this.updateLevelSelect();
-    if (newScreen === SCREENS.OPTIONS) this.updateOptions();
+    return levelElement;
   }
 
   createModal(text, buttons, actions, video = null) {
-    // todo not repeat this function, maybe make it global?
-    function create(type, className, content = '') {
-      const el = document.createElement(type);
-      el.classList.add(className);
-      el.innerText = content;
-      return el;
-    }
-    // Modal
+    const create = this.getCreateElementFunction();
     const modal = create('div', 'modal');
     const modalBox = create('div', (video) ? 'modal-box-video' : 'modal-box');
     const modalText = create('div', 'modal-text', text);
@@ -204,8 +198,15 @@ class Screen {
     }
     modalBox.appendChild(modalButtons);
     modal.appendChild(modalBox);
+    return modal;
+  }
 
-    APP.appendChild(modal);
+  changeScreen(newScreen) {
+    this.screenElements[this.type].remove();
+    this.type = newScreen;
+    APP.appendChild(this.screenElements[newScreen]);
+    if (newScreen === SCREENS.LEVEL_SELECT) this.updateLevelSelect();
+    if (newScreen === SCREENS.OPTIONS) this.updateOptions();
   }
 
   startLevel(level) {
@@ -241,7 +242,7 @@ class Screen {
     }
     levelPiecesCopy.forEach(piece => {
       inBoardPieces.add(piece[0], piece[1]);
-    })
+    });
     // Sets every piece position
     boardPiecesCopy = [...boardPieces];
     levelPieces.forEach(piece => {
@@ -255,9 +256,7 @@ class Screen {
         }
       }
     })
-    // this.cleanLevelValues();
     movements = 0;
-    // this.startLevel(actualLevelData.levelKey);
   }
   
   createLevelTutorial(level) {
@@ -270,13 +269,29 @@ class Screen {
       case 'TWENTY': modalValues = ['Pawns can pass through platforms', '4']; break;
     }
     if (modalValues) {
-      this.createModal(
+      const modal = this.createModal(
         modalValues[0],
         ['Continue'],
         [() => document.querySelector('.modal').remove()],
         `tutorials/${modalValues[1]}.mp4`
-      )
+      );
+      APP.appendChild(modal);
     }
+  }
+
+  createBackButton(func) {
+    function create(type, className, content = '') {
+      const el = document.createElement(type);
+      el.classList.add(className);
+      el.innerText = content;
+      return el;
+    }
+    const backButton = create('button', 'back-button');
+    backButton.type = 'button';
+    backButton.addEventListener('click', func);
+    const backButtonSprite = create('div', 'back-button-sprite');
+    backButton.appendChild(backButtonSprite);
+    return backButton;
   }
 
   updateLevelSelect() {
@@ -308,22 +323,28 @@ class Screen {
     })
   }
 
-  // cleanLevelValues() {
-  //   // const piecesBox = document.getElementById('pieces-box');
-  //   // inBoardPieces.list.forEach(piece => piecesBox.removeChild(piece.element) );
-  //   // const objectsBox = document.getElementById('objects-box');
-  //   // inBoardObjects.list.forEach(object => objectsBox.removeChild(object.element) );
-  //   inBoardPieces.list = [];
-  //   inBoardObjects.list = [];
-  //   movements = 0;
-  // }
+  cleanLevelValues() {
+    inBoardPieces.list = [];
+    inBoardObjects.list = [];
+    actualStatus = STATUS.IDLE;
+    movements = 0;
+    // Removes all pieces and object images
+    const images = document.querySelectorAll('.piece');
+    images.forEach(image => image.parentNode.removeChild(image));
+    const objects = document.querySelectorAll('.object');
+    objects.forEach(obj => obj.parentNode.removeChild(obj));
+    // Clones the board so the event listeners are deleted
+    const oldElement = document.querySelector('.board');
+    const newElement = oldElement.cloneNode(true);
+    oldElement.parentNode.replaceChild(newElement, oldElement);
+  }
 
   winLevel() {
     actualLevel++;
     const levelKeys = Object.keys(LEVELS);
     const key = levelKeys[actualLevel];
     LEVELS[key].locked = false;
-    this.createModal(
+    const modal = this.createModal(
       'Level completed!',
       ['Go back', 'Continue'],
       [() => {
@@ -336,7 +357,8 @@ class Screen {
         this.startLevel(key);
         document.querySelector('.modal').remove();
       }]
-    )
+    );
+    APP.appendChild(modal);
   }
 }
 
