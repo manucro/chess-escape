@@ -36,8 +36,21 @@ const DEFAULT_BOARD = [
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
+const PIECE_SETS = {
+  MERIDA: 'merida',
+  MAESTRO: 'maestro',
+  CALIENTE: 'caliente',
+  TATIANA: 'tatiana',
+  MPCHESS: 'mpchess'
+}
 
 // Control Objects
+const options = {
+  pieceSet: PIECE_SETS.MERIDA,
+  pieceAnimationSpeed: 1000,
+  music: true,
+  optimizedMode: false
+}
 // (it may seem more efficient to create these two objects with a class, but I did it this way to make the code easier to understand)
 const inBoardPieces = {
   list: [],

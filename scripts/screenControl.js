@@ -8,6 +8,7 @@ const APP = document.getElementById('app');
 
 const SCREENS = {
   TITLE: 'title',
+  OPTIONS: 'options',
   LEVEL_SELECT: 'levelselect',
   LEVEL: 'level'
 }
@@ -36,7 +37,7 @@ class Screen {
       const titleButton = create('button', 'title-button', buttonTitle);
       titleButton.type = 'button';
       titleButton.addEventListener('click', () => {
-        this.changeScreen(SCREENS.LEVEL_SELECT);
+        this.changeScreen((buttonTitle === 'Play') ? SCREENS.LEVEL_SELECT : SCREENS.OPTIONS);
       });
       titleButtons.appendChild(titleButton);
     });
@@ -47,8 +48,63 @@ class Screen {
     titleScreen.appendChild(credits);
     Object.defineProperty(this.screenElements, SCREENS.TITLE, { value: titleScreen });
 
+    // Options menu
+    const optionsData = [
+      ['Piece Set', Object.values(PIECE_SETS)],
+      ['Piece Animation Speed', [250, 500, 1000, 1500]],
+      ['Music', [true, false]],
+      ['Optimized Mode', [true, false]]
+    ]
+    // todo improve
+    function getOptionBoxInnerElement(value) {
+      if (typeof value === 'string') {
+        const optionBoxSprite = create('img', 'option-box-sprite');
+        optionBoxSprite.src = `pieces/${value}/rook.svg`;
+        return optionBoxSprite;
+      } else if (typeof value === 'number') {
+        const speedSpan = create('span', 'option-box-span', (value / 1000));
+        return speedSpan;
+      } else {
+        const booleanSpan = create('span', 'option-box-span', (value) ? 'Yes' : 'No');
+        return booleanSpan;
+      }
+    }
+    const optionsBox = create('div', 'options-box');
+    const optionsBackButton = create('button', 'back-button');
+    optionsBackButton.type = 'button';
+    optionsBackButton.addEventListener('click', () => this.changeScreen(SCREENS.TITLE));
+    optionsBox.appendChild(optionsBackButton);
+    const optionsTitle = create('h4', 'options-title', 'Options');
+    const optionsElement = create('div', 'options');
+    optionsData.forEach((optionData, i) => {
+      const option = create('div', 'option');
+      const optionTitle = create('div', 'option-title', optionData[0]);
+      const optionBoxes = create('div', 'option-boxes')
+      optionData[1].forEach(box => {
+        const optionBox = create('div', 'option-box');
+        optionBox.classList.add(Object.keys(options)[i]);
+        optionBox.setAttribute('data-option-value', box);
+        optionBox.appendChild(getOptionBoxInnerElement(box));
+        optionBox.addEventListener('click', () => {
+          options[Object.keys(options)[i]] = box;
+          this.updateOptions();
+        });
+        optionBoxes.appendChild(optionBox);
+      });
+      option.appendChild(optionTitle);
+      option.appendChild(optionBoxes);
+      optionsElement.appendChild(option);
+    });
+    optionsBox.appendChild(optionsTitle);
+    optionsBox.appendChild(optionsElement);
+    Object.defineProperty(this.screenElements, SCREENS.OPTIONS, { value: optionsBox });
+
     // Level Select
-    const levelSelectBox = create('div', 'level-select');
+    const levelSelect = create('div', 'level-select')
+    const levelSelectBox = create('div', 'level-select-box');
+    const levelSelectBackButton = create('button', 'back-button');
+    levelSelectBackButton.type = 'button';
+    levelSelectBackButton.addEventListener('click', () => this.changeScreen(SCREENS.TITLE));
     Object.keys(LEVELS).forEach((levelName, i) => {
       const levelElement = create('div', 'level');
       levelElement.innerText = i + 1;
@@ -58,7 +114,9 @@ class Screen {
       });
       levelSelectBox.appendChild(levelElement);
     });
-    Object.defineProperty(this.screenElements, SCREENS.LEVEL_SELECT, { value: levelSelectBox });
+    levelSelect.appendChild(levelSelectBackButton);
+    levelSelect.appendChild(levelSelectBox);
+    Object.defineProperty(this.screenElements, SCREENS.LEVEL_SELECT, { value: levelSelect });
 
     // Level
     const levelElement = create('div', 'level-screen');
@@ -106,17 +164,18 @@ class Screen {
 
     // Appends the screen type of the constructor
     APP.appendChild(this.screenElements[screenType]);
-    setTimeout(() => this.startLevel('TWENTYSIX'), 10)
   }
 
   changeScreen(newScreen) {
     this.screenElements[this.type].remove();
     this.type = newScreen;
-    if (newScreen === SCREENS.LEVEL_SELECT) this.updateLevelSelect();
     APP.appendChild(this.screenElements[newScreen]);
+    if (newScreen === SCREENS.LEVEL_SELECT) this.updateLevelSelect();
+    if (newScreen === SCREENS.OPTIONS) this.updateOptions();
   }
 
   createModal(text, buttons, actions, video = null) {
+    // todo not repeat this function, maybe make it global?
     function create(type, className, content = '') {
       const el = document.createElement(type);
       el.classList.add(className);
@@ -221,8 +280,8 @@ class Screen {
   }
 
   updateLevelSelect() {
-    const levels = this.screenElements[SCREENS.LEVEL_SELECT].children;
-    const levelsArray = Object.values(LEVELS)
+    const levels = document.querySelector('.level-select-box').children;
+    const levelsArray = Object.values(LEVELS);
     for (let i in levels) {
       if (typeof levels[i] !== 'object') return;
       if (levelsArray[i].locked) levels[i].classList.add('blocked');
@@ -235,6 +294,18 @@ class Screen {
     levelNumberElement.innerText = `Level ${actualLevelData.levelNumber}`;
     const movementsElement = document.getElementById('movements');
     movementsElement.innerText = `Max movements: ${movements} / ${actualLevelData.movements}`;
+  }
+
+  updateOptions() {
+    const optionKeys = Object.keys(options);
+    optionKeys.forEach(key => {
+      const optionBoxes = document.querySelectorAll(`.${key}`);
+      optionBoxes.forEach(option => {
+        const optionValue = option.getAttribute('data-option-value');
+        if (optionValue === options[key].toString()) option.classList.add('option-box-selected');
+        else option.classList.remove('option-box-selected');
+      })
+    })
   }
 
   // cleanLevelValues() {
@@ -269,4 +340,4 @@ class Screen {
   }
 }
 
-const game = new Screen(SCREENS.LEVEL);
+const game = new Screen(SCREENS.TITLE);

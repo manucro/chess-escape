@@ -17,9 +17,11 @@ class Piece {
     // Creates the HTML element
     const element = document.createElement('img');
     element.classList.add('piece');
-    element.src = `pieces/${type}.svg`;
+    element.src = `pieces/${options.pieceSet}/${type}.svg`;
     element.style.width = `${squareSize}px`;
     element.style.height = `${squareSize}px`;
+    const transitionSeconds = options.pieceAnimationSpeed / 1000;
+    element.style.transition = `transform ${transitionSeconds}s, opacity ${transitionSeconds}s`;
     const handleClick = () => {
       if (actualStatus === STATUS.IDLE) this.showMovements();
     }
