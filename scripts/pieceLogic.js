@@ -55,9 +55,14 @@ class Piece {
       ) {
         if (board[newPosition.y][newPosition.x] !== 1) return;
       }
-      this.element.style.opacity = '0';
-      this.blocked = true;
-      setTimeout(() => this.deletePiece(), 1000);
+      this.destroyPiece();
+    }
+    // If it's a horse, then checks if it has killed a piece
+    if (this.type === PIECES.KNIGHT) {
+      inBoardPieces.list.forEach(piece => {
+        if (piece == this) return;
+        if (piece.position.x === newPosition.x && piece.position.y === newPosition.y) piece.destroyPiece();
+      });
     }
     // Push
     if (prevPosition && movementType === 'normal') {
@@ -121,6 +126,12 @@ class Piece {
     this.element.addEventListener('contextmenu', handleContextMenu);
   }
 
+  destroyPiece() {
+    this.element.style.opacity = '0';
+    this.blocked = true;
+    setTimeout(() => this.deletePiece(), 1000);
+  }
+
   getPieceTraceAndDirection(prevPosition, newPosition) {
     const trace = [];
     trace.push(prevPosition);
@@ -145,7 +156,7 @@ class Piece {
         trace.push({ x: newPosition.x, y: checkY });
       }
     }
-    else {
+    else if (this.type !== PIECES.KNIGHT) {
       // Diagonal trace
       const factorX = (newPosition.x > prevPosition.x);
       const factorY = (newPosition.y > prevPosition.y);
@@ -227,6 +238,31 @@ const PIECES_MOVEMENTS = {
       validPositions.add(newPosition);
       drawRedCircle(newPosition);
     })
+  },
+  'knight': (pos) => {
+    const knightPassableSquares = [0, 3, 6];
+    const knightPositions = [
+      { x: 1, y: -2},
+      { x: 2, y: -1},
+      { x: 2, y: 1},
+      { x: 1, y: 2},
+      { x: -1, y: 2},
+      { x: -2, y: 1},
+      { x: -2, y: -1},
+      { x: -1, y: -2}
+    ];
+    knightPositions.forEach(knightPos => {
+      const checkPosition = { x: pos.x + knightPos.x, y: pos.y + knightPos.y };
+      if (
+        checkPosition.x < 0 ||
+        checkPosition.y < 0 ||
+        checkPosition.x > board[0].length - 1 ||
+        checkPosition.y > board.length - 1
+      ) return;
+      if (!knightPassableSquares.includes(board[checkPosition.y][checkPosition.x])) return;
+      validPositions.add(checkPosition);
+      drawRedCircle(checkPosition);
+    });
   }
 }
 
