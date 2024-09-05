@@ -28,6 +28,7 @@ class Screen {
     Object.defineProperty(this.screenElements, SCREENS.LEVEL, { value: levelElement });
 
     APP.appendChild(this.screenElements[screenType]);
+    setTimeout(() => this.startLevel('THIRTYTHREE'), 100)
   }
 
   getCreateElementFunction() {
@@ -362,4 +363,4 @@ class Screen {
   }
 }
 
-const game = new Screen(SCREENS.TITLE);
+const game = new Screen(SCREENS.LEVEL);

@@ -59,6 +59,9 @@ class Piece {
     }
     // If it's a horse, then checks if it has killed a piece
     if (this.type === PIECES.KNIGHT) {
+      inBoardObjects.list.forEach(object => {
+        object.checkCollision(newPosition);
+      });
       inBoardPieces.list.forEach(piece => {
         if (piece == this) return;
         if (piece.position.x === newPosition.x && piece.position.y === newPosition.y) piece.destroyPiece();

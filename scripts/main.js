@@ -47,7 +47,7 @@ const PIECE_SETS = {
 // Control Objects
 const options = {
   pieceSet: PIECE_SETS.MERIDA,
-  pieceAnimationSpeed: 1000,
+  pieceAnimationSpeed: 500,
   music: true,
   optimizedMode: false
 }
