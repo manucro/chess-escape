@@ -23,12 +23,11 @@ class Screen {
     const optionsBox = this.createOptions();
     Object.defineProperty(this.screenElements, SCREENS.OPTIONS, { value: optionsBox });
     const levelSelect = this.createLevelSelect();
-    Object.defineProperty(this.screenElements, SCREENS.LEVEL_SELECT, { value: levelSelect });
+    Object.defineProperty(this.screenElements, SCREENS.LEVEL_SELECT, { value: levelSelect, writable: true });
     const levelElement = this.createLevelScreen();
     Object.defineProperty(this.screenElements, SCREENS.LEVEL, { value: levelElement });
 
     APP.appendChild(this.screenElements[screenType]);
-    setTimeout(() => this.startLevel('THIRTYFIVE'), 100)
   }
 
   getCreateElementFunction() {
@@ -121,15 +120,54 @@ class Screen {
     const levelSelect = create('div', 'level-select')
     const levelSelectBox = create('div', 'level-select-box');
     const levelSelectBackButton = this.createBackButton(() => this.changeScreen(SCREENS.TITLE));
-    Object.keys(LEVELS).forEach((levelName, i) => {
+    const levelKeys = Object.keys(LEVELS);
+    
+    const prevPageButtton = create('button', 'change-page-button');
+    const prevPageSprite = create('div', 'page-sprite');
+    prevPageSprite.classList.add('prev-page-sprite');
+    prevPageButtton.appendChild(prevPageSprite);
+    prevPageButtton.type = 'button';
+    if (actualLevelSelectPage <= 0) prevPageButtton.classList.add('page-button-blocked');
+    else prevPageButtton.addEventListener('click', () => {
+      actualLevelSelectPage--;
+      this.screenElements[SCREENS.LEVEL_SELECT].remove();
+      const newLevelSelect = this.createLevelSelect();
+      this.screenElements[SCREENS.LEVEL_SELECT] = newLevelSelect;
+      APP.appendChild(newLevelSelect);
+      this.updateLevelSelect();
+    });
+    levelSelectBox.appendChild(prevPageButtton);
+
+    for (let i = 0; i < LEVELS_PER_PAGE; i++) {
+      const numberIndex = i + (actualLevelSelectPage * LEVELS_PER_PAGE);
+      const levelName = levelKeys[numberIndex];
+      if (levelName === undefined) break;
       const levelElement = create('div', 'level');
-      levelElement.innerText = i + 1;
+      levelElement.id = `l${numberIndex + 1}`;
+      levelElement.innerText = numberIndex + 1;
       levelElement.addEventListener('click', () => {
         this.changeScreen(SCREENS.LEVEL);
         this.startLevel(levelName);
       });
       levelSelectBox.appendChild(levelElement);
+    };
+
+    const nextPageButtton = create('button', 'change-page-button');
+    const nextPageSprite = create('div', 'page-sprite');
+    nextPageSprite.classList.add('next-page-sprite');
+    nextPageButtton.appendChild(nextPageSprite);
+    nextPageButtton.type = 'button';
+    if (actualLevelSelectPage >= Math.floor(levelKeys.length / LEVELS_PER_PAGE)) nextPageButtton.classList.add('page-button-blocked');
+    else nextPageButtton.addEventListener('click', () => {
+      actualLevelSelectPage++;
+      this.screenElements[SCREENS.LEVEL_SELECT].remove();
+      const newLevelSelect = this.createLevelSelect();
+      this.screenElements[SCREENS.LEVEL_SELECT] = newLevelSelect;
+      APP.appendChild(newLevelSelect);
+      this.updateLevelSelect();
     });
+    levelSelectBox.appendChild(nextPageButtton);
+
     levelSelect.appendChild(levelSelectBackButton);
     levelSelect.appendChild(levelSelectBox);
     return levelSelect;
@@ -296,12 +334,13 @@ class Screen {
   }
 
   updateLevelSelect() {
-    const levels = document.querySelector('.level-select-box').children;
-    const levelsArray = Object.values(LEVELS);
-    for (let i in levels) {
-      if (typeof levels[i] !== 'object') return;
-      if (levelsArray[i].locked) levels[i].classList.add('blocked');
-      else levels[i].classList.remove('blocked');
+    const levelKeys = Object.values(LEVELS);
+    for (let i = 0; i < LEVELS_PER_PAGE; i++) {
+      const numberIndex = i + (actualLevelSelectPage * LEVELS_PER_PAGE);
+      const level = document.getElementById(`l${numberIndex + 1}`);
+      if (level === null) break;
+      if (levelKeys[numberIndex].locked) level.classList.add('blocked');
+      else level.classList.remove('blocked');
     }
   }
 
@@ -363,4 +402,4 @@ class Screen {
   }
 }
 
-const game = new Screen(SCREENS.LEVEL);
+const game = new Screen(SCREENS.TITLE);

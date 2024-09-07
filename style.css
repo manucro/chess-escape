@@ -97,7 +97,6 @@ body {
   background-size: 25%;
   animation: 40s linear infinite titleAnimation;
 }
-
 @keyframes titleAnimation {
   from {
     background-position-x: 0;
@@ -214,14 +213,14 @@ body {
   height: 100%;
 }
 .level-select-box {
-  width: 70%;
+  width: 80%;
   height: 80%;
   padding: 20px;
   background-color: var(--interface);
   border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template: 1fr 4fr 4fr 4fr 1fr / repeat(8, 1fr);
+  place-items: center;
 }
 .level {
   display: flex;
@@ -249,6 +248,37 @@ body {
   background-position: center;
   background-size: 40%;
 }
+.change-page-button {
+  width: 20%;
+  height: 70%;
+  grid-column: 1 / 9;
+  background-color: var(--accent);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.change-page-button:last-child { grid-row: 5 / 6; }
+.change-page-button:hover { filter: brightness(150%); }
+.page-sprite {
+  height: 50%;
+  width: 30px;
+  background-color: var(--accent-hover);
+  filter: brightness(130%);
+}
+.prev-page-sprite {
+  clip-path: polygon(50% 0, 100% 100%, 80% 100%, 50% 50%, 25% 100%, 0 100%);
+}
+.next-page-sprite {
+  clip-path: polygon(25% 0, 50% 50%, 75% 0, 100% 0, 50% 100%, 50% 100%, 0 0);
+}
+.page-button-blocked {
+  filter: brightness(40%);
+  cursor: default;
+}
+.page-button-blocked:hover { filter: brightness(40%); }
 
 /* ---- LEVEL SCREEN / BOARD ---- */
 .level-screen {

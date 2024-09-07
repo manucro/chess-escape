@@ -2,10 +2,8 @@
 
 // Constants
 let BOARD_ELEMENT, BOARD_CANVAS, CANVAS_MASK, MOUSE_CANVAS, OBJECTS_BOX, PIECES_BOX;
-let actualLevel = 0;
-let actualLevelData = {};
-let movements = 0;
 let squareSize = 58;
+const LEVELS_PER_PAGE = 24;
 const PIECES = {
   PAWN: 'pawn',
   ROOK: 'rook',
@@ -68,6 +66,10 @@ const inBoardObjects = {
 }
 
 // Control Variables
+let actualLevel = 0;
+let actualLevelData = {};
+let actualLevelSelectPage = 0;
+let movements = 0;
 let actualStatus = STATUS.IDLE;
 let finishPosition = { x: 0, y: 0 }
 
