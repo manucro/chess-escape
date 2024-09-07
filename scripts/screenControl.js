@@ -28,7 +28,7 @@ class Screen {
     Object.defineProperty(this.screenElements, SCREENS.LEVEL, { value: levelElement });
 
     APP.appendChild(this.screenElements[screenType]);
-    setTimeout(() => this.startLevel('THIRTYTHREE'), 100)
+    setTimeout(() => this.startLevel('THIRTYFIVE'), 100)
   }
 
   getCreateElementFunction() {
