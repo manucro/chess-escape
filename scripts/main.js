@@ -103,8 +103,14 @@ function drawBoard() {
     if (row.length % 2 === 0) squareColor *= -1;
   }
   // Draws the ending
-  ctx.fillStyle = 'red';
-  ctx.fillRect(finishPosition.x * squareSize, finishPosition.y * squareSize, squareSize, squareSize);
+  const finishPosX = finishPosition.x * squareSize;
+  const finishPosY = finishPosition.y * squareSize;
+  const padding = 2;
+  ctx.fillStyle = 'rgb(55, 0, 0)';
+  ctx.fillRect(finishPosX, finishPosY, squareSize, squareSize);
+  ctx.fillStyle = 'white';
+  ctx.fillRect(finishPosX + mid, finishPosY + padding, squareSize / 2 - padding, squareSize / 2 - padding);
+  ctx.fillRect(finishPosX + padding, finishPosY + mid, squareSize / 2 - padding, squareSize / 2 - padding);
 }
 
 // Mouse operations

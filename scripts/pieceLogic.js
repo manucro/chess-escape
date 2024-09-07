@@ -101,6 +101,8 @@ class Piece {
     const ctx = CANVAS_MASK.getContext('2d');
     CANVAS_MASK.width = BOARD_CANVAS.width;
     CANVAS_MASK.height = BOARD_CANVAS.height;
+    CANVAS_MASK.style.width = `${BOARD_CANVAS.width}px`;
+    CANVAS_MASK.style.height = `${BOARD_CANVAS.height}px`;
     
     validPositions.clear();
     PIECES_MOVEMENTS[this.type](this.position); // Fills the validPositions list
@@ -228,7 +230,7 @@ const PIECES_MOVEMENTS = {
         // todo create passable values
         if (board[newPosition.y][newPosition.x] !== 0 && board[newPosition.y][newPosition.x] !== 3) return;
         validPositions.add(newPosition);
-        drawRedCircle(newPosition);
+        highlightSquare(newPosition);
       });
     });
   },
@@ -239,7 +241,7 @@ const PIECES_MOVEMENTS = {
       if (!pawnPassableSquares.includes(board[newPosition.y][newPosition.x])) return;
       if (yPlus === 2 && !validPositions.contains({ x: pos.x , y: pos.y - 1})) return;
       validPositions.add(newPosition);
-      drawRedCircle(newPosition);
+      highlightSquare(newPosition);
     })
   },
   'knight': (pos) => {
@@ -264,7 +266,7 @@ const PIECES_MOVEMENTS = {
       ) return;
       if (!knightPassableSquares.includes(board[checkPosition.y][checkPosition.x])) return;
       validPositions.add(checkPosition);
-      drawRedCircle(checkPosition);
+      highlightSquare(checkPosition);
     });
   }
 }
@@ -279,21 +281,14 @@ function discreteCheck(change, x, y) {
     change(checkPos);
     // todo create passable values
     if (board[checkPos.y][checkPos.x] === 0 || board[checkPos.y][checkPos.x] === 3) {
-      drawRedCircle(checkPos);
+      highlightSquare(checkPos);
       validPositions.add({...checkPos});
     }
     else break;
   }
 }
-function drawRedCircle(position) {
+function highlightSquare(position) {
   const ctx = CANVAS_MASK.getContext('2d');
-  ctx.fillStyle = 'red'
-  const quarter = squareSize / 4;
-  const mid = squareSize / 2;
-  ctx.beginPath();
-  ctx.arc(
-    squareSize * position.x + mid,
-    squareSize * position.y + mid,
-    quarter / 2, 0, 2 * Math.PI);
-  ctx.fill();
+  ctx.fillStyle = 'rgba(50, 255, 50, 0.5)';
+  ctx.fillRect(position.x * squareSize, position.y * squareSize, squareSize, squareSize);
 }
