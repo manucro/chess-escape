@@ -146,8 +146,10 @@ class Screen {
       levelElement.id = `l${numberIndex + 1}`;
       levelElement.innerText = numberIndex + 1;
       levelElement.addEventListener('click', () => {
-        this.changeScreen(SCREENS.LEVEL);
-        this.startLevel(levelName);
+        if (!LEVELS[levelName].locked) {
+          this.changeScreen(SCREENS.LEVEL);
+          this.startLevel(levelName);
+        }
       });
       levelSelectBox.appendChild(levelElement);
     };
@@ -214,11 +216,14 @@ class Screen {
     return levelElement;
   }
 
-  createModal(text, buttons, actions, video = null) {
+  createModal(elements, buttons, actions, video = null) {
     const create = this.getCreateElementFunction();
     const modal = create('div', 'modal');
     const modalBox = create('div', (video) ? 'modal-box-video' : 'modal-box');
-    const modalText = create('div', 'modal-text', text);
+    elements.forEach(element => {
+      const el = create('div', element[0], element[1]); 
+      modalBox.appendChild(el);
+    });
     const modalButtons = create('div','modal-buttons');
     buttons.forEach((button, i) => {
       const modalButton = create('button', 'modal-button', button);
@@ -226,7 +231,6 @@ class Screen {
       modalButton.addEventListener('click', actions[i]);
       modalButtons.appendChild(modalButton);
     });
-    modalBox.appendChild(modalText);
     if (video) {
       const tutorial = create('video', 'modal-video');
       tutorial.src = video;
@@ -309,7 +313,7 @@ class Screen {
     }
     if (modalValues) {
       const modal = this.createModal(
-        modalValues[0],
+        [['modal-text', modalValues[0]]],
         ['Continue'],
         [() => document.querySelector('.modal').remove()],
         `tutorials/${modalValues[1]}.mp4`
@@ -380,13 +384,18 @@ class Screen {
   }
 
   winLevel() {
-    actualLevel++;
     const levelKeys = Object.keys(LEVELS);
-    const key = levelKeys[actualLevel];
-    LEVELS[key].locked = false;
+    if (actualLevel + 1 === actualLevelData.levelNumber) {
+      actualLevel++;
+      LEVELS[levelKeys[actualLevel]].locked = false;
+    }
     const modal = this.createModal(
-      'Level completed!',
-      ['Go back', 'Continue'],
+      [
+        ['modal-span', `Level ${actualLevelData.levelNumber}`],
+        ['modal-text', 'Level completed!'],
+        ['modal-span', `${movements} / ${actualLevelData.movements}`]
+      ],
+      ['Level Select', 'Retry', 'Next'],
       [() => {
         this.cleanLevelValues();
         this.changeScreen(SCREENS.LEVEL_SELECT);
@@ -394,7 +403,11 @@ class Screen {
         document.querySelector('.modal').remove();
       }, () => {
         this.cleanLevelValues();
-        this.startLevel(key);
+        this.startLevel(actualLevelData.levelKey);
+        document.querySelector('.modal').remove();
+      }, () => {
+        this.cleanLevelValues();
+        this.startLevel(levelKeys[actualLevel]);
         document.querySelector('.modal').remove();
       }]
     );

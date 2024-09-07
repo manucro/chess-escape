@@ -248,6 +248,7 @@ body {
   background-position: center;
   background-size: 40%;
 }
+.blocked:hover { background-color: var(--background); }
 .change-page-button {
   width: 20%;
   height: 70%;

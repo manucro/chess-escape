@@ -110,8 +110,8 @@ class Piece {
       const clickedPosition = { x: Math.floor(ev.layerX / squareSize), y: Math.floor(ev.layerY / squareSize) }
       if (clickedPosition.x == this.position.x && clickedPosition.y == this.position.y) return;
       if (!validPositions.contains(clickedPosition)) return;
-      this.setPosition(clickedPosition);
       movements++; game.updateLevelUI();
+      this.setPosition(clickedPosition);
       ctx.clearRect(0, 0, CANVAS_MASK.width, CANVAS_MASK.height);
       BOARD_ELEMENT.removeEventListener('click', handleClick);
       this.element.removeEventListener('contextmenu', handleContextMenu);
