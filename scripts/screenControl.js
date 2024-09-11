@@ -18,6 +18,7 @@ class Screen {
     this.type = screenType;
     this.screenElements = {};
 
+    // Screens
     const titleScreen = this.createTitleScreen();
     Object.defineProperty(this.screenElements, SCREENS.TITLE, { value: titleScreen });
     const optionsBox = this.createOptions();
@@ -26,6 +27,9 @@ class Screen {
     Object.defineProperty(this.screenElements, SCREENS.LEVEL_SELECT, { value: levelSelect, writable: true });
     const levelElement = this.createLevelScreen();
     Object.defineProperty(this.screenElements, SCREENS.LEVEL, { value: levelElement });
+
+    // Board events
+    this.boardEvents = [];
 
     APP.appendChild(this.screenElements[screenType]);
   }
@@ -152,7 +156,7 @@ class Screen {
         }
       });
       levelSelectBox.appendChild(levelElement);
-    };
+    }
 
     const nextPageButtton = create('button', 'change-page-button');
     const nextPageSprite = create('div', 'page-sprite');
@@ -252,13 +256,17 @@ class Screen {
     if (newScreen === SCREENS.OPTIONS) this.updateOptions();
   }
 
-  startLevel(level) {
+  resetLevelReferences() {
     BOARD_ELEMENT = document.querySelector('.board');
     BOARD_CANVAS = document.getElementById('board-canvas');
     CANVAS_MASK = document.getElementById('canvas-mask');
     MOUSE_CANVAS = document.getElementById('mouse-canvas');
     OBJECTS_BOX = document.getElementById('objects-box');
     PIECES_BOX = document.getElementById('pieces-box');
+  }
+
+  startLevel(level) {
+    this.resetLevelReferences();
     document.addEventListener('mousemove', canvasMousePointer);
     createLevel(LEVELS[level], Object.keys(LEVELS).indexOf(level));
     // Tutorial videos
@@ -266,42 +274,59 @@ class Screen {
   }
 
   restartLevel() {
-    // todo IMPROVE THIS HORRIBLE SYSTEM
+    // Reset the pieces
     const levelPieces = LEVELS[actualLevelData.levelKey].pieces;
     const boardPieces = inBoardPieces.list;
-    // Creates non-existent pieces
-    const levelPiecesCopy = [...levelPieces];
-    let boardPiecesCopy = [...boardPieces];
-    for (let i = 0; i < levelPiecesCopy.length; i++) {
-      for (let j in boardPiecesCopy) {
-        const piece = boardPiecesCopy[j];
-        if (piece.type === levelPiecesCopy[i][0]) {
-          boardPiecesCopy.splice(j, 1);
-          levelPiecesCopy.splice(i, 1);
-          i--;
-          break;
+    const unrestartedBoardPieces = [...boardPieces];
+    levelPieces.forEach((piece) => {
+      // Checks if the piece already exists
+      let existentPiece;
+      unrestartedBoardPieces.forEach((boardPiece, i) => {
+        if (boardPiece.type !== piece[0]) return;
+        unrestartedBoardPieces.splice(i, 1);
+        existentPiece = boardPiece;
+      });
+      if (existentPiece) {
+        // If it exists, move it
+        if (existentPiece.blocked) {
+          existentPiece.deletePiece();
+          inBoardPieces.add(piece[0], piece[1]);
         }
+        existentPiece.setPosition(piece[1], 'reset');
+      } else {
+        // If it doesn't exist, create it
+        inBoardPieces.add(piece[0], piece[1]);
       }
-    }
-    levelPiecesCopy.forEach(piece => {
-      inBoardPieces.add(piece[0], piece[1]);
     });
-    // Sets every piece position
-    boardPiecesCopy = [...boardPieces];
-    levelPieces.forEach(piece => {
-      for (let i = 0; i < boardPiecesCopy.length; i++) {
-        const boardPiece = boardPiecesCopy[i];
-        // If the piece exists
-        if (piece[0] === boardPiece.type) {
-          boardPiece.setPosition(piece[1], 'reset');
-          boardPiecesCopy.splice(i, 1);
-          break;
-        }
-      }
-    })
+    // Reset the board
+    board = [];
+    const level = LEVELS[actualLevelData.levelKey];
+    level.board.forEach(row => board.push([...row]));
+    drawBoard();
+    this.removeBoardEvents();
+    CANVAS_MASK.getContext('2d').clearRect(0, 0, CANVAS_MASK.width, CANVAS_MASK.height);
+    // Reset the objects
+    inBoardObjects.list.forEach(obj => obj.element.remove());
+    inBoardObjects.list = [];
+    const levelObjects = LEVELS[actualLevelData.levelKey].objects;
+    levelObjects.forEach(obj => {
+      inBoardObjects.add(obj[0], obj[1]);
+    });
+    // Reset the movements
     movements = 0;
+    this.updateLevelUI();
   }
-  
+
+  addBoardEvent(func) {
+    BOARD_ELEMENT.addEventListener('click', func);
+    this.boardEvents.push(func);
+  }
+
+  removeBoardEvents() {
+    this.boardEvents.forEach(ev => BOARD_ELEMENT.removeEventListener('click', ev) );
+    this.boardEvents = [];
+  }
+
   createLevelTutorial(level) {
     let modalValues;
     switch (level) {
@@ -363,8 +388,8 @@ class Screen {
         const optionValue = option.getAttribute('data-option-value');
         if (optionValue === options[key].toString()) option.classList.add('option-box-selected');
         else option.classList.remove('option-box-selected');
-      })
-    })
+      });
+    });
   }
 
   cleanLevelValues() {

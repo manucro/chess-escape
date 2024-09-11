@@ -115,7 +115,7 @@ class Piece {
       movements++; game.updateLevelUI();
       this.setPosition(clickedPosition);
       ctx.clearRect(0, 0, CANVAS_MASK.width, CANVAS_MASK.height);
-      BOARD_ELEMENT.removeEventListener('click', handleClick);
+      game.removeBoardEvents();
       this.element.removeEventListener('contextmenu', handleContextMenu);
     }
     // Right click to deselect the piece
@@ -123,11 +123,11 @@ class Piece {
       ev.preventDefault();
       actualStatus = STATUS.IDLE;
       ctx.clearRect(0, 0, CANVAS_MASK.width, CANVAS_MASK.height);
-      BOARD_ELEMENT.removeEventListener('click', handleClick);
+      game.removeBoardEvents();
       this.element.removeEventListener('contextmenu', handleContextMenu);
     }
 
-    BOARD_ELEMENT.addEventListener('click', handleClick);
+    game.addBoardEvent(handleClick);
     this.element.addEventListener('contextmenu', handleContextMenu);
   }
 
@@ -193,8 +193,9 @@ class Piece {
   }
   
   deletePiece() {
-    this.element.remove();
     const index = inBoardPieces.list.indexOf(this);
+    if (index === -1) return;
+    this.element.remove();
     inBoardPieces.list.splice(index, 1);
   }
 }
