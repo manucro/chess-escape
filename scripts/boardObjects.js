@@ -6,10 +6,10 @@ class BoardObject {
     const element = document.createElement('img');
     element.classList.add('object');
     element.id = type;
-    element.src = `objects/${type}.png`;
+    element.src = `objects/${type}.svg`;
     element.style.width = `${squareSize}px`;
     element.style.height = `${squareSize}px`;
-    element.style.transform = `translate(${position.x * squareSize}px, ${position.y * squareSize}px)`
+    element.style.transform = `translate(${position.x * squareSize}px, ${position.y * squareSize}px)`;
     this.element = element;
 
     // Sets the other attributes
