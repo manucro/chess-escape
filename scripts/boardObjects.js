@@ -36,10 +36,16 @@ class BoardObject {
     }
     const collectButton = () => {
       changeBoard([2, 3], position => {
+        const prevValue = board[position.y][position.x];
         board[position.y][position.x] = 2;
         inBoardPieces.list.forEach(piece => {
           if (piece.position.x !== this.position.x || piece.position.y !== this.position.y) return;
           board[position.y][position.x] = 3;
+        });
+        if (board[position.y][position.x] === 3 || prevValue === 2) return;
+        // Checks if there's a piece in the lock position when the status changes
+        inBoardPieces.list.forEach(piece => {
+          if (piece.position.x.toString() === position.x && piece.position.y.toString() === position.y) piece.destroyPiece();
         });
       });
     }

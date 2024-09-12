@@ -53,7 +53,8 @@ class Piece {
         newPosition.x <= (board[0].length - 1) &&
         newPosition.y <= (board.length - 1)
       ) {
-        if (board[newPosition.y][newPosition.x] !== 1) return;
+        const s = board[newPosition.y][newPosition.x];
+        if (passableSquares.includes(s) || s === 6) return;
       }
       this.destroyPiece();
     }
