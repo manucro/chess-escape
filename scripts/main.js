@@ -34,6 +34,8 @@ const DEFAULT_BOARD = [
   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
+const passableSquares = [0, 3];
+const notPassableSquares = [1, 2, 5, 6];
 const PIECE_SETS = {
   MERIDA: 'merida',
   MAESTRO: 'maestro',
@@ -41,6 +43,10 @@ const PIECE_SETS = {
   TATIANA: 'tatiana',
   MPCHESS: 'mpchess'
 }
+
+const imgLock = document.createElement('img');
+imgLock.src = 'sources/keyhole-color.svg';
+const KEYHOLE_IMAGE = imgLock;
 
 // Control Objects
 const options = {
@@ -92,11 +98,19 @@ function drawBoard() {
     const row = board[i];
     for (let j in row) {
       // todo improve value checking
-      ctx.fillStyle = (row[j] === 0 || row[j] === 3) ? (squareColor === 1) ? '#f0d9b5' : '#b58863' : 'black';
+      ctx.fillStyle = (passableSquares.includes(row[j])) ? (squareColor === 1) ? '#f0d9b5' : '#b58863' : 'black';
       ctx.fillRect(squareSize * j, squareSize * i, squareSize, squareSize);
-      if (row[j] === 5 || row[j] === 6 || row[j] === 2) {
-        ctx.fillStyle = (row[j] === 5) ? 'yellow' : (row[j] === 2) ? 'red' : '#f0d9b5';
-        ctx.fillRect(squareSize * j + quarter, squareSize * i + quarter, squareSize - mid, squareSize - mid);
+      if (notPassableSquares.includes(row[j]) && row[j] !== 1) {
+        switch (row[j]) {
+          case 5:
+            ctx.drawImage(KEYHOLE_IMAGE, squareSize * j + quarter, squareSize * i + quarter, squareSize - mid, squareSize - mid);
+            break;
+          case 2:
+          case 6:
+            ctx.fillStyle = (row[j] === 2) ? 'red' : '#f0d9b5';
+            ctx.fillRect(squareSize * j + quarter, squareSize * i + quarter, squareSize - mid, squareSize - mid);
+            break;
+        }
       }
       squareColor *= -1;
     }
