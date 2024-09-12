@@ -281,11 +281,13 @@ class Screen {
     levelPieces.forEach((piece) => {
       // Checks if the piece already exists
       let existentPiece;
-      unrestartedBoardPieces.forEach((boardPiece, i) => {
-        if (boardPiece.type !== piece[0]) return;
+      for (let i = 0; i < unrestartedBoardPieces.length ; i++) {
+        const boardPiece = unrestartedBoardPieces[i];
+        if (boardPiece.type !== piece[0]) continue;
         unrestartedBoardPieces.splice(i, 1);
         existentPiece = boardPiece;
-      });
+        break;
+      }
       if (existentPiece) {
         // If it exists, move it
         if (existentPiece.blocked) {

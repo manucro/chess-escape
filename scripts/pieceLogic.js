@@ -32,6 +32,7 @@ class Piece {
     this.type = type;
     this.setPosition((defaultPos) ? defaultPos : { x: 0, y: 0 });
     this.blocked = false;
+    this.animationTimeout = null;
 
     // Appends the element to the board
     PIECES_BOX.appendChild(element);
@@ -98,6 +99,7 @@ class Piece {
 
   showMovements() {
     if (this.blocked) return;
+    this.pulsePiece();
     actualStatus = STATUS.MOVING;
     const ctx = CANVAS_MASK.getContext('2d');
     CANVAS_MASK.width = BOARD_CANVAS.width;
@@ -133,9 +135,14 @@ class Piece {
   }
 
   destroyPiece() {
-    this.element.style.opacity = '0';
-    this.blocked = true;
-    setTimeout(() => this.deletePiece(), 1000);
+    if (this.type === PIECES.KING) {
+      this.pulseBlockedPiece();
+      game.restartLevel();
+    } else {
+      this.element.style.opacity = '0';
+      this.blocked = true;
+      setTimeout(() => this.deletePiece(), 1000);
+    }
   }
 
   getPieceTraceAndDirection(prevPosition, newPosition) {
@@ -191,6 +198,24 @@ class Piece {
       case 'bottom-left': return { x: position.x - val, y: position.y + val }
       case 'bottom-right': return { x: position.x + val, y: position.y + val }
     }
+  }
+
+  pulsePiece() {
+    if (this.animationTimeout) return;
+    this.element.style.animation = '1s ease pulse';
+    this.animationTimeout = setTimeout(() => {
+      this.element.style.animation = 'none';
+      this.animationTimeout = null;
+    }, 1000);
+  }
+
+  pulseBlockedPiece() {
+    if (this.animationTimeout) return;
+    this.element.style.animation = '1.5s ease pulse-blocked';
+    this.animationTimeout = setTimeout(() => {
+      this.element.style.animation = 'none';
+      this.animationTimeout = null;
+    }, 1500);
   }
   
   deletePiece() {
