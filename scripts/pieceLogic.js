@@ -30,7 +30,7 @@ class Piece {
 
     // Sets the other attributes
     this.type = type;
-    this.setPosition((defaultPos) ? defaultPos : { x: 0, y: 0 });
+    this.setPosition((defaultPos) ? defaultPos : { x: 0, y: 0 }, 'default');
     this.blocked = false;
     this.animationTimeout = null;
 
@@ -42,6 +42,7 @@ class Piece {
     const prevPosition = this.position;
     this.position = newPosition;
     this.element.style.transform = `translate(${newPosition.x * squareSize}px, ${newPosition.y * squareSize}px)`;
+    if (options.soundEffects && movementType == 'normal') AUDIO.move.play();
     actualStatus = STATUS.IDLE;
     // Checks if the level has been beaten
     const finishPos = actualLevelData.finishPosition;
@@ -143,6 +144,7 @@ class Piece {
       this.blocked = true;
       setTimeout(() => this.deletePiece(), 1000);
     }
+    if (options.soundEffects) AUDIO.destroy.play();
   }
 
   getPieceTraceAndDirection(prevPosition, newPosition) {

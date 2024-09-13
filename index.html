@@ -4,13 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chess Escape</title>
+    <!-- CSS and font -->
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap" rel="stylesheet">
+    <!-- SFX -->
+    <audio id="SFXclick" class="soundEffect" src="sfx/click.mp3" preload="auto"></audio>
+    <audio id="SFXmove" class="soundEffect" src="sfx/move.mp3" preload="auto"></audio>
+    <audio id="SFXdestroy" class="soundEffect" src="sfx/destroy.mp3" preload="auto"></audio>
+    <audio id="SFXlock" class="soundEffect" src="sfx/lock.mp3" preload="auto"></audio>
+    <audio id="SFXbutton" class="soundEffect" src="sfx/button.mp3" preload="auto"></audio>
+    <audio id="SFXsuccess" class="soundEffect" src="sfx/success.mp3" preload="auto"></audio>
+    <!-- Music -->
+    <audio id="music" class="soundEffect" src="music/theme.mp3" preload="auto" loop></audio>
 </head>
 <body>
-  <div id="app"></div>
+  <div id="app">
+    <div id="loading-div">
+      <div id="ld-part-1" class="loading-div-part">
+        <a href="https://freesound.org/people/grunz/sounds/109662/">success.wav</a> by <a href="https://freesound.org/people/grunz/">grunz</a> | License: <a href="http://creativecommons.org/licenses/by/3.0/">Attribution 3.0</a>
+      </div>
+      <div id="ld-part-2" class="loading-div-part"></div>
+      <button type="button" id="start-button">Play</button>
+    </div>
+  </div>
   <script src='scripts/main.js'></script>
   <script src='scripts/pieceLogic.js'></script>
   <script src='scripts/boardObjects.js'></script>

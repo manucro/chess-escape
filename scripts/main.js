@@ -1,8 +1,6 @@
 "use strict";
 
 // Constants
-let BOARD_ELEMENT, BOARD_CANVAS, CANVAS_MASK, MOUSE_CANVAS, OBJECTS_BOX, PIECES_BOX;
-let squareSize = 58;
 const LEVELS_PER_PAGE = 24;
 const PIECES = {
   PAWN: 'pawn',
@@ -43,16 +41,35 @@ const PIECE_SETS = {
   TATIANA: 'tatiana',
   MPCHESS: 'mpchess'
 }
-
 const imgLock = document.createElement('img');
 imgLock.src = 'sources/keyhole-color.svg';
 const KEYHOLE_IMAGE = imgLock;
+const AUDIO = {
+  click: document.getElementById('SFXclick'),
+  move: document.getElementById('SFXmove'),
+  destroy: document.getElementById('SFXdestroy'),
+  lock: document.getElementById('SFXlock'),
+  button: document.getElementById('SFXbutton'),
+  success: document.getElementById('SFXsuccess')
+}
+const MUSIC = document.getElementById('music');
+
+// Variables
+let actualLevel = 0;
+let actualLevelData = {};
+let actualLevelSelectPage = 0;
+let movements = 0;
+let actualStatus = STATUS.IDLE;
+let finishPosition = { x: 0, y: 0 }
+let BOARD_ELEMENT, BOARD_CANVAS, CANVAS_MASK, MOUSE_CANVAS, OBJECTS_BOX, PIECES_BOX;
+let squareSize = 58;
 
 // Control Objects
 const options = {
   pieceSet: PIECE_SETS.MERIDA,
   pieceAnimationSpeed: 500,
   music: true,
+  soundEffects: true,
   optimizedMode: false
 }
 // (it may seem more efficient to create these two objects with a class, but I did it this way to make the code easier to understand)
@@ -71,15 +88,21 @@ const inBoardObjects = {
   }
 }
 
-// Control Variables
-let actualLevel = 0;
-let actualLevelData = {};
-let actualLevelSelectPage = 0;
-let movements = 0;
-let actualStatus = STATUS.IDLE;
-let finishPosition = { x: 0, y: 0 }
-
 // GENERAL FUNCTIONS
+// Starts the game
+function gameStart() {
+  game = new Screen(SCREENS.TITLE);
+  const firstPart = document.getElementById('ld-part-1');
+  firstPart.style.animation = '1s ease forwards scrollUp';
+  const secondPart = document.getElementById('ld-part-2');
+  secondPart.style.animation = '1s ease forwards scrollDown';
+  setTimeout(() => {
+    document.getElementById('loading-div').remove();
+  }, 1000);
+  this.remove();
+}
+const startButton = document.getElementById('start-button');
+startButton.addEventListener('click', gameStart);
 // Create the board
 function drawBoard() {
   // Set the board dimensions

@@ -32,6 +32,7 @@ class Screen {
     this.boardEvents = [];
 
     APP.appendChild(this.screenElements[screenType]);
+    MUSIC.play();
   }
 
   getCreateElementFunction() {
@@ -56,6 +57,7 @@ class Screen {
       const titleButton = create('button', 'title-button', buttonTitle);
       titleButton.type = 'button';
       titleButton.addEventListener('click', () => {
+        if (options.soundEffects) AUDIO.click.play();
         this.changeScreen((buttonTitle === 'Play') ? SCREENS.LEVEL_SELECT : SCREENS.OPTIONS);
       });
       titleButtons.appendChild(titleButton);
@@ -91,7 +93,10 @@ class Screen {
       }
     }
     const optionsBox = create('div', 'options-box');
-    const optionsBackButton = this.createBackButton(() => this.changeScreen(SCREENS.TITLE));
+    const optionsBackButton = this.createBackButton(() => {
+      if (options.soundEffects) AUDIO.click.play();
+      this.changeScreen(SCREENS.TITLE);
+    });
     optionsBox.appendChild(optionsBackButton);
     const optionsTitle = create('h4', 'options-title', 'Options');
     const optionsElement = create('div', 'options');
@@ -105,6 +110,7 @@ class Screen {
         optionBox.setAttribute('data-option-value', box);
         optionBox.appendChild(getOptionBoxInnerElement(box));
         optionBox.addEventListener('click', () => {
+          if (options.soundEffects) AUDIO.click.play();
           options[Object.keys(options)[i]] = box;
           this.updateOptions();
         });
@@ -123,7 +129,10 @@ class Screen {
     const create = this.getCreateElementFunction();
     const levelSelect = create('div', 'level-select')
     const levelSelectBox = create('div', 'level-select-box');
-    const levelSelectBackButton = this.createBackButton(() => this.changeScreen(SCREENS.TITLE));
+    const levelSelectBackButton = this.createBackButton(() => {
+      if (options.soundEffects) AUDIO.click.play();
+      this.changeScreen(SCREENS.TITLE);
+    });
     const levelKeys = Object.keys(LEVELS);
     
     const prevPageButtton = create('button', 'change-page-button');
@@ -133,6 +142,7 @@ class Screen {
     prevPageButtton.type = 'button';
     if (actualLevelSelectPage <= 0) prevPageButtton.classList.add('page-button-blocked');
     else prevPageButtton.addEventListener('click', () => {
+      if (options.soundEffects) AUDIO.click.play();
       actualLevelSelectPage--;
       this.screenElements[SCREENS.LEVEL_SELECT].remove();
       const newLevelSelect = this.createLevelSelect();
@@ -151,6 +161,7 @@ class Screen {
       levelElement.innerText = numberIndex + 1;
       levelElement.addEventListener('click', () => {
         if (!LEVELS[levelName].locked) {
+          if (options.soundEffects) AUDIO.click.play();
           this.changeScreen(SCREENS.LEVEL);
           this.startLevel(levelName);
         }
@@ -183,6 +194,7 @@ class Screen {
     const create = this.getCreateElementFunction();
     const levelElement = create('div', 'level-screen');
     const levelBackButton = this.createBackButton(() => {
+      if (options.soundEffects) AUDIO.click.play();
       this.cleanLevelValues();
       this.changeScreen(SCREENS.LEVEL_SELECT);
       document.removeEventListener('click', canvasMousePointer);
@@ -232,6 +244,7 @@ class Screen {
     buttons.forEach((button, i) => {
       const modalButton = create('button', 'modal-button', button);
       modalButton.type = 'button';
+      modalButton.addEventListener('click', () => { if (options.soundEffects) AUDIO.click.play(); } );
       modalButton.addEventListener('click', actions[i]);
       modalButtons.appendChild(modalButton);
     });
@@ -274,6 +287,7 @@ class Screen {
   }
 
   restartLevel() {
+    if (options.soundEffects) AUDIO.click.play();
     // Reset the pieces
     const levelPieces = LEVELS[actualLevelData.levelKey].pieces;
     const boardPieces = inBoardPieces.list;
@@ -350,12 +364,7 @@ class Screen {
   }
 
   createBackButton(func) {
-    function create(type, className, content = '') {
-      const el = document.createElement(type);
-      el.classList.add(className);
-      el.innerText = content;
-      return el;
-    }
+    const create = this.getCreateElementFunction();
     const backButton = create('button', 'back-button');
     backButton.type = 'button';
     backButton.addEventListener('click', func);
@@ -411,6 +420,7 @@ class Screen {
   }
 
   winLevel() {
+    if (options.soundEffects) AUDIO.success.play();
     const levelKeys = Object.keys(LEVELS);
     if (actualLevel + 1 === actualLevelData.levelNumber) {
       actualLevel++;
@@ -442,4 +452,4 @@ class Screen {
   }
 }
 
-const game = new Screen(SCREENS.TITLE);
+let game;
