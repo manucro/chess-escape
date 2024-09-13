@@ -17,7 +17,9 @@ const LEVELS = {
     'pieces': [
       [PIECES.ROOK, { x: 1, y: 5 }]
     ],
-    'objects': [],
+    'objects': [
+      [OBJECTS.STAR, { x: 1, y: 2 }]
+    ],
     'finishPosition': { x: 6, y: 1 },
     'locked': false
   },
@@ -37,7 +39,9 @@ const LEVELS = {
     'pieces': [
       [PIECES.BISHOP, { x: 7, y: 5 }]
     ],
-    'objects': [],
+    'objects': [
+      [OBJECTS.STAR, { x: 2, y: 2 }]
+    ],
     'finishPosition': { x: 7, y: 3 },
     'locked': true
   },
@@ -56,7 +60,9 @@ const LEVELS = {
       [PIECES.ROOK, { x: 1, y: 1 }],
       [PIECES.BISHOP, { x: 3, y: 1 }]
     ],
-    'objects': [],
+    'objects': [
+      [OBJECTS.STAR, { x: 2, y: 4 }]
+    ],
     'finishPosition': { x: 1, y: 4 },
     'locked': true
   },
@@ -66,10 +72,10 @@ const LEVELS = {
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
       [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 1, 1, 0, 0, 0, 1],
-      [1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 1, 1, 0, 1, 1, 1, 1, 1, 1],
+      [1, 0, 0, 0, 1, 1, 0, 0, 1, 1],
+      [1, 1, 1, 1, 1, 0, 1, 1, 0, 1],
+      [1, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+      [1, 1, 1, 0, 1, 1, 1, 1, 0, 1],
       [1, 1, 0, 1, 1, 1, 1, 1, 1, 1],
       [1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
@@ -78,7 +84,9 @@ const LEVELS = {
       [PIECES.BISHOP, { x: 1, y: 8 }],
       [PIECES.ROOK, { x: 1, y: 5 }]
     ],
-    'objects': [],
+    'objects': [
+      [OBJECTS.STAR, { x: 8, y: 6 }]
+    ],
     'finishPosition': { x: 2, y: 2 },
     'locked': true
   },
@@ -87,8 +95,8 @@ const LEVELS = {
     'board': [
       [1, 1, 1, 1, 1, 1, 1, 1],
       [1, 0, 0, 0, 1, 1, 1, 1],
-      [1, 1, 1, 5, 1, 1, 1, 1],
-      [1, 1, 1, 0, 1, 1, 1, 1],
+      [1, 0, 1, 5, 1, 1, 1, 1],
+      [1, 5, 1, 0, 1, 1, 1, 1],
       [1, 0, 0, 0, 0, 0, 0, 1],
       [1, 1, 1, 0, 1, 1, 0, 1],
       [1, 1, 1, 0, 1, 1, 0, 1],
@@ -100,7 +108,8 @@ const LEVELS = {
       [PIECES.ROOK, { x: 1, y: 7 }]
     ],
     'objects': [
-      [OBJECTS.KEY, { x: 6, y: 7 }]
+      [OBJECTS.KEY, { x: 6, y: 7 }],
+      [OBJECTS.STAR, { x: 1, y: 2 }]
     ],
     'finishPosition': { x: 1, y: 1 },
     'locked': true
@@ -108,15 +117,16 @@ const LEVELS = {
   'SIX': {
     'movements': 6,
     'board': [
-      [1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 1, 1, 0, 1, 1, 0, 1, 1],
-      [1, 1, 0, 1, 1, 0, 1, 1, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 1, 1, 0, 1, 1, 1, 1, 1],
-      [1, 1, 5, 1, 1, 1, 1, 1, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 1, 1, 1, 1, 1, 1, 1, 1]
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      [1, 1, 1, 0, 1, 1, 1, 0, 1, 1],
+      [1, 1, 0, 1, 1, 1, 0, 1, 1, 1],
+      [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      [1, 1, 1, 1, 5, 1, 1, 1, 1, 1],
+      [1, 1, 1, 0, 1, 0, 1, 1, 1, 1],
+      [1, 1, 0, 1, 1, 1, 0, 1, 1, 1],
+      [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
     'pieces': [
       [PIECES.ROOK, { x: 1, y: 1 }],
@@ -124,9 +134,10 @@ const LEVELS = {
       [PIECES.BISHOP, { x: 4, y: 4 }]
     ],
     'objects': [
-      [OBJECTS.KEY, { x: 3, y: 2 }]
+      [OBJECTS.KEY, { x: 3, y: 2 }],
+      [OBJECTS.STAR, { x: 5, y: 6 }]
     ],
-    'finishPosition': { x: 7, y: 7 },
+    'finishPosition': { x: 8, y: 8 },
     'locked': true
   },
   'SEVEN': {
@@ -146,25 +157,32 @@ const LEVELS = {
       [PIECES.QUEEN, { x: 1, y: 1 }]
     ],
     'objects': [
-      [OBJECTS.KEY, { x: 5, y: 3 }]
+      [OBJECTS.KEY, { x: 5, y: 3 }],
+      [OBJECTS.STAR, { x: 1, y: 7 }]
     ],
     'finishPosition': { x: 7, y: 1 },
     'locked': true
   },
   'EIGHT': {
-    'movements': 4,
+    'movements': 3,
     'board': [
       [1, 1, 1, 1, 1, 1, 1, 1],
       [1, 1, 0, 0, 1, 0, 0, 1],
       [1, 1, 0, 0, 1, 0, 0, 1],
       [1, 0, 0, 0, 6, 0, 0, 1],
+      [1, 1, 6, 1, 1, 0, 0, 1],
+      [1, 1, 0, 0, 1, 0, 0, 1],
+      [1, 1, 0, 0, 0, 1, 0, 1],
       [1, 1, 1, 1, 1, 1, 1, 1]
     ],
     'pieces': [
       [PIECES.ROOK, { x: 2, y: 1 }],
-      [PIECES.ROOK, { x: 1, y: 3 }]
+      [PIECES.ROOK, { x: 1, y: 3 }],
+      [PIECES.BISHOP, { x: 3, y: 2 }]
     ],
-    'objects': [],
+    'objects': [
+      [OBJECTS.STAR, { x: 4, y: 6 }]
+    ],
     'finishPosition': { x: 6, y: 1 },
     'locked': true
   },
@@ -172,12 +190,12 @@ const LEVELS = {
     'movements': 9,
     'board': [
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-      [1, 1, 1, 1, 1, 6, 1, 1, 1, 1],
-      [1, 1, 1, 0, 0, 0, 0, 1, 1, 1],
-      [1, 1, 1, 0, 0, 0, 0, 0, 0, 1],
-      [1, 1, 1, 0, 0, 0, 0, 0, 0, 1],
+      [1, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+      [1, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+      [1, 6, 1, 1, 1, 6, 1, 1, 1, 1],
+      [1, 0, 1, 0, 0, 0, 0, 1, 1, 1],
+      [1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+      [1, 0, 5, 0, 0, 0, 0, 0, 0, 1],
       [1, 1, 1, 1, 1, 1, 1, 6, 1, 1],
       [1, 1, 1, 0, 0, 0, 0, 0, 0, 1],
       [1, 1, 1, 0, 0, 0, 0, 0, 0, 1],
@@ -188,7 +206,10 @@ const LEVELS = {
       [PIECES.BISHOP, { x: 3, y: 2 }],
       [PIECES.QUEEN, { x: 8, y: 5 }]
     ],
-    'objects': [],
+    'objects': [
+      [OBJECTS.STAR, { x: 1, y: 5 }],
+      [OBJECTS.KEY, { x: 1, y: 6 }]
+    ],
     'finishPosition': { x: 5, y: 9 },
     'locked': true
   },
@@ -214,34 +235,38 @@ const LEVELS = {
       [PIECES.ROOK, { x: 3, y: 6 }]
     ],
     'objects': [
-      [OBJECTS.KEY, { x: 8, y: 4 }]
+      [OBJECTS.KEY, { x: 8, y: 4 }],
+      [OBJECTS.STAR, { x: 0, y: 0 }]
     ],
     'finishPosition': { x: 1, y: 9 },
     'locked': true
   },
   'ELEVEN': {
-    'movements': 11,
+    'movements': 8,
     'board': [
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
       [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 6, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 0, 5, 0, 0, 0, 1],
       [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-      [1, 0, 0, 0, 6, 1, 1, 0, 0, 0, 1],
-      [1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1],
-      [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 6, 0, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 1, 1, 0, 1, 6, 1],
+      [1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1],
+      [1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
+      [1, 0, 0, 0, 0, 0, 6, 0, 1, 0, 1],
+      [1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
     'pieces': [
       [PIECES.ROOK, { x: 1, y: 8 }],
-      [PIECES.ROOK, { x: 3, y: 9 }],
+      [PIECES.QUEEN, { x: 3, y: 9 }],
       [PIECES.QUEEN, { x: 3, y: 7 }],
-      [PIECES.QUEEN, { x: 2, y: 2 }]
+      [PIECES.BISHOP, { x: 1, y: 2 }]
     ],
-    'objects': [],
-    'finishPosition': { x: 5, y: 5 },
+    'objects': [
+      [OBJECTS.KEY, { x: 2, y: 4 }],
+      [OBJECTS.STAR, { x: 3, y: 6 }]
+    ],
+    'finishPosition': { x: 9, y: 9 },
     'locked': true
   },
   'TWELVE': {
@@ -258,7 +283,9 @@ const LEVELS = {
     'pieces': [
       [PIECES.KING, { x: 1, y: 2 }]
     ],
-    'objects': [],
+    'objects': [
+      [OBJECTS.STAR, { x: 2, y: 1 }]
+    ],
     'finishPosition': { x: 5, y: 1 },
     'locked': true
   },
@@ -280,7 +307,9 @@ const LEVELS = {
       [PIECES.ROOK, { x: 1, y: 6 }],
       [PIECES.KING, { x: 2, y: 1 }]
     ],
-    'objects': [],
+    'objects': [
+      [OBJECTS.STAR, { x: 7, y: 5 }]
+    ],
     'finishPosition': { x: 7, y: 7 },
     'locked': true
   },
@@ -309,7 +338,7 @@ const LEVELS = {
     'locked': true
   },
   'FIFTEEN': {
-    'movements': 7,
+    'movements': 5,
     'board': [
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       [1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1],
@@ -329,7 +358,9 @@ const LEVELS = {
       [PIECES.KING, { x: 3, y: 8 }],
       [PIECES.ROOK, { x: 9, y: 9 }]
     ],
-    'objects': [],
+    'objects': [
+      [OBJECTS.STAR, { x: 8, y: 2 }]
+    ],
     'finishPosition': { x: 6, y: 2 },
     'locked': true
   },
@@ -343,7 +374,7 @@ const LEVELS = {
       [1, 1, 1, 1, 1, 1, 0, 0, 1],
       [1, 0, 0, 0, 2, 0, 0, 0, 1],
       [1, 1, 1, 1, 1, 1, 6, 6, 1],
-      [1, 1, 1, 1, 1, 1, 0, 0, 1],
+      [1, 0, 0, 0, 0, 2, 0, 0, 1],
       [1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
     'pieces': [
@@ -351,7 +382,8 @@ const LEVELS = {
       [PIECES.ROOK, { x: 1, y: 5 }]
     ],
     'objects': [
-      [OBJECTS.BUTTON, { x: 4, y: 2 }]
+      [OBJECTS.BUTTON, { x: 4, y: 2 }],
+      [OBJECTS.STAR, { x: 1, y: 7 }]
     ],
     'finishPosition': { x: 7, y: 7 },
     'locked': true
@@ -375,7 +407,8 @@ const LEVELS = {
       [PIECES.QUEEN, { x: 1, y: 7 }]
     ],
     'objects': [
-      [OBJECTS.BUTTON, { x: 3, y: 3 }]
+      [OBJECTS.BUTTON, { x: 3, y: 3 }],
+      [OBJECTS.STAR, { x: 5, y: 4 }]
     ],
     'finishPosition': { x: 7, y: 7 },
     'locked': true
@@ -384,7 +417,7 @@ const LEVELS = {
     'movements': 8,
     'board': [
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1],
+      [1, 0, 1, 1, 1, 0, 2, 0, 2, 0, 1],
       [1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1],
       [1, 1, 1, 2, 1, 0, 1, 0, 1, 0, 1],
       [1, 1, 1, 1, 6, 0, 6, 1, 1, 0, 1],
@@ -400,7 +433,8 @@ const LEVELS = {
       [PIECES.QUEEN, { x: 5, y: 1 }]
     ],
     'objects': [
-      [OBJECTS.BUTTON, { x: 9, y: 5 }]
+      [OBJECTS.BUTTON, { x: 9, y: 5 }],
+      [OBJECTS.STAR, { x: 7, y: 1 }]
     ],
     'finishPosition': { x: 1, y: 1 },
     'locked': true
@@ -450,7 +484,9 @@ const LEVELS = {
       [PIECES.PAWN, { x: 4, y: 8 }],
       [PIECES.QUEEN, { x: 2, y: 4 }]
     ],
-    'objects': [],
+    'objects': [
+      [OBJECTS.STAR, { x: 9, y: 1 }]
+    ],
     'finishPosition': { x: 1, y: 1 },
     'locked': true
   },
@@ -458,10 +494,10 @@ const LEVELS = {
     'movements': 10,
     'board': [
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [1, 0, 5, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 5, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 5, 0, 0, 0, 0, 0, 0, 1],
-      [1, 0, 5, 0, 0, 0, 0, 0, 0, 1],
+      [1, 0, 5, 0, 0, 0, 0, 0, 1, 1],
+      [1, 0, 5, 0, 0, 0, 0, 0, 1, 1],
+      [1, 0, 5, 0, 0, 0, 0, 0, 1, 1],
+      [1, 0, 5, 0, 0, 0, 0, 0, 1, 1],
       [1, 1, 1, 1, 1, 1, 6, 1, 1, 1],
       [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
       [1, 0, 1, 6, 1, 1, 6, 1, 0, 1],
@@ -471,23 +507,24 @@ const LEVELS = {
     'pieces': [
       [PIECES.PAWN, { x: 3, y: 8 }],
       [PIECES.ROOK, { x: 1, y: 6 }],
-      [PIECES.BISHOP, { x: 6, y: 2}]
+      [PIECES.BISHOP, { x: 6, y: 2 }]
     ],
     'objects': [
-      [OBJECTS.KEY, { x: 3, y: 4}]
+      [OBJECTS.KEY, { x: 3, y: 4 }],
+      [OBJECTS.STAR, { x: 9, y: 2 }]
     ],
     'finishPosition': { x: 1, y: 1 },
     'locked': true
   },
   'TWENTYTWO': {
-    'movements': 12,
+    'movements': 8,
     'board': [
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
       [1, 1, 1, 1, 1, 6, 1, 1, 1, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1],
+      [1, 0, 0, 0, 0, 0, 0, 1, 1, 2, 1],
       [1, 0, 0, 0, 0, 0, 0, 0, 1, 6, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 1, 6, 1],
+      [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
       [1, 0, 0, 0, 0, 0, 0, 0, 1, 6, 1],
       [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
       [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -501,13 +538,14 @@ const LEVELS = {
       [PIECES.ROOK, { x: 3, y: 9 }]
     ],
     'objects': [
-      [OBJECTS.BUTTON, { x: 2, y: 1 }]
+      [OBJECTS.BUTTON, { x: 2, y: 1 }],
+      [OBJECTS.STAR, { x: 9, y: 5 }]
     ],
     'finishPosition': { x: 9, y: 1 },
     'locked': true
   },
   'TWENTYTHREE': {
-    'movements': 14,
+    'movements': 7,
     'board': [
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       [1, 0, 0, 0, 0, 0, 1, 0, 5, 0, 1],
@@ -530,7 +568,8 @@ const LEVELS = {
     ],
     'objects': [
       [OBJECTS.BUTTON, { x: 4, y: 5 }],
-      [OBJECTS.KEY, { x: 3, y: 9 }]
+      [OBJECTS.KEY, { x: 3, y: 9 }],
+      [OBJECTS.STAR, { x: 3, y: 8 }]
     ],
     'finishPosition': { x: 9, y: 1 },
     'locked': true
@@ -559,7 +598,8 @@ const LEVELS = {
     ],
     'objects': [
       [OBJECTS.BUTTON, { x: 5, y: 1 }],
-      [OBJECTS.KEY, { x: 9, y: 4 }]
+      [OBJECTS.KEY, { x: 9, y: 4 }],
+      [OBJECTS.STAR, { x: 10, y: 4 }]
     ],
     'finishPosition': { x: 8, y: 1 },
     'locked': true
@@ -607,7 +647,8 @@ const LEVELS = {
       [PIECES.KNIGHT, { x: 1, y: 7 }]
     ],
     'objects': [
-      [OBJECTS.KEY, { x: 3, y: 2 }]
+      [OBJECTS.KEY, { x: 3, y: 2 }],
+      [OBJECTS.STAR, { x: 7, y: 6 }]
     ],
     'finishPosition': { x: 7, y: 3 },
     'locked': true
@@ -630,7 +671,9 @@ const LEVELS = {
       [PIECES.KNIGHT, { x: 1, y: 8 }],
       [PIECES.ROOK, { x: 5, y: 6 }]
     ],
-    'objects': [],
+    'objects': [
+      [OBJECTS.STAR, { x: 4, y: 8 }]
+    ],
     'finishPosition': { x: 8, y: 8 },
     'locked': true
   },
@@ -674,7 +717,9 @@ const LEVELS = {
       [PIECES.ROOK, { x: 2, y: 7 }],
       [PIECES.KING, { x: 6, y: 7 }]
     ],
-    'objects': [],
+    'objects': [
+      [OBJECTS.STAR, { x: 7, y: 1 }]
+    ],
     'finishPosition': { x: 2, y: 1 },
     'locked': true
   },

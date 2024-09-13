@@ -12,7 +12,8 @@ const PIECES = {
 }
 const OBJECTS = {
   KEY: 'key',
-  BUTTON: 'button'
+  BUTTON: 'button',
+  STAR: 'star'
 }
 const STATUS = {
   IDLE: 'idle',
