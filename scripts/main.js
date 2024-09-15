@@ -2,6 +2,7 @@
 
 // Constants
 const LEVELS_PER_PAGE = 24;
+const TRANSITION_TIME = 250;
 const PIECES = {
   PAWN: 'pawn',
   ROOK: 'rook',

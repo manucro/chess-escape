@@ -1048,4 +1048,4 @@ function createLevel(level, index) {
 const keys = Object.keys(LEVELS);
 keys.forEach(key => {
   LEVELS[key].locked = false;
-})
+});

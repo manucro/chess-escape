@@ -162,8 +162,7 @@ class Screen {
       levelElement.addEventListener('click', () => {
         if (!LEVELS[levelName].locked) {
           if (options.soundEffects) AUDIO.click.play();
-          this.changeScreen(SCREENS.LEVEL);
-          this.startLevel(levelName);
+          this.changeScreen(SCREENS.LEVEL, () => this.startLevel(levelName));
         }
       });
       levelSelectBox.appendChild(levelElement);
@@ -261,12 +260,28 @@ class Screen {
     return modal;
   }
 
-  changeScreen(newScreen) {
-    this.screenElements[this.type].remove();
-    this.type = newScreen;
-    APP.appendChild(this.screenElements[newScreen]);
-    if (newScreen === SCREENS.LEVEL_SELECT) this.updateLevelSelect();
-    if (newScreen === SCREENS.OPTIONS) this.updateOptions();
+  changeScreen(newScreen, extraAction = null) {
+    const change = () => {
+      this.screenElements[this.type].remove();
+      this.type = newScreen;
+      APP.appendChild(this.screenElements[newScreen]);
+      if (extraAction) extraAction();
+      if (newScreen === SCREENS.LEVEL_SELECT) this.updateLevelSelect();
+      if (newScreen === SCREENS.OPTIONS) this.updateOptions();
+    }
+    this.transitionIfNotOptimized(change);
+  }
+  
+  transitionIfNotOptimized(action) {
+    if (options.optimizedMode) action();
+    else {
+      APP.style.animation = `${TRANSITION_TIME / 1000}s ease forwards fade-out`;
+      setTimeout(() => {
+        action();
+        APP.style.animation = `${TRANSITION_TIME / 1000}s ease forwards fade-in`;
+        setTimeout(() => APP.style.animation = 'none', TRANSITION_TIME);
+      }, TRANSITION_TIME);
+    }
   }
 
   resetLevelReferences() {
@@ -434,18 +449,22 @@ class Screen {
       ],
       ['Level Select', 'Retry', 'Next'],
       [() => {
-        this.cleanLevelValues();
-        this.changeScreen(SCREENS.LEVEL_SELECT);
-        document.removeEventListener('click', canvasMousePointer);
-        document.querySelector('.modal').remove();
+        this.transitionIfNotOptimized(() => {
+          this.cleanLevelValues();
+          this.changeScreen(SCREENS.LEVEL_SELECT);
+          document.removeEventListener('click', canvasMousePointer);
+          document.querySelector('.modal').remove();
+        });
       }, () => {
         this.cleanLevelValues();
         this.startLevel(actualLevelData.levelKey);
         document.querySelector('.modal').remove();
       }, () => {
-        this.cleanLevelValues();
-        this.startLevel(levelKeys[actualLevel]);
-        document.querySelector('.modal').remove();
+        this.transitionIfNotOptimized(() => {
+          this.cleanLevelValues();
+          this.startLevel(levelKeys[actualLevel]);
+          document.querySelector('.modal').remove();
+        });
       }]
     );
     APP.appendChild(modal);
