@@ -362,10 +362,13 @@ class Screen {
     let modalValues;
     switch (level) {
       default: modalValues = null; break;
-      case 'THREE': modalValues = ['You can push pieces by moving one towards another', '1']; break;
-      case 'EIGHT': modalValues = ["You can't move over platforms, but you can push pieces onto them", '2']; break;
-      case 'ELEVEN': modalValues = ['You can push two pieces at the same time', '3']; break;
-      case 'TWENTY': modalValues = ['Pawns can pass through platforms', '4']; break;
+      case 'ONE': modalValues = ['Move pieces by clicking them. Deselect with right click', '1']; break;
+      case 'THREE': modalValues = ['You can push pieces by moving one towards another', '2']; break;
+      case 'EIGHT': modalValues = ["You can't move over platforms, but you can push pieces onto them", '3']; break;
+      case 'ELEVEN': modalValues = ['You can push two pieces at the same time', '4']; break;
+      case 'THIRTEEN': modalValues = ["The king can't die. If he does, then the level resets", '5']; break;
+      case 'TWENTY': modalValues = ['Pawns can pass through platforms', '6']; break;
+      case 'TWENTYEIGHT': modalValues = ['Knights can crush other pieces. Be careful', '7']; break;
     }
     if (modalValues) {
       const modal = this.createModal(

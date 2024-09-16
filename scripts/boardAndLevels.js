@@ -798,7 +798,7 @@ const LEVELS = {
     'locked': true
   },
   'THIRTYTHREE': {
-    'movements': 8,
+    'movements': 7,
     'board': [
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -840,7 +840,9 @@ const LEVELS = {
       [PIECES.QUEEN, { x: 3, y: 1 }],
       [PIECES.QUEEN, { x: 1, y: 4 }],
     ],
-    'objects': [],
+    'objects': [
+      [OBJECTS.STAR, { x: 9, y: 9 }]
+    ],
     'finishPosition': { x: 5, y: 9 },
     'locked': true
   },
@@ -867,7 +869,8 @@ const LEVELS = {
       [PIECES.KING, {x: 7, y: 6 }]
     ],
     'objects': [
-      [OBJECTS.BUTTON, { x: 1, y: 1 }]
+      [OBJECTS.BUTTON, { x: 1, y: 1 }],
+      [OBJECTS.STAR, { x: 5, y: 1 }]
     ],
     'finishPosition': { x: 9, y: 1 },
     'locked': true
@@ -892,7 +895,9 @@ const LEVELS = {
       [PIECES.QUEEN, { x: 9, y: 1 }],
       [PIECES.BISHOP, { x: 9, y: 2 }]
     ],
-    'objects': [],
+    'objects': [
+      [OBJECTS.STAR, { x: 6, y: 4 }]
+    ],
     'finishPosition': { x: 2, y: 8 },
     'locked': true
   },
@@ -922,9 +927,12 @@ const LEVELS = {
       [PIECES.KING, { x: 8, y: 8 }],
       [PIECES.KING, { x: 5, y: 9 }],
       [PIECES.KING, { x: 4, y: 1 }],
-      [PIECES.KING, { x: 4, y: 3 }]
+      [PIECES.KING, { x: 4, y: 3 }],
+      [PIECES.ROOK, { x: 9, y: 4 }]
     ],
-    'objects': [],
+    'objects': [
+      [OBJECTS.STAR, { x: 9, y: 3 }]
+    ],
     'finishPosition': { x: 8, y: 1 },
     'locked': true
   },
@@ -949,7 +957,9 @@ const LEVELS = {
       [PIECES.PAWN, { x: 6, y: 8 }],
       [PIECES.QUEEN, { x: 4, y: 8 }]
     ],
-    'objects': [],
+    'objects': [
+      [OBJECTS.STAR, { x: 7, y: 2 }]
+    ],
     'finishPosition': { x: 8, y: 1 },
     'locked': true
   },
@@ -964,15 +974,17 @@ const LEVELS = {
       [1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1],
       [1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1],
       [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1],
+      [1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1],
       [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1],
-      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
     'pieces': [
       [PIECES.KNIGHT, { x: 3, y: 3 }],
       [PIECES.ROOK, { x: 6, y: 1 }]
     ],
-    'objects': [],
+    'objects': [
+      [OBJECTS.STAR, { x: 7, y: 8 }]
+    ],
     'finishPosition': { x: 7, y: 5 },
     'locked': true
   },
@@ -980,9 +992,9 @@ const LEVELS = {
     'movements': 10,
     'board': [
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1],
-      [1, 0, 1, 1, 1, 1, 1, 1, 1, 6, 1],
-      [1, 0, 1, 1, 1, 1, 1, 1, 1, 6, 1],
+      [1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1],
+      [1, 1, 0, 1, 1, 1, 1, 1, 1, 6, 1],
+      [1, 1, 0, 1, 1, 1, 1, 1, 1, 6, 1],
       [1, 0, 0, 0, 5, 5, 5, 0, 0, 0, 1],
       [1, 0, 0, 0, 5, 0, 5, 0, 0, 0, 1],
       [1, 6, 6, 6, 5, 5, 5, 6, 6, 6, 1],
@@ -998,34 +1010,34 @@ const LEVELS = {
       [PIECES.PAWN, { x: 8, y: 8 }]
     ],
     'objects': [
-      [OBJECTS.KEY, { x: 3, y: 1 }]
+      [OBJECTS.KEY, { x: 4, y: 1 }],
+      [OBJECTS.STAR, { x: 6, y: 1 }]
     ],
     'finishPosition': { x: 7, y: 1 },
     'locked': true
+  },
+  'FORTYONE': {
+    'movements': 8,
+    'board': [
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      [1, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1],
+      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+    ],
+    'pieces': [
+      [PIECES.PAWN, { x: 5, y: 9 }],
+    ],
+    'objects': [],
+    'finishPosition': { x: 0, y: 0 },
+    'locked': true
   }
-  // 'TWENTYSIX': {
-  //   'movements': 8,
-  //   'board': [
-  //     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  //     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  //     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  //     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  //     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  //     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  //     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  //     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  //     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  //     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  //     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-  //   ],
-  //   'pieces': [
-  //     [PIECES.KNIGHT, { x: 3, y: 5 }],
-  //     [PIECES.ROOK, { x: 3, y: 9 }]
-  //   ],
-  //   'objects': [],
-  //   'finishPosition': { x: 0, y: 0 },
-  //   'locked': true
-  // }
 }
 
 function createLevel(level, index) {

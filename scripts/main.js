@@ -166,7 +166,7 @@ const canvasMousePointer = (ev) => {
   MOUSE_CANVAS.width = BOARD_CANVAS.width;
   MOUSE_CANVAS.height = BOARD_CANVAS.height;
   const ctx = MOUSE_CANVAS.getContext('2d');
-  ctx.fillStyle = 'black';
+  ctx.fillStyle = 'rgba(0, 0, 0, 50%)';
   const border = squareSize / 6;
   const midBorder = border / 2;
   ctx.fillRect(xPos + midBorder, yPos + midBorder, squareSize - border, squareSize - border);
