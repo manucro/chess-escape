@@ -2,7 +2,7 @@
 
 // CONSTANTS
 const GAME_TITLE = 'Chess Escape';
-const CREDITS = 'Game made by Manuel Crocco';
+const CREDITS = 'Game made by&nbsp;';
 
 const APP = document.getElementById('app');
 
@@ -64,6 +64,10 @@ class Screen {
     });
     const credits = create('footer', 'credits');
     credits.innerHTML = CREDITS;
+    const authorLink = create('a', 'credits-author', 'Manuel Crocco');
+    authorLink.target = '_blank';
+    authorLink.href = 'https://github.com/manucro';
+    credits.appendChild(authorLink);
     titleScreen.appendChild(titleElementBox);
     titleScreen.appendChild(titleButtons);
     titleScreen.appendChild(credits);
@@ -74,8 +78,9 @@ class Screen {
     const create = this.getCreateElementFunction();
     const optionsData = [
       ['Piece Set', Object.values(PIECE_SETS)],
-      ['Piece Animation Speed', [250, 500, 1000, 1500]],
+      ['Piece Animation Speed', [0, 250, 500, 1000]],
       ['Music', [true, false]],
+      ['Sound Effects', [true, false]],
       ['Optimized Mode', [true, false]]
     ]
     // todo improve
@@ -406,7 +411,7 @@ class Screen {
     const levelNumberElement = document.getElementById('level-number');
     levelNumberElement.innerText = `Level ${actualLevelData.levelNumber}`;
     const movementsElement = document.getElementById('movements');
-    movementsElement.innerText = `Max movements: ${movements} / ${actualLevelData.movements}`;
+    movementsElement.innerText = `Movements: ${movements} / ${actualLevelData.movements}`;
   }
 
   updateOptions() {

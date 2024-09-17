@@ -124,7 +124,7 @@ function drawBoard() {
   for (let i in board) {
     const row = board[i];
     for (let j in row) {
-      // todo improve value checking
+      // todo improve this maybe?
       ctx.fillStyle = (passableSquares.includes(row[j])) ? (squareColor === 1) ? '#f0d9b5' : '#b58863' : 'black';
       ctx.fillRect(squareSize * j, squareSize * i, squareSize, squareSize);
       if (notPassableSquares.includes(row[j]) && row[j] !== 1) {
@@ -147,7 +147,7 @@ function drawBoard() {
   const finishPosX = finishPosition.x * squareSize;
   const finishPosY = finishPosition.y * squareSize;
   const padding = 2;
-  ctx.fillStyle = 'rgb(55, 0, 0)';
+  ctx.fillStyle = 'rgb(25, 25, 25)';
   ctx.fillRect(finishPosX, finishPosY, squareSize, squareSize);
   ctx.fillStyle = 'white';
   ctx.fillRect(finishPosX + mid, finishPosY + padding, squareSize / 2 - padding, squareSize / 2 - padding);

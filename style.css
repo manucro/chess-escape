@@ -59,10 +59,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5px 20px;
-  border: 2px solid var(--accent);
+  padding: 5px 30px;
+  border: 2px solid var(--accent-hover);
   background-color: var(--interface);
-  color: var(--accent);
+  color: var(--accent-hover);
+  font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
 }
 @keyframes fade-in {
@@ -115,7 +117,7 @@ body {
   border: 2px solid var(--text);
   background-color: var(--background);
   cursor: pointer;
-  font-size: 20px
+  font-size: 20px;
 }
 #start-button:hover { filter: brightness(1.2); background-color: rgb(20, 20, 20) }
 @keyframes scrollUp {
@@ -224,11 +226,11 @@ body {
 }
 .option {
   width: 100%;
-  flex-basis: 100px;
+  flex-basis: 80px;
   display: flex;
-  border-top: 2px solid var(--accent-hover);
   border-bottom: 2px solid var(--accent-hover);
 }
+.option:first-child { border-top: 2px solid var(--accent-hover); }
 .option-title {
   flex: 1;
   display: flex;
