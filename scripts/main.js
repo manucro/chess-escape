@@ -98,6 +98,8 @@ function gameStart() {
   firstPart.style.animation = '1s ease forwards scrollUp';
   const secondPart = document.getElementById('ld-part-2');
   secondPart.style.animation = '1s ease forwards scrollDown';
+  document.querySelector('.loading-game-title').remove();
+  document.querySelector('.loading-info').remove();
   setTimeout(() => {
     document.getElementById('loading-div').remove();
   }, 1000);
