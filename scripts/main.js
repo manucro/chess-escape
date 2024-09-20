@@ -1,8 +1,6 @@
 "use strict";
 
-// Constants
-const LEVELS_PER_PAGE = 24;
-const TRANSITION_TIME = 250;
+// Enums and constants
 const PIECES = {
   PAWN: 'pawn',
   ROOK: 'rook',
@@ -16,26 +14,16 @@ const OBJECTS = {
   BUTTON: 'button',
   STAR: 'star'
 }
+const SCREENS = {
+  TITLE: 'title',
+  OPTIONS: 'options',
+  LEVEL_SELECT: 'levelselect',
+  LEVEL: 'level'
+}
 const STATUS = {
   IDLE: 'idle',
   MOVING: 'moving'
 }
-const DEFAULT_BOARD = [
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1],
-  [1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1],
-  [1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-]
-const passableSquares = [0, 3];
-const notPassableSquares = [1, 2, 5, 6];
 const PIECE_SETS = {
   MERIDA: 'merida',
   MAESTRO: 'maestro',
@@ -43,9 +31,6 @@ const PIECE_SETS = {
   TATIANA: 'tatiana',
   MPCHESS: 'mpchess'
 }
-const imgLock = document.createElement('img');
-imgLock.src = 'sources/keyhole-color.svg';
-const KEYHOLE_IMAGE = imgLock;
 const AUDIO = {
   click: document.getElementById('SFXclick'),
   move: document.getElementById('SFXmove'),
@@ -54,17 +39,25 @@ const AUDIO = {
   button: document.getElementById('SFXbutton'),
   success: document.getElementById('SFXsuccess')
 }
+const APP = document.getElementById('app');
+const passableSquares = [0, 3];
+const notPassableSquares = [1, 2, 5, 6];
+const LEVELS_PER_PAGE = 24;
+const TRANSITION_TIME = 250; // for fade out and fade in
+const imgLock = document.createElement('img');
+imgLock.src = 'sources/keyhole-color.svg';
+const KEYHOLE_IMAGE = imgLock;
 const MUSIC = document.getElementById('music');
 
 // Variables
 let actualLevel = 0;
 let actualLevelData = {};
 let actualLevelSelectPage = 0;
-let movements = 0;
 let actualStatus = STATUS.IDLE;
+let movements = 0;
+let squareSize = 58;
 let finishPosition = { x: 0, y: 0 }
 let BOARD_ELEMENT, BOARD_CANVAS, CANVAS_MASK, MOUSE_CANVAS, OBJECTS_BOX, PIECES_BOX;
-let squareSize = 58;
 
 // Control Objects
 const options = {
@@ -74,13 +67,12 @@ const options = {
   soundEffects: true,
   optimizedMode: false
 }
-// (it may seem more efficient to create these two objects with a class, but I did it this way to make the code easier to understand)
 const inBoardPieces = {
   list: [],
   add: function (type, position) {
     const newPiece = new Piece(type, position);
     this.list.push(newPiece);
-  } 
+  }
 }
 const inBoardObjects = {
   list: [],
@@ -107,7 +99,8 @@ function gameStart() {
 }
 const startButton = document.getElementById('start-button');
 startButton.addEventListener('click', gameStart);
-// Create the board
+
+// Creates the board
 function drawBoard() {
   // Set the board dimensions
   const boardWidth = board[0].length * squareSize;

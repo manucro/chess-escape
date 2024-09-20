@@ -1,17 +1,11 @@
 "use strict";
 
-// CONSTANTS
+// Constants
 const GAME_TITLE = 'Chess Escape';
 const CREDITS = 'Game made by&nbsp;';
 
-const APP = document.getElementById('app');
-
-const SCREENS = {
-  TITLE: 'title',
-  OPTIONS: 'options',
-  LEVEL_SELECT: 'levelselect',
-  LEVEL: 'level'
-}
+// Game controller
+let game; // It turns into a Screen object when you initialize the game
 
 class Screen {
   constructor(screenType) {
@@ -73,7 +67,7 @@ class Screen {
     titleScreen.appendChild(credits);
     return titleScreen;
   }
-  
+
   createOptions() {
     const create = this.getCreateElementFunction();
     const optionsData = [
@@ -139,7 +133,7 @@ class Screen {
       this.changeScreen(SCREENS.TITLE);
     });
     const levelKeys = Object.keys(LEVELS);
-    
+
     const prevPageButtton = create('button', 'change-page-button');
     const prevPageSprite = create('div', 'page-sprite');
     prevPageSprite.classList.add('prev-page-sprite');
@@ -193,7 +187,7 @@ class Screen {
     levelSelect.appendChild(levelSelectBox);
     return levelSelect;
   }
-  
+
   createLevelScreen() {
     const create = this.getCreateElementFunction();
     const levelElement = create('div', 'level-screen');
@@ -207,6 +201,7 @@ class Screen {
     // Restart button
     const restartButton = create('button', 'restart-button', 'Restart');
     restartButton.type = 'button';
+    restartButton.addEventListener('click', () => { if (options.soundEffects) AUDIO.click.play() });
     restartButton.addEventListener('click', () => this.restartLevel());
     levelElement.appendChild(restartButton);
     // Level info
@@ -241,14 +236,14 @@ class Screen {
     const modal = create('div', 'modal');
     const modalBox = create('div', (video) ? 'modal-box-video' : 'modal-box');
     elements.forEach(element => {
-      const el = create('div', element[0], element[1]); 
+      const el = create('div', element[0], element[1]);
       modalBox.appendChild(el);
     });
-    const modalButtons = create('div','modal-buttons');
+    const modalButtons = create('div', 'modal-buttons');
     buttons.forEach((button, i) => {
       const modalButton = create('button', 'modal-button', button);
       modalButton.type = 'button';
-      modalButton.addEventListener('click', () => { if (options.soundEffects) AUDIO.click.play(); } );
+      modalButton.addEventListener('click', () => { if (options.soundEffects) AUDIO.click.play(); });
       modalButton.addEventListener('click', actions[i]);
       modalButtons.appendChild(modalButton);
     });
@@ -276,7 +271,7 @@ class Screen {
     }
     this.transitionIfNotOptimized(change);
   }
-  
+
   transitionIfNotOptimized(action) {
     if (options.optimizedMode) action();
     else {
@@ -307,7 +302,6 @@ class Screen {
   }
 
   restartLevel() {
-    if (options.soundEffects) AUDIO.click.play();
     // Reset the pieces
     const levelPieces = LEVELS[actualLevelData.levelKey].pieces;
     const boardPieces = inBoardPieces.list;
@@ -315,7 +309,7 @@ class Screen {
     levelPieces.forEach((piece) => {
       // Checks if the piece already exists
       let existentPiece;
-      for (let i = 0; i < unrestartedBoardPieces.length ; i++) {
+      for (let i = 0; i < unrestartedBoardPieces.length; i++) {
         const boardPiece = unrestartedBoardPieces[i];
         if (boardPiece.type !== piece[0]) continue;
         unrestartedBoardPieces.splice(i, 1);
@@ -329,10 +323,7 @@ class Screen {
           inBoardPieces.add(piece[0], piece[1]);
         }
         existentPiece.setPosition(piece[1], 'reset');
-      } else {
-        // If it doesn't exist, create it
-        inBoardPieces.add(piece[0], piece[1]);
-      }
+      } else inBoardPieces.add(piece[0], piece[1]); // If it doesn't exist, create it
     });
     // Reset the board
     board = [];
@@ -345,9 +336,7 @@ class Screen {
     inBoardObjects.list.forEach(obj => obj.element.remove());
     inBoardObjects.list = [];
     const levelObjects = LEVELS[actualLevelData.levelKey].objects;
-    levelObjects.forEach(obj => {
-      inBoardObjects.add(obj[0], obj[1]);
-    });
+    levelObjects.forEach(obj => inBoardObjects.add(obj[0], obj[1]));
     // Reset the movements
     movements = 0;
     this.updateLevelUI();
@@ -359,7 +348,7 @@ class Screen {
   }
 
   removeBoardEvents() {
-    this.boardEvents.forEach(ev => BOARD_ELEMENT.removeEventListener('click', ev) );
+    this.boardEvents.forEach(ev => BOARD_ELEMENT.removeEventListener('click', ev));
     this.boardEvents = [];
   }
 
@@ -436,10 +425,8 @@ class Screen {
     images.forEach(image => image.parentNode.removeChild(image));
     const objects = document.querySelectorAll('.object');
     objects.forEach(obj => obj.parentNode.removeChild(obj));
-    // Clones the board so the event listeners are deleted
-    const oldElement = document.querySelector('.board');
-    const newElement = oldElement.cloneNode(true);
-    oldElement.parentNode.replaceChild(newElement, oldElement);
+    // Removes the events
+    this.removeBoardEvents();
   }
 
   winLevel() {
@@ -478,5 +465,3 @@ class Screen {
     APP.appendChild(modal);
   }
 }
-
-let game;

@@ -1,6 +1,6 @@
 "use strict";
 
-// Object for the funcitonalities
+// Controller of the piece's possible positions
 const validPositions = {
   array: [],
   add: (pos) => { this.array.push(pos) },
@@ -10,7 +10,6 @@ const validPositions = {
     return (newArr.length === 1);
   }
 }
-
 
 class Piece {
   constructor(type, defaultPos) {
@@ -78,9 +77,7 @@ class Piece {
         const pos = trace[i];
         const lastPos = trace[trace.length - 1];
         // Update objects
-        inBoardObjects.list.forEach(object => {
-          object.checkCollision(pos);
-        });
+        inBoardObjects.list.forEach(object => object.checkCollision(pos));
         // Checks if a piece is pushed
         inBoardPieces.list.forEach(piece => {
           if (piece === this) return;
@@ -107,7 +104,7 @@ class Piece {
     CANVAS_MASK.height = BOARD_CANVAS.height;
     CANVAS_MASK.style.width = `${BOARD_CANVAS.width}px`;
     CANVAS_MASK.style.height = `${BOARD_CANVAS.height}px`;
-    
+
     validPositions.clear();
     PIECES_MOVEMENTS[this.type](this.position); // Fills the validPositions list
 
@@ -177,8 +174,8 @@ class Piece {
       const factorY = (newPosition.y > prevPosition.y);
       direction = (factorX && factorY) ? 'bottom-right'
         : (factorX) ? 'top-right'
-        : (factorY) ? 'bottom-left'
-        : 'top-left'
+          : (factorY) ? 'bottom-left'
+            : 'top-left'
       while (checkX !== newPosition.x && checkY !== newPosition.y) {
         checkX += (factorX) ? 1 : -1;
         checkY += (factorY) ? 1 : -1;
@@ -219,7 +216,7 @@ class Piece {
       this.animationTimeout = null;
     }, 1500);
   }
-  
+
   deletePiece() {
     const index = inBoardPieces.list.indexOf(this);
     if (index === -1) return;
@@ -236,26 +233,26 @@ const PIECES_MOVEMENTS = {
     discreteCheck((p) => p.x--, pos.x, pos.y);
   },
   'bishop': (pos) => {
-    discreteCheck((p) => {p.y++, p.x++}, pos.x, pos.y);
-    discreteCheck((p) => {p.y--, p.x++}, pos.x, pos.y);
-    discreteCheck((p) => {p.y++, p.x--}, pos.x, pos.y);
-    discreteCheck((p) => {p.y--, p.x--}, pos.x, pos.y);
+    discreteCheck((p) => { p.y++, p.x++ }, pos.x, pos.y);
+    discreteCheck((p) => { p.y--, p.x++ }, pos.x, pos.y);
+    discreteCheck((p) => { p.y++, p.x-- }, pos.x, pos.y);
+    discreteCheck((p) => { p.y--, p.x-- }, pos.x, pos.y);
   },
   'queen': (pos) => {
     discreteCheck((p) => p.y++, pos.x, pos.y);
     discreteCheck((p) => p.y--, pos.x, pos.y);
     discreteCheck((p) => p.x++, pos.x, pos.y);
     discreteCheck((p) => p.x--, pos.x, pos.y);
-    discreteCheck((p) => {p.y++, p.x++}, pos.x, pos.y);
-    discreteCheck((p) => {p.y--, p.x++}, pos.x, pos.y);
-    discreteCheck((p) => {p.y++, p.x--}, pos.x, pos.y);
-    discreteCheck((p) => {p.y--, p.x--}, pos.x, pos.y);
+    discreteCheck((p) => { p.y++, p.x++ }, pos.x, pos.y);
+    discreteCheck((p) => { p.y--, p.x++ }, pos.x, pos.y);
+    discreteCheck((p) => { p.y++, p.x-- }, pos.x, pos.y);
+    discreteCheck((p) => { p.y--, p.x-- }, pos.x, pos.y);
   },
   'king': (pos) => {
     [-1, 0, 1].forEach(xPlus => {
       [-1, 0, 1].forEach(yPlus => {
         if (xPlus === 0 && yPlus === 0) return;
-        const newPosition = { x: pos.x + xPlus, y: pos.y + yPlus};
+        const newPosition = { x: pos.x + xPlus, y: pos.y + yPlus };
         // todo create passable values
         if (board[newPosition.y][newPosition.x] !== 0 && board[newPosition.y][newPosition.x] !== 3) return;
         validPositions.add(newPosition);
@@ -268,7 +265,7 @@ const PIECES_MOVEMENTS = {
     [1, 2].forEach((yPlus) => {
       const newPosition = { x: pos.x, y: pos.y - yPlus };
       if (!pawnPassableSquares.includes(board[newPosition.y][newPosition.x])) return;
-      if (yPlus === 2 && !validPositions.contains({ x: pos.x , y: pos.y - 1})) return;
+      if (yPlus === 2 && !validPositions.contains({ x: pos.x, y: pos.y - 1 })) return;
       validPositions.add(newPosition);
       highlightSquare(newPosition);
     })
@@ -276,14 +273,14 @@ const PIECES_MOVEMENTS = {
   'knight': (pos) => {
     const knightPassableSquares = [0, 3, 6];
     const knightPositions = [
-      { x: 1, y: -2},
-      { x: 2, y: -1},
-      { x: 2, y: 1},
-      { x: 1, y: 2},
-      { x: -1, y: 2},
-      { x: -2, y: 1},
-      { x: -2, y: -1},
-      { x: -1, y: -2}
+      { x: 1, y: -2 },
+      { x: 2, y: -1 },
+      { x: 2, y: 1 },
+      { x: 1, y: 2 },
+      { x: -1, y: 2 },
+      { x: -2, y: 1 },
+      { x: -2, y: -1 },
+      { x: -1, y: -2 }
     ];
     knightPositions.forEach(knightPos => {
       const checkPosition = { x: pos.x + knightPos.x, y: pos.y + knightPos.y };
@@ -300,7 +297,7 @@ const PIECES_MOVEMENTS = {
   }
 }
 
-// MOVEMENT CHECKING FOR EVERY PIECE
+// Movement checking
 function discreteCheck(change, x, y) {
   const checkPos = { x, y }
   let iterations = 0;
@@ -308,10 +305,9 @@ function discreteCheck(change, x, y) {
     iterations++;
     if (iterations > 30) break; // To avoid infinite loops
     change(checkPos);
-    // todo create passable values
-    if (board[checkPos.y][checkPos.x] === 0 || board[checkPos.y][checkPos.x] === 3) {
+    if (passableSquares.includes(board[checkPos.y][checkPos.x])) {
       highlightSquare(checkPos);
-      validPositions.add({...checkPos});
+      validPositions.add({ ...checkPos });
     }
     else break;
   }

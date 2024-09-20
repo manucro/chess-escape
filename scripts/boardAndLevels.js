@@ -1,6 +1,23 @@
 "use strict";
 
-let board = DEFAULT_BOARD;
+let board;
+
+function createLevel(level, index) {
+  board = [];
+  level.board.forEach(row => board.push([...row]));
+  squareSize = (board.length > 9) ? 46 : 58;
+  actualLevelData = {
+    levelNumber: index + 1,
+    levelKey: Object.keys(LEVELS)[index],
+    movements: level.movements,
+    finishPosition: level.finishPosition
+  }
+  game.updateLevelUI();
+  level.pieces.forEach(piece => inBoardPieces.add(piece[0], piece[1]));
+  level.objects.forEach(object => inBoardObjects.add(object[0], object[1]));
+  finishPosition = { x: level.finishPosition.x, y: level.finishPosition.y };
+  drawBoard();
+}
 
 const LEVELS = {
   'ONE': {
@@ -866,7 +883,7 @@ const LEVELS = {
       [PIECES.QUEEN, { x: 3, y: 4 }],
       [PIECES.ROOK, { x: 3, y: 6 }],
       [PIECES.BISHOP, { x: 7, y: 4 }],
-      [PIECES.KING, {x: 7, y: 6 }]
+      [PIECES.KING, { x: 7, y: 6 }]
     ],
     'objects': [
       [OBJECTS.BUTTON, { x: 1, y: 1 }],
@@ -1038,23 +1055,6 @@ const LEVELS = {
     'finishPosition': { x: 0, y: 0 },
     'locked': true
   }
-}
-
-function createLevel(level, index) {
-  board = [];
-  level.board.forEach(row => board.push([...row]));
-  squareSize = (board.length > 9) ? 46 : 58;
-  actualLevelData = {
-    levelNumber: index + 1,
-    levelKey: Object.keys(LEVELS)[index],
-    movements: level.movements,
-    finishPosition: level.finishPosition
-  }
-  game.updateLevelUI();
-  level.pieces.forEach(piece => inBoardPieces.add(piece[0], piece[1]) );
-  level.objects.forEach(object => inBoardObjects.add(object[0], object[1]) );
-  finishPosition = { x: level.finishPosition.x, y: level.finishPosition.y };
-  drawBoard();
 }
 
 const keys = Object.keys(LEVELS);
