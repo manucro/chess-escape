@@ -284,8 +284,10 @@ body {
 }
 .level {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
   width: 100px; height: 100px;
   margin: 10px;
   font-size: 20px;
@@ -298,6 +300,24 @@ body {
 }
 .level:hover { background-color: var(--accent-hover); }
 .level:active { border: none; }
+.stars-container {
+  position: absolute;
+  bottom: 10px;
+  width: 90%;
+  height: 20%;
+  display: flex;
+  justify-content: space-evenly;
+}
+.level-select-star {
+  height: 100%;
+  width: 20%;
+  background-image: url('sources/star-empty.svg');
+  background-size: cover;
+}
+.blocked .level-select-star { display: none; }
+.star-obtained {
+  background-image: url('sources/star-full.svg');
+}
 .blocked {
   background-color: var(--background);
   color: transparent;

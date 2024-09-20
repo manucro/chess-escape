@@ -158,6 +158,13 @@ class Screen {
       const levelElement = create('div', 'level');
       levelElement.id = `l${numberIndex + 1}`;
       levelElement.innerText = numberIndex + 1;
+      const stars = create('div', 'stars-container');
+      for(let j = 0; j < STARS_PER_LEVEL; j++) {
+        const star = create('div', 'level-select-star');
+        star.classList.add(`star${j}`);
+        stars.appendChild(star);
+      }
+      levelElement.appendChild(stars);
       levelElement.addEventListener('click', () => {
         if (!LEVELS[levelName].locked) {
           if (options.soundEffects) AUDIO.click.play();
@@ -392,7 +399,13 @@ class Screen {
       const level = document.getElementById(`l${numberIndex + 1}`);
       if (level === null) break;
       if (levelKeys[numberIndex].locked) level.classList.add('blocked');
-      else level.classList.remove('blocked');
+      else {
+        level.classList.remove('blocked');
+        for (let j = 0; j < STARS_PER_LEVEL; j++) {
+          const star = document.querySelector(`#l${numberIndex + 1} .star${j}`);
+          if (levelKeys[numberIndex].stars[j]) star.classList.add('star-obtained');
+        }
+      }
     }
   }
 
@@ -432,10 +445,18 @@ class Screen {
   winLevel() {
     if (options.soundEffects) AUDIO.success.play();
     const levelKeys = Object.keys(LEVELS);
+    const actualLevelIndex = actualLevelData.levelNumber - 1;
+    // Stars
+    LEVELS[levelKeys[actualLevelIndex]].stars[0] = true;
+    if (movements <= actualLevelData.movements) LEVELS[levelKeys[actualLevelIndex]].stars[1] = true;
+    const starList = inBoardObjects.list.filter((obj) => obj.type === 'star');
+    if (starList.length === 0) LEVELS[levelKeys[actualLevelIndex]].stars[2] = true;
+    // Unlocks a new level if it's the last level
     if (actualLevel + 1 === actualLevelData.levelNumber) {
       actualLevel++;
       LEVELS[levelKeys[actualLevel]].locked = false;
     }
+    // Creates the modal
     const modal = this.createModal(
       [
         ['modal-span', `Level ${actualLevelData.levelNumber}`],

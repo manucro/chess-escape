@@ -37,13 +37,15 @@ const AUDIO = {
   destroy: document.getElementById('SFXdestroy'),
   lock: document.getElementById('SFXlock'),
   button: document.getElementById('SFXbutton'),
-  success: document.getElementById('SFXsuccess')
+  success: document.getElementById('SFXsuccess'),
+  star: document.getElementById('SFXstar')
 }
 const APP = document.getElementById('app');
 const passableSquares = [0, 3];
 const notPassableSquares = [1, 2, 5, 6];
 const LEVELS_PER_PAGE = 24;
 const TRANSITION_TIME = 250; // for fade out and fade in
+const STARS_PER_LEVEL = 3;
 const imgLock = document.createElement('img');
 imgLock.src = 'sources/keyhole-color.svg';
 const KEYHOLE_IMAGE = imgLock;

@@ -43,9 +43,6 @@ class Piece {
     this.element.style.transform = `translate(${newPosition.x * squareSize}px, ${newPosition.y * squareSize}px)`;
     if (options.soundEffects && movementType == 'normal') AUDIO.move.play();
     actualStatus = STATUS.IDLE;
-    // Checks if the level has been beaten
-    const finishPos = actualLevelData.finishPosition;
-    if (newPosition.x == finishPos.x && newPosition.y == finishPos.y) game.winLevel();
     // If it's void, it falls
     if (movementType === 'push') {
       if (
@@ -93,6 +90,9 @@ class Piece {
         });
       }
     }
+    // Checks if the level has been beaten
+    const finishPos = actualLevelData.finishPosition;
+    if (newPosition.x == finishPos.x && newPosition.y == finishPos.y) game.winLevel();
   }
 
   showMovements() {

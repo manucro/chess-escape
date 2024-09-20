@@ -51,6 +51,12 @@ class BoardObject {
         });
       });
     }
+    const collectStar = () => {
+      if (options.soundEffects) AUDIO.star.play();
+      this.element.remove();
+      const index = inBoardObjects.list.indexOf(this);
+      inBoardObjects.list.splice(index, 1);
+    }
 
     function changeBoard(checkValues, action) {
       for (let i in board) {
@@ -65,6 +71,7 @@ class BoardObject {
     switch (this.type) {
       case OBJECTS.KEY: collectKey(); break;
       case OBJECTS.BUTTON: collectButton(); break;
+      case OBJECTS.STAR: collectStar(); break;
     }
   }
 }
