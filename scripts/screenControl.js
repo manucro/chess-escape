@@ -110,6 +110,7 @@ class Screen {
         optionBox.appendChild(getOptionBoxInnerElement(box));
         optionBox.addEventListener('click', () => {
           if (options.soundEffects) AUDIO.click.play();
+          if (i === 2) (box) ? MUSIC.play() : MUSIC.pause() // If the option is the music, play if the user selects Yes or stop it if the user selects No
           options[Object.keys(options)[i]] = box;
           this.updateOptions();
         });
