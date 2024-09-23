@@ -106,7 +106,6 @@ body {
   flex: 1;
   width: 100%;
   background-color: var(--background);
-  transition: .5s border;
 }
 #ld-part-1 { border-bottom: 1px solid var(--text); }
 #ld-part-2 { border-top: 1px solid var(--text); }
@@ -117,6 +116,14 @@ body {
   background-color: var(--background);
   cursor: pointer;
   font-size: 20px;
+}
+#loading-span {
+  position: absolute;
+  font-size: 20px;
+  padding: 10px 20px;
+  background-color: var(--background);
+  border: 2px solid var(--text);
+  border-radius: 20px;
 }
 #start-button:hover { filter: brightness(1.2); background-color: rgb(20, 20, 20) }
 @keyframes scrollUp {

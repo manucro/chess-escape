@@ -99,8 +99,18 @@ function gameStart() {
   }, 1000);
   this.remove();
 }
-const startButton = document.getElementById('start-button');
-startButton.addEventListener('click', gameStart);
+
+document.addEventListener('DOMContentLoaded', () => {
+  const loadingDiv = document.getElementById('loading-div');
+  const loadingSpan = document.getElementById('loading-span');
+  const startButton = document.createElement('button');
+  startButton.type = 'button';
+  startButton.id = 'start-button';
+  startButton.innerText = 'Play';
+  startButton.addEventListener('click', gameStart);
+  loadingDiv.appendChild(startButton);
+  loadingDiv.removeChild(loadingSpan);
+})
 
 // Creates the board
 function drawBoard() {
