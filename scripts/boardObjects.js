@@ -32,6 +32,7 @@ class BoardObject {
         board[position.y][position.x] = 0;
         this.element.remove();
         const index = inBoardObjects.list.indexOf(this);
+        if (index === -1) return;
         inBoardObjects.list.splice(index, 1);
       });
     }
