@@ -62,6 +62,7 @@ class Screen {
     const titleScreen = create('div', 'title-screen');
     const titleElementBox = create('div', 'title-box');
     const titleAnimation = create('div', 'title-animation');
+    titleAnimation.classList.add('title-animation-activated');
     const titleElement = create('h1', 'title', GAME_TITLE);
     titleElementBox.appendChild(titleAnimation);
     titleElementBox.appendChild(titleElement);
@@ -293,8 +294,13 @@ class Screen {
       this.type = newScreen;
       APP.appendChild(this.screenElements[newScreen]);
       if (extraAction) extraAction();
-      if (newScreen === SCREENS.LEVEL_SELECT) this.updateLevelSelect();
-      if (newScreen === SCREENS.OPTIONS) this.updateOptions();
+      if (newScreen === SCREENS.LEVEL_SELECT) this.updateLevelSelect(); // Update levels in level select
+      if (newScreen === SCREENS.OPTIONS) this.updateOptions(); // Update selected options
+      if (newScreen === SCREENS.TITLE) {
+        // Add the title animation if the optimized mode is deactivated
+        const titleAnimation = document.querySelector('.title-animation');
+        titleAnimation.classList.toggle('title-animation-activated', !options.optimizedMode);
+      }
     }
     this.transitionIfNotOptimized(change);
   }

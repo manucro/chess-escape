@@ -6,6 +6,7 @@ class BoardObject {
     const element = document.createElement('img');
     element.classList.add('object');
     element.id = type;
+    if (type === OBJECTS.STAR && !options.optimizedMode) element.classList.add('star-animation');
     element.src = `objects/${type}.svg`;
     element.style.width = `${squareSize}px`;
     element.style.height = `${squareSize}px`;

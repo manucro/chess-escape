@@ -209,7 +209,7 @@ class Piece {
   }
 
   pulsePiece() {
-    if (this.animationTimeout) return;
+    if (this.animationTimeout || options.optimizedMode) return;
     this.element.style.animation = '1s ease pulse';
     this.animationTimeout = setTimeout(() => {
       this.element.style.animation = 'none';
@@ -218,7 +218,7 @@ class Piece {
   }
 
   pulseBlockedPiece() {
-    if (this.animationTimeout) return;
+    if (this.animationTimeout || options.optimizedMode) return;
     this.element.style.animation = '1.5s ease pulse-blocked';
     this.animationTimeout = setTimeout(() => {
       this.element.style.animation = 'none';
