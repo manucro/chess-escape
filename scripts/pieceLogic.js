@@ -40,19 +40,6 @@ class Piece {
     this.element.style.transform = `translate(${newPosition.x * squareSize}px, ${newPosition.y * squareSize}px)`;
     if (options.soundEffects && movementType == 'normal') AUDIO.move.play();
     movingPiece = null;
-    // If it's void, it falls
-    if (movementType === 'push') {
-      if (
-        newPosition.x >= 0 &&
-        newPosition.y >= 0 &&
-        newPosition.x <= (board[0].length - 1) &&
-        newPosition.y <= (board.length - 1)
-      ) {
-        const s = board[newPosition.y][newPosition.x];
-        if (passableSquares.includes(s) || s === 6) return;
-      }
-      this.destroyPiece();
-    }
     // If it's a horse, then checks if it has killed a piece
     if (this.type === PIECES.KNIGHT) {
       inBoardObjects.list.forEach(object => {
@@ -90,6 +77,19 @@ class Piece {
     // Checks if the level has been beaten
     const finishPos = actualLevelData.finishPosition;
     if (newPosition.x == finishPos.x && newPosition.y == finishPos.y) game.winLevel();
+    // If it's void, it falls
+    if (movementType === 'push') {
+      if (
+        newPosition.x >= 0 &&
+        newPosition.y >= 0 &&
+        newPosition.x <= (board[0].length - 1) &&
+        newPosition.y <= (board.length - 1)
+      ) {
+        const s = board[newPosition.y][newPosition.x];
+        if (passableSquares.includes(s) || s === 6) return;
+      }
+      this.destroyPiece();
+    }
   }
 
   showMovements() {
