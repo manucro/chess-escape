@@ -8,7 +8,8 @@ const validPositions = {
   contains: (pos) => {
     const newArr = this.array.filter((p) => (p.x === pos.x && p.y === pos.y));
     return (newArr.length === 1);
-  }
+  },
+  getLength: () => { return this.array.length }
 }
 
 class Piece {
@@ -113,7 +114,6 @@ class Piece {
         return;
       }
     }
-    this.pulsePiece();
     movingPiece = this;
     game.removeBoardEvents();
     const ctx = CANVAS_MASK.getContext('2d');
@@ -124,6 +124,8 @@ class Piece {
 
     validPositions.clear();
     PIECES_MOVEMENTS[this.type](this.position); // Fills the validPositions list
+    if (validPositions.getLength() === 0) this.pulseBlockedPiece(); 
+    else this.pulsePiece();
 
     // Click to move the piece
     const handleClick = (ev) => {
