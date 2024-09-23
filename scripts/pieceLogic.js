@@ -21,10 +21,7 @@ class Piece {
     element.style.height = `${squareSize}px`;
     const transitionSeconds = options.pieceAnimationSpeed / 1000;
     element.style.transition = `transform ${transitionSeconds}s, opacity ${transitionSeconds}s`;
-    const handleClick = () => {
-      if (actualStatus === STATUS.IDLE) this.showMovements();
-    }
-    element.addEventListener('click', handleClick);
+    element.addEventListener('click', () => this.showMovements());
     this.element = element;
 
     // Sets the other attributes
@@ -42,7 +39,7 @@ class Piece {
     this.position = newPosition;
     this.element.style.transform = `translate(${newPosition.x * squareSize}px, ${newPosition.y * squareSize}px)`;
     if (options.soundEffects && movementType == 'normal') AUDIO.move.play();
-    actualStatus = STATUS.IDLE;
+    movingPiece = null;
     // If it's void, it falls
     if (movementType === 'push') {
       if (
@@ -97,8 +94,28 @@ class Piece {
 
   showMovements() {
     if (this.blocked) return;
+    if (movingPiece !== null) {
+      if (validPositions.contains(this.position)) {
+        // Simulates a click under the piece, so you can push it
+        const click = new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+          view: window
+        });
+        BOARD_ELEMENT.dispatchEvent(click);
+        return;
+      } else if (movingPiece == this) {
+        // Deselects the piece
+        movingPiece = null;
+        const ctx = CANVAS_MASK.getContext('2d');
+        ctx.clearRect(0, 0, CANVAS_MASK.width, CANVAS_MASK.height);
+        game.removeBoardEvents();
+        return;
+      }
+    }
     this.pulsePiece();
-    actualStatus = STATUS.MOVING;
+    movingPiece = this;
+    game.removeBoardEvents();
     const ctx = CANVAS_MASK.getContext('2d');
     CANVAS_MASK.width = BOARD_CANVAS.width;
     CANVAS_MASK.height = BOARD_CANVAS.height;
@@ -117,19 +134,9 @@ class Piece {
       this.setPosition(clickedPosition);
       ctx.clearRect(0, 0, CANVAS_MASK.width, CANVAS_MASK.height);
       game.removeBoardEvents();
-      this.element.removeEventListener('contextmenu', handleContextMenu);
-    }
-    // Right click to deselect the piece
-    const handleContextMenu = (ev) => {
-      ev.preventDefault();
-      actualStatus = STATUS.IDLE;
-      ctx.clearRect(0, 0, CANVAS_MASK.width, CANVAS_MASK.height);
-      game.removeBoardEvents();
-      this.element.removeEventListener('contextmenu', handleContextMenu);
     }
 
     game.addBoardEvent(handleClick);
-    this.element.addEventListener('contextmenu', handleContextMenu);
   }
 
   destroyPiece() {

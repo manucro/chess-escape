@@ -17,7 +17,7 @@ class Tutorial {
   }
 }
 const TUTORIALS = [
-  new Tutorial('ONE', 'Move pieces by clicking them. Deselect with right click', '1'),
+  new Tutorial('ONE', 'Move pieces by clicking them. Deselect by clicking it again', '1'),
   new Tutorial('THREE', 'You can push pieces by moving one towards another', '2'),
   new Tutorial('EIGHT', "You can't move over platforms, but you can push pieces onto them", '3'),
   new Tutorial('ELEVEN', 'You can push two pieces at the same time', '4'),
@@ -313,6 +313,7 @@ class Screen {
 
   resetLevelReferences() {
     BOARD_ELEMENT = document.querySelector('.board');
+    BOARD_ELEMENT.addEventListener('contextmenu', ev => ev.preventDefault());
     BOARD_CANVAS = document.getElementById('board-canvas');
     CANVAS_MASK = document.getElementById('canvas-mask');
     MOUSE_CANVAS = document.getElementById('mouse-canvas');
@@ -449,7 +450,7 @@ class Screen {
   cleanLevelValues() {
     inBoardPieces.list = [];
     inBoardObjects.list = [];
-    actualStatus = STATUS.IDLE;
+    movingPiece = null;
     movements = 0;
     // Removes all pieces and object images
     const images = document.querySelectorAll('.piece');
