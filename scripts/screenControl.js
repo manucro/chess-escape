@@ -458,6 +458,8 @@ class Screen {
     inBoardObjects.list = [];
     movingPiece = null;
     movements = 0;
+    const ctx = CANVAS_MASK.getContext('2d');
+    ctx.clearRect(0, 0, CANVAS_MASK.width, CANVAS_MASK.height);
     // Removes all pieces and object images
     const images = document.querySelectorAll('.piece');
     images.forEach(image => image.parentNode.removeChild(image));

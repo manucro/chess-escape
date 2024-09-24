@@ -957,7 +957,7 @@ const LEVELS = {
     'finishPosition': { x: 8, y: 1 }
   },
   'THIRTYNINE': {
-    'movements': 11,
+    'movements': 7,
     'board': [
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -1035,7 +1035,7 @@ const LEVELS = {
     'finishPosition': { x: 8, y: 2 }
   },
   'FORTYTWO': {
-    'movements': 14,
+    'movements': 11,
     'board': [
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
