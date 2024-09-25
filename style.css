@@ -21,6 +21,7 @@
   font-weight: 300;
 }
 img { user-select: none; }
+b { font-weight: bold; }
 body {
   background-color: var(--background);
 }
@@ -52,7 +53,7 @@ body {
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 55% 70%, 50% 55%, 80% 55%, 80% 45%, 50% 45%, 55% 30%, 17% 50%, 55% 70%, 0% 100%);
   background-color: var(--interface);
 }
-.restart-button {
+.restart-button, .credits-button {
   position: absolute;
   bottom: 20px; right: 20px;
   display: flex;
@@ -66,6 +67,10 @@ body {
   font-weight: bold;
   cursor: pointer;
   user-select: none;
+}
+.credits-button {
+  top: 10px; bottom: auto;
+  left: 10px; right: auto;
 }
 @keyframes fade-in {
   0% { opacity: 0; }
@@ -460,6 +465,8 @@ body {
   animation: 1s ease modalAppear;
 }
 .modal-box-video { height: 90%; }
+.modal-box:has(> .credits-box) { height: 80%; }
+.credits-box { font-size: 19px; text-align: center; }
 .modal-text {
   font-size: 50px;
   text-align: center;
@@ -572,12 +579,13 @@ body {
   .modal-text { font-size: 30px; }
   .modal-box, .modal-box-video {
     width: 95%;
-    padding: 0 20px;
+    padding: 0 10px;
   }
   .modal-video { width: 90%; }
   .level-info { flex-direction: column; font-size: 25px; }
   .modal-buttons { gap: 10px; }
   .info-tooltip { width: 160%; left: 50%; }
+  .credits-box { font-size: 14px; }
 }
 /* IPAD MEDIA QUERIES */
 

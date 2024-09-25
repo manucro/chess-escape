@@ -262,8 +262,7 @@ const PIECES_MOVEMENTS = {
       [-1, 0, 1].forEach(yPlus => {
         if (xPlus === 0 && yPlus === 0) return;
         const newPosition = { x: pos.x + xPlus, y: pos.y + yPlus };
-        // todo create passable values
-        if (board[newPosition.y][newPosition.x] !== 0 && board[newPosition.y][newPosition.x] !== 3) return;
+        if (!passableSquares.includes(board[newPosition.y][newPosition.x])) return;
         validPositions.add(newPosition);
         highlightSquare(newPosition);
       });

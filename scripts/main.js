@@ -50,6 +50,10 @@ const imgLock = document.createElement('img');
 imgLock.src = 'sources/keyhole-color.svg';
 const KEYHOLE_IMAGE = imgLock;
 const MUSIC = document.getElementById('music');
+const WHITE = '#f0d9b5';
+const BLACK = '#b58863';
+const VOID_COLOR = '#000';
+const BUTTON_COLOR = '#f00';
 
 // Variables
 let actualScreen = null;
@@ -130,22 +134,20 @@ function drawBoard() {
   for (let i in board) {
     const row = board[i];
     for (let j in row) {
-      // todo improve this maybe?
-      ctx.fillStyle = (passableSquares.includes(row[j])) ? (squareColor === 1) ? '#f0d9b5' : '#b58863' : 'black';
+      ctx.fillStyle = (passableSquares.includes(row[j])) ? (squareColor === 1) ? WHITE : BLACK : VOID_COLOR;
       ctx.fillRect(squareSize * j, squareSize * i, squareSize, squareSize);
-      if (notPassableSquares.includes(row[j]) && row[j] !== 1) {
-        switch (row[j]) {
-          case 5:
-            ctx.drawImage(KEYHOLE_IMAGE, squareSize * j + quarter, squareSize * i + quarter, squareSize - mid, squareSize - mid);
-            break;
-          case 2:
-          case 6:
-            ctx.fillStyle = (row[j] === 2) ? 'red' : '#f0d9b5';
-            ctx.fillRect(squareSize * j + quarter, squareSize * i + quarter, squareSize - mid, squareSize - mid);
-            break;
-        }
-      }
       squareColor *= -1;
+      if (!notPassableSquares.includes(row[j]) || row[j] === 1) continue;
+      switch (row[j]) {
+          case 5:
+          ctx.drawImage(KEYHOLE_IMAGE, squareSize * j + quarter, squareSize * i + quarter, squareSize - mid, squareSize - mid);
+          break;
+        case 2:
+        case 6:
+          ctx.fillStyle = (row[j] === 2) ? BUTTON_COLOR : WHITE;
+          ctx.fillRect(squareSize * j + quarter, squareSize * i + quarter, squareSize - mid, squareSize - mid);
+          break;
+      }
     }
     if (row.length % 2 === 0) squareColor *= -1;
   }

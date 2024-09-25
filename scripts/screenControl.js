@@ -2,7 +2,17 @@
 
 // Constants
 const GAME_TITLE = 'Chess Escape';
-const CREDITS = 'Game made by&nbsp;';
+const CREDITS_LINE = 'Game made by&nbsp;';
+
+const CREDITS = `<b>Game made by:</b> <a href="https://github.com/manucro" target="_blank">Manuel Crocco</a><br><br>
+<b>Betatesting:</b> <a href="https://github.com/trubiso" target="_blank">Trubiso</a><br><br>
+<b>Extra ideas:</b> <a href="https://github.com/trubiso" target="_blank">Trubiso</a><br><br>
+<b>Music:</b> Sunken Field by <a href="https://waterflame.newgrounds.com/" target="_blank">Waterflame</a><br><br>
+<b>Sound Effects:</b> <a href="https://freesound.org/" target="_blank">freesound.org</a> and <a href="https://github.com/lichess-org/lila" target="_blank">lichess</a><br><br>
+<b>Attributions:</b><br><br>
+<a href="https://freesound.org/people/grunz/sounds/109662/" target="_blank">success.wav</a> by <a href="https://freesound.org/people/grunz/" target="_blank">grunz</a> | License: <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">Attribution 3.0</a><br><br>
+This game is <b>open source</b>, you're free to copy, modify, publish, use or distribute it.`
+
 const STAR_EXPLANATION = `FIRST: Complete the level.
 SECOND: Complete the level inside the movements margin.
 THIRD: Complete the level with the star object.`
@@ -81,7 +91,7 @@ class Screen {
       titleButtons.appendChild(titleButton);
     });
     const credits = create('footer', 'credits');
-    credits.innerHTML = CREDITS;
+    credits.innerHTML = CREDITS_LINE;
     const authorLink = create('a', 'credits-author', 'Manuel Crocco');
     authorLink.target = '_blank';
     authorLink.href = 'https://github.com/manucro';
@@ -89,6 +99,23 @@ class Screen {
     titleScreen.appendChild(titleElementBox);
     titleScreen.appendChild(titleButtons);
     titleScreen.appendChild(credits);
+    const creditsButton = create('button', 'credits-button', 'Credits');
+    creditsButton.type = 'button';
+    creditsButton.addEventListener('click', () => {
+      const creditsBox = create('div', 'credits-box');
+      creditsBox.innerHTML = CREDITS;
+      const creditsModal = this.createModal([
+        ['credits-modal', creditsBox]
+      ],
+      ['See Repository', 'Game Showcase', 'Go back'],
+      [
+        () => window.open('https://github.com/manucro/chess-escape', '_blank'),
+        () => window.open('https://github.com/manucro/chess-escape', '_blank'),
+        () => creditsModal.remove()
+      ]);
+      APP.appendChild(creditsModal);
+    });
+    titleScreen.appendChild(creditsButton);
     return titleScreen;
   }
 
@@ -101,7 +128,6 @@ class Screen {
       ['Sound Effects', [true, false]],
       ['Optimized Mode', [true, false]]
     ]
-    // todo improve
     function getOptionBoxInnerElement(value) {
       if (typeof value === 'string') {
         const optionBoxSprite = create('img', 'option-box-sprite');
