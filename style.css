@@ -491,3 +491,42 @@ body {
   border: 2px solid var(--text);
   background-color: var(--background);
 }
+.modal-stars {
+  width: 40%;
+  flex-basis: 60px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+.modal-star {
+  height: 100%;
+  flex-basis: 30%;
+  background-image: url('sources/star-empty.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.modal-star-obtained { background-image: url('sources/star-full.svg'); }
+.info-button {
+  position: absolute;
+  width: 25px; height: 25px;
+  top: -20px; right: -20px;
+  background-color: var(--accent-hover);
+  border: 2px solid var(--background);
+  border-radius: 50%;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.info-tooltip {
+  position: absolute;
+  width: 80%;
+  padding: 10px;
+  left: 100%;
+  background-color: var(--background);
+  border: 2px solid var(--accent-hover);
+  display: none;
+}
+.info-button:hover ~ .info-tooltip { display: block; }

@@ -1035,7 +1035,7 @@ const LEVELS = {
     'finishPosition': { x: 8, y: 2 }
   },
   'FORTYTWO': {
-    'movements': 11,
+    'movements': 8,
     'board': [
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -1154,7 +1154,7 @@ for (let i in LEVELS) {
   Object.defineProperty(level, 'stars', { value: [false, false, false], writable: true });
 }
 
-const keys = Object.keys(LEVELS);
-keys.forEach(key => {
-  LEVELS[key].locked = false;
-})
+// const keys = Object.keys(LEVELS);
+// keys.forEach(key => {
+//   LEVELS[key].locked = false;
+// })

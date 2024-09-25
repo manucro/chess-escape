@@ -3,6 +3,9 @@
 // Constants
 const GAME_TITLE = 'Chess Escape';
 const CREDITS = 'Game made by&nbsp;';
+const STAR_EXPLANATION = `FIRST: Complete the level.
+SECOND: Complete the level inside the movements margin.
+THIRD: Complete the level with the star object.`
 
 // Game controller
 let game; // It turns into a Screen object when you initialize the game
@@ -264,8 +267,11 @@ class Screen {
     const modal = create('div', 'modal');
     const modalBox = create('div', (video) ? 'modal-box-video' : 'modal-box');
     elements.forEach(element => {
-      const el = create('div', element[0], element[1]);
-      modalBox.appendChild(el);
+      if (typeof element[1] === 'object') modalBox.appendChild(element[1])
+      else {
+        const el = create('div', element[0], element[1]);
+        modalBox.appendChild(el);
+      }
     });
     const modalButtons = create('div', 'modal-buttons');
     buttons.forEach((button, i) => {
@@ -286,6 +292,22 @@ class Screen {
     modalBox.appendChild(modalButtons);
     modal.appendChild(modalBox);
     return modal;
+  }
+
+  createModalStars() {
+    const create = this.getCreateElementFunction();
+    const modalStars = [create('div', 'modal-star'), create('div', 'modal-star'), create('div', 'modal-star')];
+    const modalStarsContainer = create('div', 'modal-stars');
+    for (let i in modalStars) {
+      const star = modalStars[i];
+      if (LEVELS[actualLevelData.levelKey].stars[i]) star.classList.add('modal-star-obtained');
+      modalStarsContainer.appendChild(star);
+    }
+    const starsInfo = create('div', 'info-button', 'i');
+    const infoTooltip = create('div', 'info-tooltip', STAR_EXPLANATION);
+    modalStarsContainer.appendChild(starsInfo);
+    modalStarsContainer.appendChild(infoTooltip);
+    return modalStarsContainer;
   }
 
   changeScreen(newScreen, extraAction = null) {
@@ -488,6 +510,7 @@ class Screen {
       [
         ['modal-span', `Level ${actualLevelData.levelNumber}`],
         ['modal-text', 'Level completed!'],
+        ['modal-test', this.createModalStars()],
         ['modal-span', `${movements} / ${actualLevelData.movements}`]
       ],
       ['Level Select', 'Retry', 'Next'],
