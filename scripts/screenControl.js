@@ -47,6 +47,7 @@ class Screen {
     // Board events
     this.boardEvents = [];
 
+    actualScreen = screenType;
     APP.appendChild(this.screenElements[screenType]);
     MUSIC.play();
   }
@@ -314,6 +315,7 @@ class Screen {
     const change = () => {
       this.screenElements[this.type].remove();
       this.type = newScreen;
+      actualScreen = newScreen;
       APP.appendChild(this.screenElements[newScreen]);
       if (extraAction) extraAction();
       if (newScreen === SCREENS.LEVEL_SELECT) this.updateLevelSelect(); // Update levels in level select
@@ -480,8 +482,8 @@ class Screen {
     inBoardObjects.list = [];
     movingPiece = null;
     movements = 0;
-    const ctx = CANVAS_MASK.getContext('2d');
-    ctx.clearRect(0, 0, CANVAS_MASK.width, CANVAS_MASK.height);
+    CANVAS_MASK.getContext('2d').clearRect(0, 0, CANVAS_MASK.width, CANVAS_MASK.height);
+    MOUSE_CANVAS.getContext('2d').clearRect(0, 0, MOUSE_CANVAS.width, MOUSE_CANVAS.height);
     // Removes all pieces and object images
     const images = document.querySelectorAll('.piece');
     images.forEach(image => image.parentNode.removeChild(image));

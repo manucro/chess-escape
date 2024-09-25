@@ -52,6 +52,7 @@ const KEYHOLE_IMAGE = imgLock;
 const MUSIC = document.getElementById('music');
 
 // Variables
+let actualScreen = null;
 let actualLevel = 0;
 let actualLevelData = {};
 let actualLevelSelectPage = 0;
@@ -162,6 +163,7 @@ function drawBoard() {
 // Mouse operations
 let mousePosition = { x: 0, y: 0 };
 const canvasMousePointer = (ev) => {
+  if (actualScreen !== SCREENS.LEVEL) return;
   // Gets the mouse position in canvas
   const mouseCanvasPos = MOUSE_CANVAS.getBoundingClientRect();
   const excedentX = mouseCanvasPos.x % squareSize;
@@ -180,3 +182,13 @@ const canvasMousePointer = (ev) => {
   ctx.clearRect(xPos + border, yPos + border, squareSize - border * 2, squareSize - border * 2);
   mousePosition = { x: xPos, y: yPos };
 }
+
+// Resize configurations
+const mediaQueryAndroid = window.matchMedia('(max-width: 500px)');
+mediaQueryAndroid.addEventListener('change', handleAndroidChange);
+
+function handleAndroidChange(ev) {
+  squareSize = (ev.matches) ? 40 : 58;
+}
+
+handleAndroidChange(mediaQueryAndroid);

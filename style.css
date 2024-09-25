@@ -94,6 +94,7 @@ body {
   position: absolute;
   top: 30%;
   font-size: 30px;
+  text-align: center;
 }
 .loading-info {
   position: absolute;
@@ -178,6 +179,7 @@ body {
 .title {
   position: relative;
   font-size: 80px;
+  text-align: center;
   letter-spacing: 6px;
   font-weight: bold;
   z-index: 999;
@@ -530,3 +532,53 @@ body {
   display: none;
 }
 .info-button:hover ~ .info-tooltip { display: block; }
+
+/* ANDROID MEDIA QUERIES */
+@media only screen and (max-width: 500px) {
+  .loading-game-title { font-size: 23px; }
+  .loading-info { padding: 0 20px; font-size: 16px; }
+  .title { font-size: 60px; }
+  .title-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .title-animation { background-size: 50%; }
+  .options-box { width: 90%; }
+  .level-select-box {
+    width: 95%;
+    height: 90%;
+    padding: 10px;
+    grid-template: 2fr repeat(8, 4fr) 2fr / 1fr 1fr 1fr;
+  }
+  .level {
+    width: 90%;
+    justify-content: flex-start;
+    height: 90%;
+    margin: 0;
+    padding: 7px;
+    border-radius: 10px;
+    border-bottom-width: 3px;
+  }
+  .stars-container {
+    bottom: 7px;
+    height: 30%;
+  }
+  .change-page-button {
+    grid-column: 1 / 4;
+    width: 60%;
+  }
+  .change-page-button:last-child { grid-row: 10 / 11;}
+  .modal-text { font-size: 30px; }
+  .modal-box, .modal-box-video {
+    width: 95%;
+    padding: 0 20px;
+  }
+  .modal-video { width: 90%; }
+  .level-info { flex-direction: column; font-size: 25px; }
+  .modal-buttons { gap: 10px; }
+  .info-tooltip { width: 160%; left: 50%; }
+}
+/* IPAD MEDIA QUERIES */
+
+/* XXL MEDIA QUERIES */
