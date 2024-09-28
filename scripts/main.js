@@ -186,11 +186,23 @@ const canvasMousePointer = (ev) => {
 }
 
 // Resize configurations
-const mediaQueryAndroid = window.matchMedia('(max-width: 500px)');
-mediaQueryAndroid.addEventListener('change', handleAndroidChange);
+const ANDROID_SQUARE_SIZES = [30, 40];
+const DESKTOP_SQUARE_SIZES = [46, 58];
+const mediaQueryAndroid = window.matchMedia('(width <= 500px)');
+const mediaQueryIpad = window.matchMedia('(500px < width < 1200px)');
 
-function handleAndroidChange(ev) {
-  squareSize = (ev.matches) ? 40 : 58;
+mediaQueryAndroid.addEventListener('change', changeSquareSize);
+
+function changeSquareSize() {
+  if (actualScreen !== SCREENS.LEVEL) return;
+  squareSize = (mediaQueryAndroid.matches) ?
+    (board.length > 8) ? ANDROID_SQUARE_SIZES[0] : ANDROID_SQUARE_SIZES[1] :
+    (board.length > 9) ? DESKTOP_SQUARE_SIZES[0] : DESKTOP_SQUARE_SIZES[1];
+  drawBoard();
+  game.updateSquareSize();
+  CANVAS_MASK.width = BOARD_CANVAS.width;
+  CANVAS_MASK.height = BOARD_CANVAS.height;
+  CANVAS_MASK.style.width = `${BOARD_CANVAS.width}px`;
+  CANVAS_MASK.style.height = `${BOARD_CANVAS.height}px`;
+  if (movingPiece) movingPiece.highlightSquares();
 }
-
-handleAndroidChange(mediaQueryAndroid);

@@ -3,13 +3,13 @@
 // Controller of the piece's possible positions
 const validPositions = {
   array: [],
-  add: (pos) => { this.array.push(pos) },
-  clear: () => { this.array = []; },
+  add: (pos) => { validPositions.array.push(pos) },
+  clear: () => { validPositions.array = []; },
   contains: (pos) => {
-    const newArr = this.array.filter((p) => (p.x === pos.x && p.y === pos.y));
+    const newArr = validPositions.array.filter((p) => (p.x === pos.x && p.y === pos.y));
     return (newArr.length === 1);
   },
-  getLength: () => { return this.array.length }
+  getLength: () => { return validPositions.array.length }
 }
 
 class Piece {
@@ -42,7 +42,7 @@ class Piece {
     if (options.soundEffects && movementType == 'normal') AUDIO.move.play();
     movingPiece = null;
     // If it's a horse, then checks if it has killed a piece
-    if (this.type === PIECES.KNIGHT) {
+    if (this.type === PIECES.KNIGHT && movementType === 'normal') {
       inBoardObjects.list.forEach(object => {
         object.checkCollision(newPosition);
       });
@@ -124,6 +124,7 @@ class Piece {
 
     validPositions.clear();
     PIECES_MOVEMENTS[this.type](this.position); // Fills the validPositions list
+    this.highlightSquares();
     if (validPositions.getLength() === 0) this.pulseBlockedPiece(); 
     else this.pulsePiece();
 
@@ -139,6 +140,12 @@ class Piece {
     }
 
     game.addBoardEvent(handleClick);
+  }
+
+  highlightSquares() {
+    validPositions.array.forEach(pos => {
+      highlightSquare(pos);
+    });
   }
 
   destroyPiece() {
@@ -264,7 +271,6 @@ const PIECES_MOVEMENTS = {
         const newPosition = { x: pos.x + xPlus, y: pos.y + yPlus };
         if (!passableSquares.includes(board[newPosition.y][newPosition.x])) return;
         validPositions.add(newPosition);
-        highlightSquare(newPosition);
       });
     });
   },
@@ -275,7 +281,6 @@ const PIECES_MOVEMENTS = {
       if (!pawnPassableSquares.includes(board[newPosition.y][newPosition.x])) return;
       if (yPlus === 2 && !validPositions.contains({ x: pos.x, y: pos.y - 1 })) return;
       validPositions.add(newPosition);
-      highlightSquare(newPosition);
     })
   },
   'knight': (pos) => {
@@ -300,7 +305,6 @@ const PIECES_MOVEMENTS = {
       ) return;
       if (!knightPassableSquares.includes(board[checkPosition.y][checkPosition.x])) return;
       validPositions.add(checkPosition);
-      highlightSquare(checkPosition);
     });
   }
 }
@@ -314,7 +318,6 @@ function discreteCheck(change, x, y) {
     if (iterations > 30) break; // To avoid infinite loops
     change(checkPos);
     if (passableSquares.includes(board[checkPos.y][checkPos.x])) {
-      highlightSquare(checkPos);
       validPositions.add({ ...checkPos });
     }
     else break;

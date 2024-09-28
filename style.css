@@ -20,7 +20,13 @@
   font-family: "Roboto Slab", serif;
   font-weight: 300;
 }
-img { user-select: none; }
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
 b { font-weight: bold; }
 body {
   background-color: var(--background);
@@ -67,6 +73,7 @@ body {
   font-weight: bold;
   cursor: pointer;
   user-select: none;
+  z-index: 99;
 }
 .credits-button {
   top: 10px; bottom: auto;
@@ -212,6 +219,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   opacity: .4;
 }
 
@@ -541,7 +549,44 @@ body {
 .info-button:hover ~ .info-tooltip { display: block; }
 
 /* ANDROID MEDIA QUERIES */
-@media only screen and (max-width: 500px) {
+@media only screen and (width <= 720px) {
+  .level-select-box {
+    width: 95%;
+    height: 90%;
+    padding: 10px;
+    grid-template: 2fr repeat(8, 4fr) 2fr / 1fr 1fr 1fr;
+  }
+  .level {
+    width: 90% !important;
+    justify-content: flex-start;
+    height: 90% !important;
+    margin: 0;
+    padding: 7px;
+    border-radius: 10px;
+    border-bottom-width: 3px;
+  }
+  .level-info { font-size: 25px; }
+  .stars-container {
+    bottom: 7px;
+    height: 30%;
+  }
+  .change-page-button {
+    grid-column: 1 / 4;
+    width: 60%;
+  }
+  .change-page-button:last-child { grid-row: 10 / 11; }
+  .modal-text { font-size: 40px; }
+  .credits-box { font-size: 14px; }
+}
+@media only screen and (500px <= width <= 720px) {
+  .level { width: 80% !important; padding: 4px; }
+  .stars-container {
+    bottom: 4px;
+    width: 70%;
+    height: 40%;
+  }
+}
+@media only screen and (width <= 500px) {
   .loading-game-title { font-size: 23px; }
   .loading-info { padding: 0 20px; font-size: 16px; }
   .title { font-size: 60px; }
@@ -552,41 +597,53 @@ body {
   }
   .title-animation { background-size: 50%; }
   .options-box { width: 90%; }
-  .level-select-box {
-    width: 95%;
-    height: 90%;
-    padding: 10px;
-    grid-template: 2fr repeat(8, 4fr) 2fr / 1fr 1fr 1fr;
-  }
-  .level {
-    width: 90%;
-    justify-content: flex-start;
-    height: 90%;
-    margin: 0;
-    padding: 7px;
-    border-radius: 10px;
-    border-bottom-width: 3px;
-  }
-  .stars-container {
-    bottom: 7px;
-    height: 30%;
-  }
-  .change-page-button {
-    grid-column: 1 / 4;
-    width: 60%;
-  }
-  .change-page-button:last-child { grid-row: 10 / 11;}
   .modal-text { font-size: 30px; }
   .modal-box, .modal-box-video {
     width: 95%;
     padding: 0 10px;
   }
   .modal-video { width: 90%; }
-  .level-info { flex-direction: column; font-size: 25px; }
+  .level-info { flex-direction: column; }
   .modal-buttons { gap: 10px; }
   .info-tooltip { width: 160%; left: 50%; }
-  .credits-box { font-size: 14px; }
 }
 /* IPAD MEDIA QUERIES */
-
+@media only screen and (720px < width < 1200px) {
+  .level-select-box {
+    width: 85%;
+    padding: 10px;
+    grid-template: 2fr repeat(4, 4fr) 2fr / repeat(6, 1fr);
+  }
+  .change-page-button {
+    grid-column: 1 / 7;
+    width: 60%;
+  }
+  .change-page-button:last-child { grid-row: 6 / 7;}
+}
+@media only screen and (500px < width < 1200px) {
+  .title-animation { background-size: 35%; }
+  .level { width: 80px; height: 80px; }
+  .modal-box, .modal-box-video {
+    width: 85%;
+    padding: 0 40px;
+  }
+  .modal-buttons { gap: 40px; }
+}
+@media only screen and (500px < width < 1200px) and (height > 820px) {
+  .title { font-size: 120px; }
+  .options-box { width: 85%; }
+  .option { flex-basis: 150px; }
+  .option-title { font-size: 26px; padding: 20px; }
+  .level-select-box {
+    width: 85%;
+    padding: 10px;
+    grid-template: 1fr repeat(6, 4fr) 1fr / 1fr 1fr 1fr 1fr;
+  }
+  .change-page-button {
+    grid-column: 1 / 5;
+    width: 60%;
+  }
+  .change-page-button:last-child { grid-row: 8 / 9;}
+  .modal-span { font-size: 30px; }
+}
 /* XXL MEDIA QUERIES */

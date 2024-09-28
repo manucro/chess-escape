@@ -5,7 +5,9 @@ let board;
 function createLevel(level, index) {
   board = [];
   level.board.forEach(row => board.push([...row]));
-  squareSize = (mediaQueryAndroid.matches) ? (board.length > 8) ? 30 : 40 : (board.length > 9) ? 46 : 58;
+  squareSize = (mediaQueryAndroid.matches) ?
+    (board.length > 8) ? ANDROID_SQUARE_SIZES[0] : ANDROID_SQUARE_SIZES[1] :
+    (board.length > 9) ? DESKTOP_SQUARE_SIZES[0] : DESKTOP_SQUARE_SIZES[1];
   actualLevelData = {
     levelNumber: index + 1,
     levelKey: Object.keys(LEVELS)[index],
@@ -541,7 +543,7 @@ const LEVELS = {
     'finishPosition': { x: 9, y: 1 }
   },
   'TWENTYTHREE': {
-    'movements': 7,
+    'movements': 6,
     'board': [
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       [1, 0, 0, 0, 0, 0, 1, 0, 5, 0, 1],
@@ -931,7 +933,7 @@ const LEVELS = {
     'finishPosition': { x: 8, y: 1 }
   },
   'THIRTYEIGHT': {
-    'movements': 13,
+    'movements': 11,
     'board': [
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       [1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1],
@@ -1154,7 +1156,7 @@ for (let i in LEVELS) {
   Object.defineProperty(level, 'stars', { value: [false, false, false], writable: true });
 }
 
-const keys = Object.keys(LEVELS);
-keys.forEach(key => {
-  LEVELS[key].locked = false;
-})
+// const keys = Object.keys(LEVELS);
+// keys.forEach(key => {
+//   LEVELS[key].locked = false;
+// })

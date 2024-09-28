@@ -102,6 +102,7 @@ class Screen {
     const creditsButton = create('button', 'credits-button', 'Credits');
     creditsButton.type = 'button';
     creditsButton.addEventListener('click', () => {
+      if (options.soundEffects) AUDIO.click.play();
       const creditsBox = create('div', 'credits-box');
       creditsBox.innerHTML = CREDITS;
       const creditsModal = this.createModal([
@@ -503,6 +504,21 @@ class Screen {
     });
   }
 
+  updateSquareSize() {
+    inBoardPieces.list.forEach(piece => {
+      const p = piece.element;
+      p.style.width = `${squareSize}px`;
+      p.style.height = `${squareSize}px`;
+      p.style.transform = `translate(${piece.position.x * squareSize}px, ${piece.position.y * squareSize}px)`;
+    });
+    inBoardObjects.list.forEach(obj => {
+      const o = obj.element;
+      o.style.width = `${squareSize}px`;
+      o.style.height = `${squareSize}px`;
+      o.style.transform = `translate(${obj.position.x * squareSize}px, ${obj.position.y * squareSize}px)`;
+    });
+  }
+
   cleanLevelValues() {
     inBoardPieces.list = [];
     inBoardObjects.list = [];
@@ -520,6 +536,7 @@ class Screen {
   }
 
   winLevel() {
+    let showContinueButton = true;
     if (options.soundEffects) AUDIO.success.play();
     const levelKeys = Object.keys(LEVELS);
     const actualLevelIndex = actualLevelData.levelNumber - 1;
@@ -531,9 +548,37 @@ class Screen {
     // Unlocks a new level if it's the last level
     if (actualLevel + 1 === actualLevelData.levelNumber) {
       actualLevel++;
-      LEVELS[levelKeys[actualLevel]].locked = false;
+      if (LEVELS[levelKeys[actualLevel]] !== undefined) LEVELS[levelKeys[actualLevel]].locked = false;
     }
     // Creates the modal
+    if (actualLevelIndex + 1 >= levelKeys.length) showContinueButton = false;
+    const modalButtons = ['Level Select', 'Retry'];
+    const modalFunctions =  [() => {
+      // Level select button
+      this.transitionIfNotOptimized(() => {
+        this.cleanLevelValues();
+        this.changeScreen(SCREENS.LEVEL_SELECT);
+        document.removeEventListener('click', canvasMousePointer);
+        document.querySelector('.modal').remove();
+      });
+    }, () => {
+      // Retry level button
+      this.cleanLevelValues();
+      this.startLevel(actualLevelData.levelKey);
+      document.querySelector('.modal').remove();
+    }];
+    if (showContinueButton) {
+      modalButtons.push('Next');
+      modalFunctions.push(() => {
+        // Next button
+        this.transitionIfNotOptimized(() => {
+          this.cleanLevelValues();
+          this.startLevel(levelKeys[actualLevelIndex + 1]);
+          document.querySelector('.modal').remove();
+        });
+      })
+    }
+
     const modal = this.createModal(
       [
         ['modal-span', `Level ${actualLevelData.levelNumber}`],
@@ -541,25 +586,8 @@ class Screen {
         ['modal-test', this.createModalStars()],
         ['modal-span', `${movements} / ${actualLevelData.movements}`]
       ],
-      ['Level Select', 'Retry', 'Next'],
-      [() => {
-        this.transitionIfNotOptimized(() => {
-          this.cleanLevelValues();
-          this.changeScreen(SCREENS.LEVEL_SELECT);
-          document.removeEventListener('click', canvasMousePointer);
-          document.querySelector('.modal').remove();
-        });
-      }, () => {
-        this.cleanLevelValues();
-        this.startLevel(actualLevelData.levelKey);
-        document.querySelector('.modal').remove();
-      }, () => {
-        this.transitionIfNotOptimized(() => {
-          this.cleanLevelValues();
-          this.startLevel(levelKeys[actualLevel]);
-          document.querySelector('.modal').remove();
-        });
-      }]
+      modalButtons,
+      modalFunctions
     );
     APP.appendChild(modal);
   }
