@@ -59,7 +59,9 @@ class Screen {
 
     actualScreen = screenType;
     APP.appendChild(this.screenElements[screenType]);
-    MUSIC.play();
+    const titleAnimation = document.querySelector('.title-animation');
+    titleAnimation.classList.toggle('title-animation-activated', !options.optimizedMode);
+    if (options.music) MUSIC.play();
   }
 
   getCreateElementFunction() {
@@ -130,16 +132,17 @@ class Screen {
       ['Optimized Mode', [true, false]]
     ]
     function getOptionBoxInnerElement(value) {
-      if (typeof value === 'string') {
-        const optionBoxSprite = create('img', 'option-box-sprite');
-        optionBoxSprite.src = `pieces/${value}/rook.svg`;
-        return optionBoxSprite;
-      } else if (typeof value === 'number') {
-        const speedSpan = create('span', 'option-box-span', (value / 1000));
-        return speedSpan;
-      } else {
-        const booleanSpan = create('span', 'option-box-span', (value) ? 'Yes' : 'No');
-        return booleanSpan;
+      switch (typeof value) {
+        case 'string':
+          const optionBoxSprite = create('img', 'option-box-sprite');
+          optionBoxSprite.src = `pieces/${value}/rook.svg`;
+          return optionBoxSprite;
+        case 'number':
+          const speedSpan = create('span', 'option-box-span', (value / 1000));
+          return speedSpan;
+        default:
+          const booleanSpan = create('span', 'option-box-span', (value) ? 'Yes' : 'No');
+          return booleanSpan;
       }
     }
     const optionsBox = create('div', 'options-box');
@@ -148,6 +151,23 @@ class Screen {
       this.changeScreen(SCREENS.TITLE);
     });
     optionsBox.appendChild(optionsBackButton);
+    const resetDataButton = create('button', 'reset-data-button', 'Reset Data');
+    resetDataButton.type = 'button';
+    resetDataButton.addEventListener('click', () => {
+      if (options.soundEffects) AUDIO.click.play();
+      const modal = this.createModal(
+        [
+          ['modal-text', 'Are you sure you want to delete all your game data?']
+        ],
+        ['Yes', 'No'],
+        [
+          () => GAME_DATA.reset(),
+          () => modal.remove()
+        ]
+      );
+      APP.appendChild(modal);
+    });
+    optionsBox.appendChild(resetDataButton);
     const optionsTitle = create('h4', 'options-title', 'Options');
     const optionsElement = create('div', 'options');
     optionsData.forEach((optionData, i) => {
@@ -233,6 +253,7 @@ class Screen {
     nextPageButtton.type = 'button';
     if (actualLevelSelectPage >= Math.floor(levelKeys.length / LEVELS_PER_PAGE)) nextPageButtton.classList.add('page-button-blocked');
     else nextPageButtton.addEventListener('click', () => {
+      if (options.soundEffects) AUDIO.click.play();
       actualLevelSelectPage++;
       this.screenElements[SCREENS.LEVEL_SELECT].remove();
       const newLevelSelect = this.createLevelSelect();
