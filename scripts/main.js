@@ -188,14 +188,19 @@ const canvasMousePointer = (ev) => {
 // Resize configurations
 const ANDROID_SQUARE_SIZES = [30, 40];
 const DESKTOP_SQUARE_SIZES = [46, 58];
+const XXL_SQUARE_SIZES = [64, 80];
 const mediaQueryAndroid = window.matchMedia('(width <= 500px)');
 const mediaQueryIpad = window.matchMedia('(500px < width < 1200px)');
+const mediaQueryXXL = window.matchMedia('(width > 1900px)');
 
 mediaQueryAndroid.addEventListener('change', changeSquareSize);
+mediaQueryXXL.addEventListener('change', changeSquareSize);
 
 function changeSquareSize() {
   if (actualScreen !== SCREENS.LEVEL) return;
-  squareSize = (mediaQueryAndroid.matches) ?
+  squareSize = (mediaQueryXXL.matches) ?
+    (board.length > 8) ? XXL_SQUARE_SIZES[0] : XXL_SQUARE_SIZES[1] :
+      (mediaQueryAndroid.matches) ?
     (board.length > 8) ? ANDROID_SQUARE_SIZES[0] : ANDROID_SQUARE_SIZES[1] :
     (board.length > 9) ? DESKTOP_SQUARE_SIZES[0] : DESKTOP_SQUARE_SIZES[1];
   drawBoard();

@@ -11,11 +11,13 @@ class Data {
       const levelObj = { stars: LEVELS[key].stars, locked: LEVELS[key].locked };
       this.levels[key] = levelObj;
     });
+    this.seenTutorials = TUTORIALS.map(tuto => tuto.seen);
     this.options = {...options};
     this.actualLevel = actualLevel;
   }
   save() {
     localStorage.setItem('CElevelData', JSON.stringify(this.levels));
+    localStorage.setItem('CEtutorials', JSON.stringify(this.seenTutorials));
     localStorage.setItem('CEoptionsData', JSON.stringify(this.options));
     localStorage.setItem('CEactualLevel', actualLevel.toString());
   }
@@ -25,6 +27,8 @@ class Data {
       LEVELS[key].stars = levelData[key].stars;
       LEVELS[key].locked = levelData[key].locked;
     });
+    const seenTutorialData = JSON.parse(localStorage.getItem('CEtutorials'));
+    TUTORIALS.forEach((tuto, i) => tuto.seen = seenTutorialData[i]);
     const optionsData = JSON.parse(localStorage.getItem('CEoptionsData'));
     Object.keys(optionsData).forEach(key => {
       options[key] = optionsData[key];
@@ -37,6 +41,7 @@ class Data {
   reset() {
     window.removeEventListener('beforeunload', saveData);
     localStorage.removeItem('CElevelData');
+    localStorage.removeItem('CEtutorials');
     localStorage.removeItem('CEoptionsData');
     localStorage.removeItem('CEactualLevel');
     location.reload();

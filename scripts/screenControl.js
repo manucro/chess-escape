@@ -88,7 +88,8 @@ class Screen {
       titleButton.type = 'button';
       titleButton.addEventListener('click', () => {
         if (options.soundEffects) AUDIO.click.play();
-        this.changeScreen((buttonTitle === 'Play') ? SCREENS.LEVEL_SELECT : SCREENS.OPTIONS);
+        if (buttonTitle === 'Guide') window.open('https://youtu.be/SRehoQtF7-o', '_blank');
+        else this.changeScreen((buttonTitle === 'Play') ? SCREENS.LEVEL_SELECT : SCREENS.OPTIONS);
       });
       titleButtons.appendChild(titleButton);
     });

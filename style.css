@@ -651,3 +651,36 @@ body {
   .modal-span { font-size: 30px; }
 }
 /* XXL MEDIA QUERIES */
+@media only screen and (width > 1900px) {
+  .loading-game-title { font-size: 50px; }
+  #start-button {
+    padding: 30px 60px;
+    font-size: 30px;
+  }
+  .level {
+    width: 150px;
+    height: 150px;
+    font-size: 36px;
+  }
+  .modal-box-video { padding: 0 100px; }
+  .modal-video { width: 70%; height: 400px; }
+  .modal-buttons { gap: 100px; }
+  .modal-button {
+    font-size: 28px;
+    padding: 12px 0;
+  }
+  .modal-span { font-size: 22px; }
+  .modal-text { font-size: 60px; }
+  .modal-stars {
+    width: 50%;
+    flex-basis: 85px;
+  }
+  .option { flex-basis: 120px; }
+  .option-title { font-size: 28px; }
+  .option-box {
+    width: 80px;
+    height: 80px;
+    font-size: 20px;
+  }
+  .credits-box { font-size: 26px; }
+}

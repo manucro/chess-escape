@@ -5,7 +5,9 @@ let board;
 function createLevel(level, index) {
   board = [];
   level.board.forEach(row => board.push([...row]));
-  squareSize = (mediaQueryAndroid.matches) ?
+  squareSize = (mediaQueryXXL.matches) ?
+    (board.length > 8) ? XXL_SQUARE_SIZES[0] : XXL_SQUARE_SIZES[1] :
+      (mediaQueryAndroid.matches) ?
     (board.length > 8) ? ANDROID_SQUARE_SIZES[0] : ANDROID_SQUARE_SIZES[1] :
     (board.length > 9) ? DESKTOP_SQUARE_SIZES[0] : DESKTOP_SQUARE_SIZES[1];
   actualLevelData = {
