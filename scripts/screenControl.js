@@ -97,7 +97,7 @@ class Screen {
     credits.innerHTML = CREDITS_LINE;
     const authorLink = create('a', 'credits-author', 'Manuel Crocco');
     authorLink.target = '_blank';
-    authorLink.href = 'https://github.com/manucro';
+    authorLink.href = 'https://manucro.vercel.app/';
     credits.appendChild(authorLink);
     titleScreen.appendChild(titleElementBox);
     titleScreen.appendChild(titleButtons);
@@ -114,7 +114,7 @@ class Screen {
       ['See Repository', 'Game Showcase', 'Go back'],
       [
         () => window.open('https://github.com/manucro/chess-escape', '_blank'),
-        () => window.open('https://github.com/manucro/chess-escape', '_blank'),
+        () => window.open('https://www.youtube.com/watch?v=tepjmeE6DPg', '_blank'),
         () => creditsModal.remove()
       ]);
       APP.appendChild(creditsModal);
